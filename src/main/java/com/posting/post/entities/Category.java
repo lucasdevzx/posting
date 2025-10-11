@@ -1,46 +1,34 @@
 package com.posting.post.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@Table(name = "tb_category")
+public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private AdressUser adressUser;
+    @ManyToMany(mappedBy = "categorys")
+    private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
+    public Category() {}
 
-    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
-    private List<Coment> coments = new ArrayList<>();
-
-    public User() {}
-
-    public User(Long id, String name, String email, String password) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.email = email;
-        this.password = password;
     }
 
     public Long getId() {
@@ -59,32 +47,8 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public AdressUser getAdressUser() {
-        return adressUser;
-    }
-
-    public void setAdressUser(AdressUser adressUser) {
-        this.adressUser = adressUser;
-    }
-
     @JsonIgnore
-    public List<Post> getPosts() {
+    public Set<Post> getPost() {
         return posts;
     }
 
@@ -104,7 +68,7 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Category other = (Category) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

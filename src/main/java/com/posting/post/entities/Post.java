@@ -2,10 +2,20 @@ package com.posting.post.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,13 +30,26 @@ public class Post implements Serializable {
     private String description;
     private LocalDate date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "id.post", cascade = CascadeType.ALL)
+    private List<Coment> coments = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_post_category", joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categorys = new HashSet<>();
+
     public Post() {}
 
-    public Post(Long id, String name, String description, LocalDate date) {
+    public Post(Long id, String name, String description, LocalDate date, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
+        this.user = user;
     }
 
     public Long getId() {
@@ -59,6 +82,22 @@ public class Post implements Serializable {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Coment> getComents() {
+        return coments;
+    }
+
+    public Set<Category> getCategorys() {
+        return categorys;
     }
 
     @Override
