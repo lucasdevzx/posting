@@ -1,4 +1,4 @@
-package com.posting.post.dto.user;
+package com.posting.post.dto.response;
 
 public class UserResponseDTO {
 

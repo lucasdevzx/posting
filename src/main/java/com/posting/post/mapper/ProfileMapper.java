@@ -1,7 +1,7 @@
 package com.posting.post.mapper;
 
 import org.springframework.stereotype.Component;
-import com.posting.post.dto.profile.ProfileDTO;
+import com.posting.post.dto.response.ProfileDTO;
 import com.posting.post.entities.AdressUser;
 import com.posting.post.entities.User;
 

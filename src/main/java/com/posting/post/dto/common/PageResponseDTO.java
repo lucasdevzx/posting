@@ -1,4 +1,4 @@
-package com.posting.post.dto;
+package com.posting.post.dto.common;
 
 import java.util.List;
 

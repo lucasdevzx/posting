@@ -1,4 +1,4 @@
-package com.posting.post.dto.profile;
+package com.posting.post.dto.response;
 
 public class ProfileDTO {
 

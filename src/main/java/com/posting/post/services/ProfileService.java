@@ -3,7 +3,7 @@ package com.posting.post.services;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.posting.post.dto.profile.ProfileDTO;
+import com.posting.post.dto.response.ProfileDTO;
 import com.posting.post.entities.AdressUser;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.ProfileMapper;

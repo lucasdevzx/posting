@@ -2,12 +2,11 @@ package com.posting.post.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import com.posting.post.dto.PageResponseDTO;
+import com.posting.post.dto.common.PageResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.posting.post.dto.user.UserResponseDTO;
+import com.posting.post.dto.response.UserResponseDTO;
 import com.posting.post.entities.AdressUser;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.UserMapperResponse;

@@ -6,4 +6,6 @@ import com.posting.post.entities.AdressUser;
 
 @Repository
 public interface AdressUserRepository extends JpaRepository<AdressUser, Long>{
+
+    AdressUser findByUserId(Long id);
 }
