@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.posting.post.dto.PageResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.posting.post.dto.user.UserResponseDTO;
@@ -37,13 +38,22 @@ public class UserService {
         return user.orElseThrow(() -> new ResourceNotFoundException(user));
     }
 
-    public List<UserResponseDTO> findByName(String name) {
+    public PageResponseDTO<UserResponseDTO> findByName(String name) {
         List<User> users = userRepository.findAllByName(name);
-        return users.stream().map(user -> {
+        List<UserResponseDTO> userResponseDTOS = users.stream().map(user -> {
             Optional<AdressUser> adressUser = adressUserRepository.findById(user.getId());
             assert adressUser.orElse(null) != null;
             return userMapperResponse.toDtoUserResponseDTO(user, adressUser.orElse(null));
-        }).collect(Collectors.toList());
+        }).toList();
+
+        return new PageResponseDTO<>(
+                userResponseDTOS,
+                0,
+                1,
+                userResponseDTOS.size(),
+                userResponseDTOS.size(),
+                true
+        );
         }
 
     public User insert(User obj) {

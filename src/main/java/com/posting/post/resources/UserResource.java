@@ -2,6 +2,8 @@ package com.posting.post.resources;
 
 import java.net.URI;
 import java.util.List;
+
+import com.posting.post.dto.PageResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +43,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<UserResponseDTO>> findByName(@RequestParam("name") String name) {
+    public ResponseEntity<PageResponseDTO<UserResponseDTO>> findByName(@RequestParam("name") String name) {
         return ResponseEntity.ok().body(userService.findByName(name));
     }
 
