@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.User;
 import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -19,11 +20,26 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+        return user.orElseThrow(() -> new ResourceNotFoundException(user));
     }
 
     public User insert(User obj) {
         userRepository.save(obj);
         return obj;
+    }
+
+    public User update(Long id, User obj) {
+        User entity = userRepository.getReferenceById(id);
+        updateData(entity, obj);
+        return userRepository.save(entity);
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
     }
 }
