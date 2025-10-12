@@ -26,7 +26,6 @@ public class ProfileService {
 
         Optional<User> user = userRepository.findById(id);
         Optional<AdressUser> adressUser = adressUserRepository.findById(id);
-        ProfileDTO dto = profileMapper.toProfileDTO(user.orElse(null), adressUser.orElse(null));
-        return dto;
+        return profileMapper.toProfileDTO(user.orElse(null), adressUser.orElse(null));
     }
 }

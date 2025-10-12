@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.posting.post.dto.user.UserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.services.UserService;
 import jakarta.annotation.Resource;
@@ -36,6 +38,11 @@ public class UserResource {
     public ResponseEntity<User> findById(@PathVariable Long id) {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(user);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<UserResponseDTO>> findByName(@RequestParam("name") String name) {
+        return ResponseEntity.ok().body(userService.findByName(name));
     }
 
     @PostMapping
