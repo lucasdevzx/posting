@@ -1,8 +1,11 @@
 package com.posting.post.resources.exceptions;
 
 import java.time.Instant;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
@@ -21,4 +24,20 @@ public class ResourceExceptionHandler {
 
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationExceptionStandard> ValidationException(MethodArgumentNotValidException e) {
+        List<FieldErrorResponse> errors = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(fieldError -> new FieldErrorResponse(
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage())
+                ).toList();
+
+        ValidationExceptionStandard standart = new ValidationExceptionStandard(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standart);
+    }
 }

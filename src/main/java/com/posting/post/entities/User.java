@@ -12,8 +12,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.executable.ValidateOnExecution;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
+@ValidateOnExecution
 @Table(name = "tb_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,7 +28,12 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(min = 1, max = 5)
     private String name;
+
+    @Email
     private String email;
     private String password;
 

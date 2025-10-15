@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.posting.post.dto.common.PageResponseDTO;
+import com.posting.post.dto.request.UserRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.posting.post.dto.response.UserResponseDTO;
@@ -13,6 +16,7 @@ import com.posting.post.mapper.UserMapperResponse;
 import com.posting.post.repositories.AdressUserRepository;
 import com.posting.post.repositories.UserRepository;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
+import org.springframework.validation.annotation.Validated;
 
 import static java.util.Arrays.stream;
 
@@ -37,7 +41,7 @@ public class UserService {
         return user.orElseThrow(() -> new ResourceNotFoundException(user));
     }
 
-    public PageResponseDTO<UserResponseDTO> findByName(String name) {
+    public PageResponseDTO<UserResponseDTO> findByName( String name) {
         List<User> users = userRepository.findAllByName(name);
         List<UserResponseDTO> userResponseDTOS = users.stream().map(user -> {
             Optional<AdressUser> adressUser = adressUserRepository.findById(user.getId());

@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import com.posting.post.dto.common.PageResponseDTO;
+import com.posting.post.dto.request.UserRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +51,7 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User obj) {
+    public ResponseEntity<User> insert(@Valid @RequestBody User obj) {
         User user = userService.insert(obj);
         ServletUriComponentsBuilder.fromCurrentRequest();
         URI uri = UriComponentsBuilder.fromPath("/{id}").buildAndExpand(obj.getId()).toUri();
