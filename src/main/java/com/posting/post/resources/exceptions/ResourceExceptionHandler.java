@@ -16,12 +16,10 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionsStandard> ResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-
         HttpStatus status = HttpStatus.NOT_FOUND;
         String error = "Resource Not Found";
         ExceptionsStandard standard = new ExceptionsStandard(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(standard);
-
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

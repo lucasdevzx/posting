@@ -35,9 +35,9 @@ public class ConfigTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User u1 = new User(null, "Lucas", "lucas@gmail.com", "2049");
-        User u2 = new User(null, "Maria", "maria@gmail.com", "1520");
-        User u3 = new User(null, "Ana", "ana@gmail.com", "4020");
+        User u1 = new User(null, "Lucas", "lucas@gmail.com", "Lucas_fullpvp123@");
+        User u2 = new User(null, "Maria", "maria@gmail.com", "Lucas_fullpvp123@");
+        User u3 = new User(null, "Ana", "ana@gmail.com", "Lucas_fullpvp123@");
         userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
         AdressUser ad1 = new AdressUser(null, "Brazil", "Rio", "Campos", "Estrada", "Coronel", 307, u1);

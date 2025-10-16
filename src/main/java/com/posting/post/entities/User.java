@@ -12,10 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import jakarta.validation.executable.ValidateOnExecution;
 import org.springframework.validation.annotation.Validated;
 
@@ -33,8 +30,11 @@ public class User implements Serializable {
     @Size(min = 1, max = 5)
     private String name;
 
+    @NotBlank
     @Email
     private String email;
+
+    @Pattern(regexp = "^(?=[^\\d_].*?\\d)\\w(\\w|[!@#$%]){7,20}", message = "{User.password.Pattern}")
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

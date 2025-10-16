@@ -2,11 +2,14 @@ package com.posting.post.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 import com.posting.post.dto.common.PageResponseDTO;
-import com.posting.post.dto.request.UserRequest;
+import com.posting.post.dto.request.UserRequestDTO;
+import com.posting.post.dto.response.UserDetailResponseDTO;
+import com.posting.post.dto.response.UserSummaryResponseDTO;
+import com.posting.post.mapper.UserMapper;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +36,9 @@ public class UserResource {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @GetMapping
     public ResponseEntity<List<User>> findByAll() {
         List<User> list = userService.findAll();
@@ -40,22 +46,28 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id,
+                                      @RequestParam(name = "view", defaultValue = "detail") String view) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
-    }
 
-    @GetMapping(value = "/search")
-    public ResponseEntity<PageResponseDTO<UserResponseDTO>> findByName(@RequestParam("name") String name) {
-        return ResponseEntity.ok().body(userService.findByName(name));
+        switch (view.toLowerCase(Locale.ROOT)){
+            case "summary":
+                UserSummaryResponseDTO summaryDTO = userMapper.toSummary(user);
+                return ResponseEntity.ok().body(summaryDTO);
+
+            case"detail":
+            default:
+                UserDetailResponseDTO detailDTO = userMapper.toDetail(user);
+                return ResponseEntity.ok().body(detailDTO);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@Valid @RequestBody User obj) {
-        User user = userService.insert(obj);
+    public ResponseEntity<UserResponseDTO> insert(@Valid @RequestBody UserRequestDTO obj) {
+        UserResponseDTO userResponseDTO = userService.insert(obj);
         ServletUriComponentsBuilder.fromCurrentRequest();
-        URI uri = UriComponentsBuilder.fromPath("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(user);
+        //URI uri = UriComponentsBuilder.fromPath("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.ok().body(userResponseDTO);
     }
 
     @PutMapping(value = "/{id}")
