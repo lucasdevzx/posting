@@ -20,9 +20,6 @@ public class PostResource {
     PostService postService;
 
     @Autowired
-    ComentService comentService;
-
-    @Autowired
     PostMapper postMapper;
 
     @GetMapping
@@ -44,5 +41,11 @@ public class PostResource {
             default:
                 return ResponseEntity.ok().body(posts);
         }
+    }
+
+    @DeleteMapping(value = "/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, @RequestParam Long userId) {
+        postService.deletePost(postId, userId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.posting.post.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
@@ -35,5 +36,15 @@ public class PostService {
         else {
             throw new ResourceNotFoundException(posts);
         }
+    }
+
+    public void deletePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(postId));
+
+        // Regra de negócio
+        if (!post.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Você não tem permissão para deletar este post!");
+        }
+        postRepository.delete(post);
     }
 }
