@@ -26,15 +26,8 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1, max = 5)
     private String name;
-
-    @NotBlank
-    @Email
     private String email;
-
-    @Pattern(regexp = "^(?=[^\\d_].*?\\d)\\w(\\w|[!@#$%]){7,20}", message = "{User.password.Pattern}")
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

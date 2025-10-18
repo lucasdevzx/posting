@@ -1,5 +1,6 @@
 package com.posting.post.mapper;
 
+import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.entities.Post;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class PostMapper {
 
-    public List<PostResponseDTO> toPost(List<Post> posts) {
+    public List<PostResponseDTO> toPosts(List<Post> posts) {
         return posts.stream()
                 .map(post -> {
                     return new PostResponseDTO(
@@ -18,5 +19,23 @@ public class PostMapper {
                             post.getDescription(),
                             post.getDate());
                 }).collect(Collectors.toList());
+    }
+
+    // Recebe entidade e transforma em DTO
+    public PostResponseDTO toPost(Post post) {
+        return new PostResponseDTO(
+                post.getName(),
+                post.getDescription(),
+                post.getDate()
+        );
+    }
+
+    // Recebe DTO e transforma em entidade
+    public Post toEntity(PostRequestDTO dto) {
+        Post post = new Post();
+        post.setName(dto.name());
+        post.setDescription(dto.description());
+        post.setDate(dto.date());
+        return post;
     }
 }

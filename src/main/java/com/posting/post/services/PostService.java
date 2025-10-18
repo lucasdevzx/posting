@@ -1,8 +1,8 @@
 package com.posting.post.services;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
@@ -36,6 +36,13 @@ public class PostService {
         else {
             throw new ResourceNotFoundException(posts);
         }
+    }
+
+    public Post createPost(Long userId, PostRequestDTO dto) {
+        User user = userService.findById(userId);
+        Post post = postMapper.toEntity(dto);
+        post.setUser(user);
+        return postRepository.save(post);
     }
 
     public void deletePost(Long postId, Long userId) {
