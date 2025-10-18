@@ -5,6 +5,7 @@ import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.entities.Post;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class PostMapper {
         return new PostResponseDTO(
                 post.getName(),
                 post.getDescription(),
-                post.getDate()
+                LocalDate.now()
         );
     }
 
@@ -35,7 +36,6 @@ public class PostMapper {
         Post post = new Post();
         post.setName(dto.name());
         post.setDescription(dto.description());
-        post.setDate(dto.date());
         return post;
     }
 }

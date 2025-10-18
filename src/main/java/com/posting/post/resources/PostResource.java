@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.mapper.PostMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class PostResource {
     }
 
     @PostMapping(value = "/{userId}")
-    public ResponseEntity<PostResponseDTO> createPost(@PathVariable Long userId, @RequestBody PostRequestDTO obj) {
+    public ResponseEntity<PostResponseDTO> createPost(@PathVariable Long userId, @RequestBody @Valid PostRequestDTO obj) {
         Post post = postService.createPost(userId, obj);
         URI uri = ServletUriComponentsBuilder.fromPath("/{userId}").buildAndExpand(post.getUser().getId()).toUri();
         return ResponseEntity.created(uri).body(postMapper.toPost(post));
