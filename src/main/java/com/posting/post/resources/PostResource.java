@@ -28,9 +28,21 @@ public class PostResource {
     PostMapper postMapper;
 
     @GetMapping
-    public ResponseEntity<Page<Post>> findAll(@RequestParam int page,
-                                              @RequestParam int size) {
-        return ResponseEntity.ok().body(postService.findAll(page, size));
+    public ResponseEntity<Page<?>> findAll(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(value = "view", defaultValue = "detail") String view) {
+
+        Page<Post> posts = postService.findAll(page, size);
+
+        switch (view.toLowerCase(Locale.ROOT)) {
+            case "profile":
+                return ResponseEntity.ok().body(posts.map(postMapper::toPost));
+
+            case "detail":
+            default:
+                return ResponseEntity.ok().body(posts);
+        }
     }
 
     @GetMapping(value = "/{id}")
