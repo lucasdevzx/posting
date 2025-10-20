@@ -8,9 +8,12 @@ import com.posting.post.mapper.PostMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Post;
 import com.posting.post.repositories.PostRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class PostService {
@@ -24,8 +27,8 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    public List<Post> findAll() {
-        return postRepository.findAll();
+    public Page<Post> findAll(int page, int size) {
+        return postRepository.findAll(PageRequest.of(page, size));
     }
 
     public List<Post> findByUserId(Long id) {
@@ -44,6 +47,7 @@ public class PostService {
         Post post = postMapper.toEntity(dto);
         post.setUser(user);
         return postRepository.save(post);
+
     }
 
     public Post updatePost(Long postId, Long userId, PostRequestDTO dto) {
@@ -58,6 +62,7 @@ public class PostService {
         return postRepository.save(entity);
     }
 
+    // Auxílio Update
     public void updateData(Post entity, Post obj) {
         entity.setName(obj.getName());
         entity.setDescription(obj.getDescription());

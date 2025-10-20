@@ -1,5 +1,6 @@
 package com.posting.post.resources;
 
+import java.awt.print.Pageable;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.mapper.PostMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.posting.post.entities.Post;
@@ -26,9 +28,9 @@ public class PostResource {
     PostMapper postMapper;
 
     @GetMapping
-    public ResponseEntity<List<Post>> findAll() {
-        List<Post> list = postService.findAll();
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<Page<Post>> findAll(@RequestParam int page,
+                                              @RequestParam int size) {
+        return ResponseEntity.ok().body(postService.findAll(page, size));
     }
 
     @GetMapping(value = "/{id}")
