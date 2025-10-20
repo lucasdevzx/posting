@@ -6,6 +6,7 @@ import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
+import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Post;
@@ -45,12 +46,29 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    public Post updatePost(Long postId, Long userId, PostRequestDTO dto) {
+        // Regra de negócio
+            boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
+            if (!exists) {
+                throw new UnauthorizedActionException(userId);
+            }
+        Post entity = postRepository.getReferenceById(postId);
+        Post obj = postMapper.toEntity(dto);
+        updateData(entity, obj);
+        return postRepository.save(entity);
+    }
+
+    public void updateData(Post entity, Post obj) {
+        entity.setName(obj.getName());
+        entity.setDescription(obj.getDescription());
+    }
+
     public void deletePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(postId));
 
         // Regra de negócio
         if (!post.getUser().getId().equals(userId)) {
-            throw new RuntimeException("Você não tem permissão para deletar este post!");
+            throw new UnauthorizedActionException(userId);
         }
         postRepository.delete(post);
     }

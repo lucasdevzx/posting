@@ -47,14 +47,21 @@ public class PostResource {
     }
 
     @PostMapping(value = "/{userId}")
-    public ResponseEntity<PostResponseDTO> createPost(@PathVariable Long userId, @RequestBody @Valid PostRequestDTO obj) {
-        Post post = postService.createPost(userId, obj);
+    public ResponseEntity<PostResponseDTO> createPost(@PathVariable Long userId, @RequestBody @Valid PostRequestDTO dto) {
+        Post post = postService.createPost(userId, dto);
         URI uri = ServletUriComponentsBuilder.fromPath("/{userId}").buildAndExpand(post.getUser().getId()).toUri();
         return ResponseEntity.created(uri).body(postMapper.toPost(post));
     }
 
-    @DeleteMapping(value = "/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId, @RequestParam Long userId) {
+    @PutMapping(value = "/{postId}/{userId}")
+    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable Long postId, @PathVariable Long userId, @RequestBody @Valid PostRequestDTO dto) {
+        Post post = postService.updatePost(postId, userId, dto);
+        return ResponseEntity.ok().body(postMapper.toPost(post));
+
+    }
+
+    @DeleteMapping(value = "/{postId}/{userId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, @PathVariable Long userId) {
         postService.deletePost(postId, userId);
         return ResponseEntity.noContent().build();
     }

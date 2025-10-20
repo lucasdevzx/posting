@@ -3,6 +3,7 @@ package com.posting.post.resources.exceptions;
 import java.time.Instant;
 import java.util.List;
 
+import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+    // Recursos
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionsStandard> ResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
@@ -22,6 +24,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(standard);
     }
 
+    // Validação
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationExceptionStandard> ValidationException(MethodArgumentNotValidException e) {
         List<FieldErrorResponse> errors = e.getBindingResult()
@@ -37,5 +40,14 @@ public class ResourceExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standart);
+    }
+
+    // Permissão
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<ExceptionsStandard> UnauthorizedAction(UnauthorizedActionException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        String error = "Acess Not Permitted!";
+        ExceptionsStandard standard = new ExceptionsStandard(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(standard);
     }
 }
