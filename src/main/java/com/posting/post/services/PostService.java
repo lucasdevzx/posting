@@ -3,6 +3,7 @@ package com.posting.post.services;
 import java.util.List;
 
 import com.posting.post.dto.request.PostRequestDTO;
+import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
@@ -10,10 +11,10 @@ import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Post;
 import com.posting.post.repositories.PostRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class PostService {
@@ -27,30 +28,39 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    public Page<Post> findAll(int page, int size) {
-        return postRepository.findAll(PageRequest.of(page, size));
-    }
+    public Page<PostResponseDTO> findAll(int page, int size) {
+        Page<Post> posts = postRepository.findAll(PageRequest.of(page, size));
 
-    public List<Post> findByUserId(Long id) {
-        User user = userService.findById(id);
-        List<Post> posts = postRepository.findByUser_Id(user.getId());
+        // Regra de negócio
         if (!posts.isEmpty()) {
-            return posts;
+            return posts.map(postMapper::toPost);
         }
         else {
             throw new ResourceNotFoundException(posts);
         }
     }
 
-    public Post createPost(Long userId, PostRequestDTO dto) {
+    public Page<PostResponseDTO> findAllByUserId(Long id, int page, int size) {
+        User user = userService.findById(id);
+        Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
+
+        // Regra de negócio
+        if (!posts.isEmpty()) {
+            return posts.map(postMapper::toPost);
+        }
+        else {
+            throw new ResourceNotFoundException(posts);
+        }
+    }
+
+    public PostResponseDTO createPost(Long userId, PostRequestDTO dto) {
         User user = userService.findById(userId);
         Post post = postMapper.toEntity(dto);
         post.setUser(user);
-        return postRepository.save(post);
-
+        return postMapper.toPost(postRepository.save(post));
     }
 
-    public Post updatePost(Long postId, Long userId, PostRequestDTO dto) {
+    public PostResponseDTO updatePost(Long postId, Long userId, PostRequestDTO dto) {
         // Regra de negócio
             boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
             if (!exists) {
@@ -59,7 +69,7 @@ public class PostService {
         Post entity = postRepository.getReferenceById(postId);
         Post obj = postMapper.toEntity(dto);
         updateData(entity, obj);
-        return postRepository.save(entity);
+        return postMapper.toPost(postRepository.save(entity));
     }
 
     // Auxílio Update

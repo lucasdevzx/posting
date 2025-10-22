@@ -13,7 +13,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     
     Page<Post> findAll(Pageable pageable);
 
-    List<Post> findByUser_Id(Long id);
+    Page<Post> findByUser_Id(Long id, Pageable pageable);
 
     boolean existsByIdAndUser_Id(Long postId, Long userId);
 }

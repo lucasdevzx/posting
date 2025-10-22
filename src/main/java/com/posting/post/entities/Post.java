@@ -2,24 +2,20 @@ package com.posting.post.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "tb_post")
+@EntityListeners(AuditingEntityListener.class)
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +24,9 @@ public class Post implements Serializable {
     private Long id;
     private String name;
     private String description;
-    private LocalDate date;
+
+    @CreatedDate
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -44,7 +42,7 @@ public class Post implements Serializable {
 
     public Post() {}
 
-    public Post(Long id, String name, String description, LocalDate date, User user) {
+    public Post(Long id, String name, String description, LocalDateTime date, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -76,11 +74,11 @@ public class Post implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
