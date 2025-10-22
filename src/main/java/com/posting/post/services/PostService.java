@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.dto.response.PostResponseDTO;
+import com.posting.post.dto.response.UserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
+import com.posting.post.mapper.UserMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,48 +30,52 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    public Page<PostResponseDTO> findAll(int page, int size) {
+    @Autowired
+    UserMapper userMapper;
+
+    public Page<Post> findAll(int page, int size) {
         Page<Post> posts = postRepository.findAll(PageRequest.of(page, size));
 
         // Regra de negócio
         if (!posts.isEmpty()) {
-            return posts.map(postMapper::toPost);
+            return posts;
         }
         else {
             throw new ResourceNotFoundException(posts);
         }
     }
 
-    public Page<PostResponseDTO> findAllByUserId(Long id, int page, int size) {
+    public Page<Post> findAllByUserId(Long id, int page, int size) {
         User user = userService.findById(id);
         Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
 
         // Regra de negócio
         if (!posts.isEmpty()) {
-            return posts.map(postMapper::toPost);
+            return posts;
         }
         else {
             throw new ResourceNotFoundException(posts);
         }
     }
 
-    public PostResponseDTO createPost(Long userId, PostRequestDTO dto) {
+    public Post createPost(Long userId, PostRequestDTO dto) {
         User user = userService.findById(userId);
         Post post = postMapper.toEntity(dto);
         post.setUser(user);
-        return postMapper.toPost(postRepository.save(post));
+        return postRepository.save(post);
     }
 
-    public PostResponseDTO updatePost(Long postId, Long userId, PostRequestDTO dto) {
+    public Post updatePost(Long postId, Long userId, PostRequestDTO dto) {
         // Regra de negócio
-            boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
-            if (!exists) {
-                throw new UnauthorizedActionException(userId);
-            }
+        boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
+        if (!exists) {
+            throw new UnauthorizedActionException(userId);
+        }
+
         Post entity = postRepository.getReferenceById(postId);
         Post obj = postMapper.toEntity(dto);
         updateData(entity, obj);
-        return postMapper.toPost(postRepository.save(entity));
+        return postRepository.save(entity);
     }
 
     // Auxílio Update

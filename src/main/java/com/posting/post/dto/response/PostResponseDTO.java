@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record PostResponseDTO(
+        Long id,
         String author,
         String name,
         String description,

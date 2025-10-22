@@ -18,6 +18,7 @@ public class PostMapper {
         return posts.stream()
                 .map(post -> {
                     return new PostResponseDTO(
+                            post.getId(),
                             post.getUser().getName(),
                             post.getName(),
                             post.getDescription(),
@@ -28,6 +29,7 @@ public class PostMapper {
     // Recebe entidade e transforma em DTO
     public PostResponseDTO toPost(Post post) {
         return new PostResponseDTO(
+                post.getId(),
                 post.getUser().getName(),
                 post.getName(),
                 post.getDescription(),

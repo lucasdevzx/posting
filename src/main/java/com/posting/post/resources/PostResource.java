@@ -25,51 +25,49 @@ public class PostResource {
     @Autowired
     PostService postService;
 
-    @GetMapping
-    public ResponseEntity<Page<PostResponseDTO>> findAll(
-            @RequestParam int page,
-            @RequestParam int size) {
+    @Autowired
+    PostMapper postMapper;
 
-        return ResponseEntity.ok().body(postService.findAll(page, size));
+    @GetMapping
+    public ResponseEntity<Page<PostResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {
+        Page<Post> posts = postService.findAll(page, size);
+        return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(
-            @PathVariable Long id,
-            @RequestParam int page,
-            @RequestParam int size) {
+    public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(@PathVariable Long id,
+                                                                 @RequestParam int page,
+                                                                 @RequestParam int size) {
 
-        return ResponseEntity.ok().body(postService.findAllByUserId(id, page, size));
+        Page<Post> posts = postService.findAllByUserId(id, page, size);
+        return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 
     @PostMapping(value = "/{userId}")
-    public ResponseEntity<PostResponseDTO> createPost(
-            @PathVariable Long userId,
-            @RequestBody @Valid PostRequestDTO dto) {
+    public ResponseEntity<PostResponseDTO> createPost(@PathVariable Long userId,
+                                                      @RequestBody
+                                                      @Valid PostRequestDTO dto) {
 
-        PostResponseDTO post = postService.createPost(userId, dto);
-        URI uri = ServletUriComponentsBuilder
-                .fromPath("/{userId}")
-                .buildAndExpand(dto)
+        Post post = postService.createPost(userId, dto);
+        URI uri = ServletUriComponentsBuilder.fromPath("/{userId}")
+                .buildAndExpand(post.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(postService.createPost(userId, dto));
+        return ResponseEntity.created(uri).body(postMapper.toPost(post));
     }
 
     @PutMapping(value = "/{postId}/{userId}")
-    public ResponseEntity<PostResponseDTO> updatePost(
-            @PathVariable Long postId,
-            @PathVariable Long userId,
-            @RequestBody @Valid PostRequestDTO dto) {
+    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable Long postId,
+                                                      @PathVariable Long userId,
+                                                      @RequestBody
+                                                          @Valid
+                                                          PostRequestDTO dto) {
 
-        return ResponseEntity.ok().body(postService.updatePost(postId, userId, dto));
+        return ResponseEntity.ok().body(postMapper.toPost(postService.updatePost(postId, userId, dto)));
     }
 
     @DeleteMapping(value = "/{postId}/{userId}")
-    public ResponseEntity<Void> deletePost(
-            @PathVariable Long postId,
-            @PathVariable Long userId) {
-
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, @PathVariable Long userId) {
         postService.deletePost(postId, userId);
         return ResponseEntity.noContent().build();
     }

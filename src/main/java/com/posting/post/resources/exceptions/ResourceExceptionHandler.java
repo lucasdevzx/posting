@@ -3,6 +3,7 @@ package com.posting.post.resources.exceptions;
 import java.time.Instant;
 import java.util.List;
 
+import com.posting.post.services.exceptions.ConflictException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(standard);
     }
 
-    // Validação
+    // Validação Parâmetros
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationExceptionStandard> ValidationException(MethodArgumentNotValidException e) {
         List<FieldErrorResponse> errors = e.getBindingResult()
@@ -47,7 +48,29 @@ public class ResourceExceptionHandler {
     public ResponseEntity<ExceptionsStandard> UnauthorizedAction(UnauthorizedActionException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         String error = "Acess Not Permitted!";
-        ExceptionsStandard standard = new ExceptionsStandard(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        ExceptionsStandard standard = new ExceptionsStandard(
+                Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI());
+
+        return ResponseEntity.status(status).body(standard);
+    }
+
+    // Regra de Negócio
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ExceptionsStandard> ConflictException(ConflictException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        String error = "Conflict Data";
+        ExceptionsStandard standard = new ExceptionsStandard(
+                Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
         return ResponseEntity.status(status).body(standard);
     }
 }
