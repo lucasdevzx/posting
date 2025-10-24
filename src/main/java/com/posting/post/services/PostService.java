@@ -58,6 +58,10 @@ public class PostService {
         }
     }
 
+    public Post findById(Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
     public Post createPost(Long userId, PostRequestDTO dto) {
         User user = userService.findById(userId);
         Post post = postMapper.toEntity(dto);

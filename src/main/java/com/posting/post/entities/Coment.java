@@ -2,14 +2,20 @@ package com.posting.post.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.posting.post.pk.ComentPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Table;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "tb_coment")
+@EntityListeners(AuditingEntityListener.class)
 public class Coment implements Serializable{
     private static final long  serialVersionUID = 1L;
 
@@ -17,12 +23,14 @@ public class Coment implements Serializable{
     private ComentPK id = new ComentPK();
 
     private String coment;
-    private LocalDate date;
+
+    @CreatedDate
+    private LocalDateTime date;
 
     public Coment() {
     }
 
-    public Coment(Post post, User user, String coment, LocalDate date) {
+    public Coment(Post post, User user, String coment, LocalDateTime date) {
         id.setPost(post);
         id.setUser(user);
         this.coment = coment;
@@ -54,11 +62,11 @@ public class Coment implements Serializable{
         this.coment = coment;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

@@ -59,7 +59,7 @@ public class ConfigTest implements CommandLineRunner {
         p2.getCategorys().add(ca1);
         postRepository.save(p2);
 
-        Coment co1 = new Coment(p2, u3, "Realmente, anime muito bom!", LocalDate.now());
+        Coment co1 = new Coment(p2, u3, "Realmente, anime muito bom!", LocalDateTime.now());
         p2.getComents().add(co1);
         comentRepository.save(co1);
     }

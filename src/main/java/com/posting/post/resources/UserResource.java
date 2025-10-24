@@ -50,7 +50,7 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> insert(@Valid @RequestBody UserRequestDTO obj) {
+    public ResponseEntity<UserResponseDTO> insert(@RequestBody @Valid UserRequestDTO obj) {
         var user = userService.insert(obj);
         ServletUriComponentsBuilder.fromCurrentRequest();
         URI uri = UriComponentsBuilder.fromPath("/{id}")
@@ -60,7 +60,11 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody User obj) {
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id,
+                                                  @RequestBody
+                                                  @Valid
+                                                  User obj) {
+
         var user = userService.update(id, obj);
         return ResponseEntity.ok().body(userMapper.toDto(user));
     }

@@ -34,13 +34,18 @@ public class PostResource {
         return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "user/{userId}")
     public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(@PathVariable Long id,
                                                                  @RequestParam int page,
                                                                  @RequestParam int size) {
 
         Page<Post> posts = postService.findAllByUserId(id, page, size);
         return ResponseEntity.ok().body(posts.map(postMapper::toPost));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<PostResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(postMapper.toPost(postService.findById(id)));
     }
 
     @PostMapping(value = "/{userId}")
