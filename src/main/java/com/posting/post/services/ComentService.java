@@ -6,6 +6,11 @@ import com.posting.post.dto.request.ComentRequestDTO;
 import com.posting.post.entities.Post;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.ComentMapper;
+import com.posting.post.pk.ComentPK;
+import com.posting.post.repositories.PostRepository;
+import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
+import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +23,12 @@ public class ComentService {
 
     @Autowired
     ComentRepository comentRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PostRepository postRepository;
 
     @Autowired
     ComentMapper comentMapper;
@@ -40,4 +51,29 @@ public class ComentService {
         coment.setPost(post);
         return comentRepository.save(coment);
     }
+
+    public Coment updateComent(Long userId, Long postId, ComentRequestDTO dto) {
+        // Regra de negócio
+        boolean exists = comentRepository.existsByIdUserIdAndIdPostId(userId, postId);
+        if (!exists) {
+            throw new UnauthorizedActionException(userId);
+        }
+
+        ComentPK comentPK = new ComentPK();
+        User user_Id = userRepository.getReferenceById(userId);
+        Post post_Id = postRepository.getReferenceById(postId);
+        comentPK.setUser(user_Id);
+        comentPK.setPost(post_Id);
+        Coment entity = comentRepository.getReferenceById(comentPK);
+        Coment obj = comentMapper.toEntity(dto);
+        updateData(entity, obj);
+        return comentRepository.save(entity);
+    }
+
+    // Auxílio Update
+    private void updateData(Coment entity, Coment obj) {
+        entity.setComent(obj.getComent());
+    }
+
+
 }

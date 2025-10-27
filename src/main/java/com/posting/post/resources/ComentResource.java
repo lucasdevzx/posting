@@ -50,5 +50,15 @@ public class ComentResource {
         return ResponseEntity.created(uri).body(comentMapper.toComent(coment));
     }
 
+    @PutMapping(value = "/{userId}/{postId}")
+    public ResponseEntity<ComentResponseDTO> updateComent(@PathVariable Long userId,
+                                                          @PathVariable Long postId,
+                                                          @RequestBody
+                                                              @Valid
+                                                              ComentRequestDTO dto) {
+
+        return ResponseEntity.ok().body(comentMapper.toComent(comentService.updateComent(userId, postId, dto)));
+
+    }
 
 }

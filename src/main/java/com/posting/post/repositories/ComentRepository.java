@@ -13,4 +13,6 @@ import com.posting.post.pk.ComentPK;
 public interface ComentRepository extends JpaRepository<Coment, ComentPK>{
 
     Page<Coment> findByIdPostId(Long id, Pageable pageable);
+
+    boolean existsByIdUserIdAndIdPostId(Long userId, Long postId);
 }
