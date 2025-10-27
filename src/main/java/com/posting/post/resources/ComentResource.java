@@ -9,6 +9,7 @@ import com.posting.post.entities.Post;
 import com.posting.post.mapper.ComentMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.posting.post.entities.Coment;
@@ -26,9 +27,12 @@ public class ComentResource {
     ComentMapper comentMapper;
 
     @GetMapping(value = "/{postId}")
-    public ResponseEntity<List<Coment>> findAllByPostId(@PathVariable Long postId) {
-        List<Coment> list = comentService.findAllByPostId(postId);
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<Page<ComentResponseDTO>> findAllByPostId(@PathVariable Long postId,
+                                                        @RequestParam int page,
+                                                        @RequestParam int size) {
+
+        Page<Coment> coments = comentService.findAllByPostId(postId, page, size);
+        return ResponseEntity.ok().body(coments.map(comentMapper::toComent));
     }
 
     @PostMapping(value = "/{userId}/{postId}")
@@ -45,4 +49,6 @@ public class ComentResource {
 
         return ResponseEntity.created(uri).body(comentMapper.toComent(coment));
     }
+
+
 }

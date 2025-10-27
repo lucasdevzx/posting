@@ -7,6 +7,8 @@ import com.posting.post.entities.Post;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.ComentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Coment;
 import com.posting.post.repositories.ComentRepository;
@@ -26,8 +28,8 @@ public class ComentService {
     @Autowired
     PostService postService;
 
-    public List<Coment> findAllByPostId(Long id) {
-        return comentRepository.findByIdPostId(id);
+    public Page<Coment> findAllByPostId(Long id, int page, int size) {
+        return comentRepository.findByIdPostId(id, PageRequest.of(page, size));
     }
 
     public Coment createComent(Long userId, Long postId, ComentRequestDTO dto) {
