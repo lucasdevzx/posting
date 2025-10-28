@@ -1,15 +1,10 @@
 package com.posting.post.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.posting.post.pk.ComentPK;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,8 +14,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Coment implements Serializable{
     private static final long  serialVersionUID = 1L;
 
-    @EmbeddedId
-    private ComentPK id = new ComentPK();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     private String coment;
 
@@ -30,28 +34,36 @@ public class Coment implements Serializable{
     public Coment() {
     }
 
-    public Coment(Post post, User user, String coment, LocalDateTime date) {
-        id.setPost(post);
-        id.setUser(user);
+    public Coment(Long id, Post post, User user, String coment, LocalDateTime date) {
+        this.id = id;
+        this.user = user;
+        this.post = post;
         this.coment = coment;
         this.date = date;
     }
 
-    @JsonIgnore
-    public Post getPost() {
-        return id.getPost();
+    public Long getId() {
+        return id;
     }
 
-    public void setPost(Post post) {
-        id.setPost(post);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {
-        return id.getUser();
+        return user;
     }
 
     public void setUser(User user) {
-        id.setUser(user);
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getComent() {
@@ -71,7 +83,7 @@ public class Coment implements Serializable{
     }
 
     public int DiffDate() {
-        int dateActually = id.getPost().getDate().getDayOfMonth();
+        int dateActually = getPost().getDate().getDayOfMonth();
         int dateComent = this.date.getDayOfMonth();
         int diffDays = dateActually - dateComent;
         return diffDays;
@@ -81,5 +93,17 @@ public class Coment implements Serializable{
         return "ago - "
             + DiffDate()
             + " days";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Coment coment = (Coment) object;
+        return Objects.equals(id, coment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

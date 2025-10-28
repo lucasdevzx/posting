@@ -51,14 +51,21 @@ public class ComentResource {
     }
 
     @PutMapping(value = "/{userId}/{postId}")
-    public ResponseEntity<ComentResponseDTO> updateComent(@PathVariable Long userId,
+    public ResponseEntity<ComentResponseDTO> updateComent(@PathVariable Long id,
+                                                          @PathVariable Long userId,
                                                           @PathVariable Long postId,
                                                           @RequestBody
                                                               @Valid
                                                               ComentRequestDTO dto) {
 
-        return ResponseEntity.ok().body(comentMapper.toComent(comentService.updateComent(userId, postId, dto)));
+        return ResponseEntity.ok().body(comentMapper.toComent(comentService.updateComent(id, userId, postId, dto)));
 
     }
+
+    /*@DeleteMapping(value = "/{userId}/{postId}")
+    public ResponseEntity<Void> deleteComent(@PathVariable Long userId, @PathVariable Long postId) {
+
+    }
+     */
 
 }

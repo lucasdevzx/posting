@@ -36,7 +36,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Coment> coments = new ArrayList<>();
 
     public User() {}

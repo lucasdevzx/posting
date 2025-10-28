@@ -10,6 +10,7 @@ public class ComentMapper {
 
     public ComentResponseDTO toComent(Coment coment) {
         return new ComentResponseDTO(
+                coment.getId(),
                 coment.getUser().getId(),
                 coment.getPost().getId(),
                 coment.getUser().getName(),

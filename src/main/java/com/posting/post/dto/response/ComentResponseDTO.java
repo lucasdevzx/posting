@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public record ComentResponseDTO(Long userId,
+public record ComentResponseDTO(Long comentId,
+                                Long userId,
                                 Long postId,
                                 String name,
                                 String coment,

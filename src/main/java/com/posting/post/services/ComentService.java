@@ -1,15 +1,11 @@
 package com.posting.post.services;
 
-import java.util.List;
-
 import com.posting.post.dto.request.ComentRequestDTO;
 import com.posting.post.entities.Post;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.ComentMapper;
-import com.posting.post.pk.ComentPK;
 import com.posting.post.repositories.PostRepository;
 import com.posting.post.repositories.UserRepository;
-import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +36,7 @@ public class ComentService {
     PostService postService;
 
     public Page<Coment> findAllByPostId(Long id, int page, int size) {
-        return comentRepository.findByIdPostId(id, PageRequest.of(page, size));
+        return comentRepository.findByPostId(id, PageRequest.of(page, size));
     }
 
     public Coment createComent(Long userId, Long postId, ComentRequestDTO dto) {
@@ -52,19 +48,14 @@ public class ComentService {
         return comentRepository.save(coment);
     }
 
-    public Coment updateComent(Long userId, Long postId, ComentRequestDTO dto) {
+    public Coment updateComent(Long id, Long userId, Long postId, ComentRequestDTO dto) {
         // Regra de negócio
-        boolean exists = comentRepository.existsByIdUserIdAndIdPostId(userId, postId);
+        boolean exists = comentRepository.existsByUserIdAndPostId(userId, postId);
         if (!exists) {
             throw new UnauthorizedActionException(userId);
         }
 
-        ComentPK comentPK = new ComentPK();
-        User user_Id = userRepository.getReferenceById(userId);
-        Post post_Id = postRepository.getReferenceById(postId);
-        comentPK.setUser(user_Id);
-        comentPK.setPost(post_Id);
-        Coment entity = comentRepository.getReferenceById(comentPK);
+        Coment entity = comentRepository.getReferenceById(id);
         Coment obj = comentMapper.toEntity(dto);
         updateData(entity, obj);
         return comentRepository.save(entity);
@@ -75,5 +66,10 @@ public class ComentService {
         entity.setComent(obj.getComent());
     }
 
+    /*
+    public void deleteComent(Long userId, Long postId) {
+
+    }
+     */
 
 }
