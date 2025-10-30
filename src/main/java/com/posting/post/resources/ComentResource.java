@@ -62,10 +62,9 @@ public class ComentResource {
 
     }
 
-    /*@DeleteMapping(value = "/{userId}/{postId}")
-    public ResponseEntity<Void> deleteComent(@PathVariable Long userId, @PathVariable Long postId) {
-
+    @DeleteMapping(value = "/{comentId}/{userId}")
+    public ResponseEntity<Void> deleteComent(@PathVariable Long comentId, @PathVariable Long userId) {
+        comentService.deleteComent(comentId, userId);
+        return ResponseEntity.noContent().build();
     }
-     */
-
 }

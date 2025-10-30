@@ -6,6 +6,7 @@ import com.posting.post.entities.User;
 import com.posting.post.mapper.ComentMapper;
 import com.posting.post.repositories.PostRepository;
 import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -66,10 +67,13 @@ public class ComentService {
         entity.setComent(obj.getComent());
     }
 
-    /*
-    public void deleteComent(Long userId, Long postId) {
+    public void deleteComent(Long comentId, Long userId) {
+        Coment coment = comentRepository.findById(comentId).orElseThrow(() -> new ResourceNotFoundException(comentId));
 
+        // Regra de negócio
+        if (!coment.getUser().getId().equals(userId)) {
+            throw new UnauthorizedActionException(userId);
+        }
+        comentRepository.deleteById(comentId);
     }
-     */
-
 }
