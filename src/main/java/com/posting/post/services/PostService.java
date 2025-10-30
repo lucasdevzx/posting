@@ -30,9 +30,6 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    @Autowired
-    UserMapper userMapper;
-
     public Page<Post> findAll(int page, int size) {
         Page<Post> posts = postRepository.findAll(PageRequest.of(page, size));
 
