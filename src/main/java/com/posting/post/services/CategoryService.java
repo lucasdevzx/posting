@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.posting.post.dto.request.CategoryRequestDTO;
 import com.posting.post.mapper.CategoryMapper;
+import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,5 +32,23 @@ public class CategoryService  {
     public Category createCategory(CategoryRequestDTO bodu) {
         var entity = categoryMapper.toEntity(bodu);
         return categoryRepository.save(entity);
+    }
+
+    public Category updateCategory(Long categoryId, CategoryRequestDTO body) {
+        // Regra de negócio
+        boolean exists = categoryRepository.existsById(categoryId);
+        if (!exists) {
+            throw new UnauthorizedActionException(categoryId);
+        }
+
+        var entity = categoryRepository.getReferenceById(categoryId);
+        var obj = categoryMapper.toEntity(body);
+        updateData(entity, obj);
+        return categoryRepository.save(entity);
+    }
+
+    // Auxílio update
+    public void updateData(Category entity, Category obj) {
+        entity.setName(obj.getName());
     }
 }
