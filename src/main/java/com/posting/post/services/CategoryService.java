@@ -17,4 +17,8 @@ public class CategoryService  {
     public Page<Category> findAll(int page, int size) {
         return categoryRepository.findAll(PageRequest.of(page, size));
     }
+
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElseThrow();
+    }
 }

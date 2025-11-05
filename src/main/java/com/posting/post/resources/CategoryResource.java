@@ -7,10 +7,7 @@ import com.posting.post.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.posting.post.entities.Category;
 import com.posting.post.services.CategoryService;
 
@@ -28,5 +25,10 @@ public class CategoryResource {
     public ResponseEntity<Page<CategoryResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {
         Page<Category> categories = categoryService.findAll(page, size);
         return ResponseEntity.ok().body(categories.map(categoryMapper::toCategory));
+    }
+
+    @GetMapping(value = "/{categoryId}")
+    public ResponseEntity<CategoryResponseDTO> findById(@PathVariable Long categoryId) {
+        return ResponseEntity.ok().body(categoryMapper.toCategory(categoryService.findById(categoryId)));
     }
 }
