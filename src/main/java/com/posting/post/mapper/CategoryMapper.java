@@ -1,5 +1,6 @@
 package com.posting.post.mapper;
 
+import com.posting.post.dto.request.CategoryRequestDTO;
 import com.posting.post.dto.response.CategoryResponseDTO;
 import com.posting.post.dto.response.ComentResponseDTO;
 import com.posting.post.entities.Category;
@@ -15,5 +16,11 @@ public class CategoryMapper {
                 category.getId(),
                 category.getName()
         );
+    }
+
+    public Category toEntity(CategoryRequestDTO body) {
+        Category category = new Category();
+        category.setName(body.name());
+        return category;
     }
 }
