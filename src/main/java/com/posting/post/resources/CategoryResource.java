@@ -51,4 +51,10 @@ public class CategoryResource {
 
         return ResponseEntity.ok().body(categoryMapper.toCategory(categoryService.updateCategory(categoryId, body)));
     }
+
+    @DeleteMapping(value = "/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.noContent().build();
+    }
 }

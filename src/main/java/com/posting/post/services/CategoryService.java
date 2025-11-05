@@ -51,4 +51,8 @@ public class CategoryService  {
     public void updateData(Category entity, Category obj) {
         entity.setName(obj.getName());
     }
+
+    public void deleteCategory(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+    }
 }
