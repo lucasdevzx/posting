@@ -6,6 +6,7 @@ import java.util.List;
 import com.posting.post.dto.request.CategoryRequestDTO;
 import com.posting.post.dto.response.CategoryResponseDTO;
 import com.posting.post.mapper.CategoryMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,9 @@ public class CategoryResource {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO body) {
+    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody
+                                                                  @Valid
+                                                                  CategoryRequestDTO body) {
         var entity = categoryService.createCategory(body);
         URI uri = ServletUriComponentsBuilder.fromPath("/{categoryId}")
                 .buildAndExpand(entity.getId())
@@ -47,6 +50,7 @@ public class CategoryResource {
 
     @PutMapping(value = "/{categoryId}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(@PathVariable Long categoryId,
+                                                              @Valid
                                                               @RequestBody CategoryRequestDTO body) {
 
         return ResponseEntity.ok().body(categoryMapper.toCategory(categoryService.updateCategory(categoryId, body)));
