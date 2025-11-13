@@ -29,6 +29,6 @@ public class AdressUserResource {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<AdressUserResponseDTO> findByUserId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(adressUserService.findByUserId(id));
+        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.findByUserId(id)));
     }
 }

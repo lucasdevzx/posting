@@ -24,10 +24,10 @@ public class AdressUserService {
     @Autowired
     AdressUserMapper adressUserMapper;
 
-    public AdressUserResponseDTO findByUserId(Long id) {
+    public AdressUser findByUserId(Long id) {
         Optional<User> user = Optional.ofNullable(userService.findById(id));
         AdressUser adressUser = adressUserRepository.findByUserId(user.orElseThrow().getId());
-        return adressUserMapper.toAdressUser(adressUser);
+        return adressUser;
     }
 
     public Page<AdressUser> findAll(int page, int size) {
