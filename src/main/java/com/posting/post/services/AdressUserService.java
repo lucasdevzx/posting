@@ -2,6 +2,7 @@ package com.posting.post.services;
 
 import java.util.Optional;
 
+import com.posting.post.dto.request.AdressUserRequestDTO;
 import com.posting.post.dto.response.AdressUserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.AdressUserMapper;
@@ -33,5 +34,12 @@ public class AdressUserService {
     public Page<AdressUser> findAll(int page, int size) {
         var adressUser = adressUserRepository.findAll(PageRequest.of(page, size));
         return adressUser;
+    }
+
+    public AdressUser createAdressUser(Long userId, AdressUserRequestDTO body) {
+        var user = userService.findById(userId);
+        var adressUser = adressUserMapper.toEntity(body);
+        adressUser.setUser(user);
+        return adressUserRepository.save(adressUser);
     }
 }
