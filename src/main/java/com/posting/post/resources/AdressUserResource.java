@@ -38,8 +38,7 @@ public class AdressUserResource {
     }
 
     @PostMapping(value = "/{userId}")
-    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@PathVariable Long userId,
-                                                                  @RequestBody AdressUserRequestDTO body) {
+    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@PathVariable Long userId, @RequestBody AdressUserRequestDTO body) {
         var adressUser = adressUserService.createAdressUser(userId, body);
 
         ServletUriComponentsBuilder.fromCurrentRequest();
@@ -47,5 +46,12 @@ public class AdressUserResource {
                 .buildAndExpand(adressUser.getId()).toUri();
 
         return ResponseEntity.created(uri).body(adressUserMapper.toAdressUser(adressUser));
+    }
+
+    @PutMapping(value = "/{userId}")
+    public ResponseEntity<AdressUserResponseDTO> updateAdressUser(@PathVariable Long userId,
+                                                                  @RequestBody AdressUserRequestDTO body) {
+
+        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.updateAdressUser(userId, body)));
     }
 }

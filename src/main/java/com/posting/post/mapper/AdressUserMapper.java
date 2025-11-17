@@ -10,6 +10,7 @@ public class AdressUserMapper {
 
     public AdressUserResponseDTO toAdressUser(AdressUser obj) {
         return new AdressUserResponseDTO(
+                obj.getId(),
                 obj.getUser().getId(),
                 obj.getCountry(),
                 obj.getCity(),

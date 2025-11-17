@@ -1,6 +1,7 @@
 package com.posting.post.dto.response;
 
-public record AdressUserResponseDTO(Long userId,
+public record AdressUserResponseDTO(Long id,
+                                    Long userId,
                                     String country,
                                     String city,
                                     String neighbourhood,

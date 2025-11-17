@@ -27,7 +27,7 @@ public class AdressUserService {
 
     public AdressUser findByUserId(Long id) {
         Optional<User> user = Optional.ofNullable(userService.findById(id));
-        AdressUser adressUser = adressUserRepository.findByUserId(user.orElseThrow().getId());
+        var adressUser = adressUserRepository.findByUserId(user.orElseThrow().getId());
         return adressUser;
     }
 
@@ -41,5 +41,23 @@ public class AdressUserService {
         var adressUser = adressUserMapper.toEntity(body);
         adressUser.setUser(user);
         return adressUserRepository.save(adressUser);
+    }
+
+    public AdressUser updateAdressUser(Long userId, AdressUserRequestDTO body) {
+        var entity = adressUserRepository.getReferenceById(userId);
+        var obj = adressUserMapper.toEntity(body);
+        updateData(entity, obj);
+        var user = userService.findById(userId);
+        entity.setUser(user);
+        return adressUserRepository.save(entity);
+    }
+
+    public void updateData(AdressUser entity, AdressUser obj) {
+        entity.setCountry(obj.getCountry());
+        entity.setState(obj.getState());
+        entity.setCity(obj.getCity());
+        entity.setNeighborhood(obj.getNeighborhood());
+        entity.setRoad(obj.getRoad());
+        entity.setHouseNumber(obj.getHouseNumber());
     }
 }
