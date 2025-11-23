@@ -3,6 +3,7 @@ package com.posting.post.resources;
 import com.posting.post.dto.request.AdressUserRequestDTO;
 import com.posting.post.dto.response.AdressUserResponseDTO;
 import com.posting.post.mapper.AdressUserMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,11 @@ public class AdressUserResource {
     }
 
     @PostMapping(value = "/{userId}")
-    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@PathVariable Long userId, @RequestBody AdressUserRequestDTO body) {
+    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@PathVariable Long userId,
+                                                                  @RequestBody
+                                                                  @Valid
+                                                                  AdressUserRequestDTO body) {
+
         var adressUser = adressUserService.createAdressUser(userId, body);
 
         ServletUriComponentsBuilder.fromCurrentRequest();
@@ -50,8 +55,16 @@ public class AdressUserResource {
 
     @PutMapping(value = "/{userId}")
     public ResponseEntity<AdressUserResponseDTO> updateAdressUser(@PathVariable Long userId,
-                                                                  @RequestBody AdressUserRequestDTO body) {
+                                                                  @RequestBody
+                                                                  @Valid
+                                                                  AdressUserRequestDTO body) {
 
         return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.updateAdressUser(userId, body)));
+    }
+
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<Void> deleteAdressUser(@PathVariable Long userId) {
+        adressUserService.deleteAdressUser(userId);
+        return ResponseEntity.noContent().build();
     }
 }

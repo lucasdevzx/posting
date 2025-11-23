@@ -6,5 +6,9 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record PostRequestDTO(
-        @NotBlank(message = "{PostRequestDTO.name.NotBlank}") String name,
-        @Size(min = 0, max = 2200, message = "{PostRequestDTO.description.Size}") String description){}
+
+        @NotBlank(message = "{PostRequestDTO.name.NotBlank}")
+        String name,
+
+        @Size(min = 0, max = 2200, message = "{PostRequestDTO.description.Size}")
+        String description){}

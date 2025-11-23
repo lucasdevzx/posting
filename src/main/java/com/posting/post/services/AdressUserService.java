@@ -60,4 +60,12 @@ public class AdressUserService {
         entity.setRoad(obj.getRoad());
         entity.setHouseNumber(obj.getHouseNumber());
     }
+
+    public void deleteAdressUser(Long userId) {
+
+        var user = userService.findById(userId);
+        var adressUser = findByUserId(user.getId());
+        adressUser.setUser(null);
+        adressUserRepository.deleteByUserId(userId);
+    }
 }
