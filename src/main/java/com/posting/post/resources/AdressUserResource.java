@@ -19,11 +19,14 @@ import java.net.URI;
 @RequestMapping(value = "/adress_user")
 public class AdressUserResource {
 
-    @Autowired
-    AdressUserService adressUserService;
+    private final AdressUserService adressUserService;
 
-    @Autowired
-    AdressUserMapper adressUserMapper;
+    private final AdressUserMapper adressUserMapper;
+
+    public AdressUserResource(AdressUserService adressUserService, AdressUserMapper adressUserMapper) {
+        this.adressUserService = adressUserService;
+        this.adressUserMapper = adressUserMapper;
+    }
 
     @GetMapping
     public ResponseEntity<Page<AdressUserResponseDTO>> findAll(@RequestParam int page,

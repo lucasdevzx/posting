@@ -20,11 +20,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping(value = "/coments")
 public class ComentResource {
 
-    @Autowired
-    ComentService comentService;
+    private final ComentService comentService;
 
-    @Autowired
-    ComentMapper comentMapper;
+    private final ComentMapper comentMapper;
+
+    public ComentResource(ComentService comentService, ComentMapper comentMapper) {
+        this.comentService = comentService;
+        this.comentMapper = comentMapper;
+    }
 
     @GetMapping(value = "/{postId}")
     public ResponseEntity<Page<ComentResponseDTO>> findAllByPostId(@PathVariable Long postId,

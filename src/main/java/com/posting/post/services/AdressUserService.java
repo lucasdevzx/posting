@@ -16,14 +16,18 @@ import com.posting.post.repositories.AdressUserRepository;
 @Service
 public class AdressUserService {
 
-    @Autowired
-    AdressUserRepository adressUserRepository;
+    private final AdressUserRepository adressUserRepository;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    AdressUserMapper adressUserMapper;
+    private final AdressUserMapper adressUserMapper;
+
+    public AdressUserService(AdressUserRepository adressUserRepository, UserService userService,
+                             AdressUserMapper adressUserMapper) {
+        this.adressUserRepository = adressUserRepository;
+        this.userService = userService;
+        this.adressUserMapper = adressUserMapper;
+    }
 
     public AdressUser findByUserId(Long id) {
         Optional<User> user = Optional.ofNullable(userService.findById(id));

@@ -19,11 +19,14 @@ import static java.util.Arrays.stream;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
     public Page<User> findAll(int page, int size) {
         return userRepository.findAll(PageRequest.of(page, size));

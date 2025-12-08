@@ -13,23 +13,11 @@ import java.util.stream.Collectors;
 @Component
 public class PostMapper {
 
-    // Recebe lista de entidades e transforma em lista de DTOs
-    public List<PostResponseDTO> toPosts(List<Post> posts) {
-        return posts.stream()
-                .map(post -> {
-                    return new PostResponseDTO(
-                            post.getId(),
-                            post.getUser().getName(),
-                            post.getName(),
-                            post.getDescription(),
-                            post.getDate());
-                }).collect(Collectors.toList());
-    }
-
     // Recebe entidade e transforma em DTO
     public PostResponseDTO toPost(Post post) {
         return new PostResponseDTO(
                 post.getId(),
+                post.getUser().getId(),
                 post.getUser().getName(),
                 post.getName(),
                 post.getDescription(),

@@ -10,6 +10,7 @@ import java.util.List;
 
 public record PostResponseDTO(
         Long id,
+        Long userId,
         String author,
         String name,
         String description,

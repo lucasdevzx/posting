@@ -30,11 +30,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Resource
 public class UserResource {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserResource(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
 
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> findByAll(@RequestParam int page,

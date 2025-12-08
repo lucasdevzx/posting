@@ -19,11 +19,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping(value = "/category")
 public class CategoryResource {
 
-    @Autowired
-    CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @Autowired
-    CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper;
+
+    public CategoryResource(CategoryService categoryService, CategoryMapper categoryMapper) {
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
+    }
 
     @GetMapping
     public ResponseEntity<Page<CategoryResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {

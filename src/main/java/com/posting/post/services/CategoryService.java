@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.posting.post.dto.request.CategoryRequestDTO;
 import com.posting.post.mapper.CategoryMapper;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,18 +16,21 @@ import com.posting.post.repositories.CategoryRepository;
 @Service
 public class CategoryService  {
 
-    @Autowired
-    CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper;
+
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+        this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
+    }
 
     public Page<Category> findAll(int page, int size) {
         return categoryRepository.findAll(PageRequest.of(page, size));
     }
 
     public Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow();
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public Category createCategory(CategoryRequestDTO bodu) {

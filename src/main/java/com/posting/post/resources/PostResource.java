@@ -19,14 +19,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import static org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO;
 
 @RestController
-@RequestMapping(value = "/post")
+@RequestMapping(value = "/posts")
 public class PostResource {
 
-    @Autowired
-    PostService postService;
+    private final PostService postService;
 
-    @Autowired
-    PostMapper postMapper;
+    private final PostMapper postMapper;
+
+    public PostResource(PostService postService, PostMapper postMapper) {
+        this.postService = postService;
+        this.postMapper = postMapper;
+    }
 
     @GetMapping
     public ResponseEntity<Page<PostResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {
@@ -34,12 +37,12 @@ public class PostResource {
         return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 
-    @GetMapping(value = "user/{userId}")
-    public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(@PathVariable Long id,
+    @GetMapping(value = "/user/{userId}")
+    public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(@PathVariable Long userId,
                                                                  @RequestParam int page,
                                                                  @RequestParam int size) {
 
-        Page<Post> posts = postService.findAllByUserId(id, page, size);
+        Page<Post> posts = postService.findAllByUserId(userId, page, size);
         return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 

@@ -1,19 +1,12 @@
 package com.posting.post.services;
 
-import java.util.List;
-
 import com.posting.post.dto.request.PostRequestDTO;
-import com.posting.post.dto.response.PostResponseDTO;
-import com.posting.post.dto.response.UserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
-import com.posting.post.mapper.UserMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Post;
 import com.posting.post.repositories.PostRepository;
@@ -21,14 +14,17 @@ import com.posting.post.repositories.PostRepository;
 @Service
 public class PostService {
 
-    @Autowired
-    PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    PostMapper postMapper;
+    private final PostMapper postMapper;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public PostService(PostRepository postRepository, PostMapper postMapper, UserService userService) {
+        this.postRepository = postRepository;
+        this.postMapper = postMapper;
+        this.userService = userService;
+    }
 
     public Page<Post> findAll(int page, int size) {
         Page<Post> posts = postRepository.findAll(PageRequest.of(page, size));
@@ -42,8 +38,8 @@ public class PostService {
         }
     }
 
-    public Page<Post> findAllByUserId(Long id, int page, int size) {
-        User user = userService.findById(id);
+    public Page<Post> findAllByUserId(Long userId, int page, int size) {
+        User user = userService.findById(userId);
         Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
 
         // Regra de negócio

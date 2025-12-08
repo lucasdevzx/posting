@@ -18,23 +18,24 @@ import com.posting.post.repositories.ComentRepository;
 @Service
 public class ComentService {
 
-    @Autowired
-    ComentRepository comentRepository;
+    private final ComentRepository comentRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final ComentMapper comentMapper;
 
-    @Autowired
-    PostRepository postRepository;
+    private final UserService userService;
 
-    @Autowired
-    ComentMapper comentMapper;
+    private final PostService postService;
 
-    @Autowired
-    UserService userService;
+    public ComentService(ComentRepository comentRepository,
+                         ComentMapper comentMapper,
+                         UserService userService,
+                         PostService postService) {
 
-    @Autowired
-    PostService postService;
+        this.comentRepository = comentRepository;
+        this.comentMapper = comentMapper;
+        this.userService = userService;
+        this.postService = postService;
+    }
 
     public Page<Coment> findAllByPostId(Long id, int page, int size) {
         return comentRepository.findByPostId(id, PageRequest.of(page, size));
