@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserResource {
 
     private final UserService userService;
-
     private final UserMapper userMapper;
 
     public UserResource(UserService userService, UserMapper userMapper) {

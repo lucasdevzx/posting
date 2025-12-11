@@ -10,22 +10,16 @@ import com.posting.post.entities.User;
 public class UserMapper {
 
     public UserResponseDTO toDto(User user) {
-        AdressUser adressUser = user.getAdressUser();
+        var adressUser = user.getAdressUser();
         return new UserResponseDTO(
                 user.getId(),
                 user.getName(),
-                user.getEmail());
-    }
-
-    public User toEntityResponse(UserResponseDTO dto) {
-        User user = new User();
-        user.setName(dto.name());
-        user.setEmail(dto.email());
-        return user;
+                user.getEmail(),
+                user.getRoles());
     }
 
     public User toEntity(UserRequestDTO dto) {
-        User user = new User();
+        var user = new User();
         user.setName(dto.name());
         user.setEmail(dto.email());
         user.setPassword(dto.password());

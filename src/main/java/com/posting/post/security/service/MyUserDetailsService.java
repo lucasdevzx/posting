@@ -1,6 +1,6 @@
-package com.posting.post.config.service;
+package com.posting.post.security.service;
 
-import com.posting.post.config.UserDetails.MyUserDetails;
+import com.posting.post.security.UserDetails.MyUserDetails;
 import com.posting.post.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

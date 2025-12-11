@@ -1,4 +1,4 @@
-package com.posting.post.config.UserDetails;
+package com.posting.post.security.UserDetails;
 
 import com.posting.post.entities.User;
 import org.springframework.security.core.GrantedAuthority;

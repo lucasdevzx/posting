@@ -8,6 +8,7 @@ import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.UserMapper;
@@ -20,12 +21,13 @@ import static java.util.Arrays.stream;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Page<User> findAll(int page, int size) {
@@ -39,13 +41,14 @@ public class UserService {
 
     public User insert(UserRequestDTO dto) {
 
-        // Futura Refatoração com Código por Email
         User user = userMapper.toEntity(dto);
         boolean exists = userRepository.existsByEmail(user.getEmail());
+
         if (exists) {
             throw new ConflictException(user.getEmail(), "Email já cadastrado!");
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
