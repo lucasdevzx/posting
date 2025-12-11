@@ -29,6 +29,7 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
+    private String roles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private AdressUser adressUser;
@@ -41,7 +42,7 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, String name, String email, String password, String roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -78,6 +79,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public AdressUser getAdressUser() {

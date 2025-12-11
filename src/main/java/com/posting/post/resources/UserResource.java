@@ -26,7 +26,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/public/users")
 @Resource
 public class UserResource {
 
