@@ -47,6 +47,10 @@ public class SecurityConfig {
 
                         // User
                         .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+
+                        // Coment
+                        .requestMatchers(HttpMethod.GET, "/coments/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
 

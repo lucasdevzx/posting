@@ -12,8 +12,9 @@ public class AuthenticatedUserService {
     public UserDetailsImpl getCurrentUserDetails() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null && (auth.getPrincipal() instanceof UserDetailsImpl)) {
-            throw new RuntimeException("Usuário não autenticado!");
+
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            return null;
         }
 
         Object principal = auth.getPrincipal();

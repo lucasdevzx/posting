@@ -16,7 +16,7 @@ import com.posting.post.services.CategoryService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping(value = "/category")
+@RequestMapping(value = "/categories")
 public class CategoryResource {
 
     private final CategoryService categoryService;

@@ -29,8 +29,8 @@ public class PostMapper {
                 ),
                 post.getName(),
                 post.getDescription(),
+                post.getCategorys().stream().findFirst().map(c -> c.getName()).orElse("Uncategorized"),
                 post.getDate(),
-
                 new PermissionsResponseDTO(
                         checkEditPermission(post, currentUser),
                         checkDeletePermission(post, currentUser),
@@ -38,6 +38,7 @@ public class PostMapper {
                 )
         );
     }
+
 
     // Recebe DTO e transforma em entidade
     public Post toEntity(PostRequestDTO dto) {
