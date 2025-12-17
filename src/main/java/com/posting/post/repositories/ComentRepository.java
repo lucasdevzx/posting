@@ -11,5 +11,5 @@ public interface ComentRepository extends JpaRepository<Coment, Long>{
 
     Page<Coment> findByPostId(Long id, Pageable pageable);
 
-    boolean existsByUserIdAndPostId(Long userId, Long postId);
+    boolean existsByIdAndUser_Id(Long id,Long userId);
 }

@@ -98,7 +98,10 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(postId));
 
         // Regra de negócio
-        if (!post.getUser().getId().equals(userId)) {
+        boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
+        boolean isOwner = post.getUser().getId().equals(userId);
+
+        if (!isOwner && !isAdmin) {
             throw new UnauthorizedActionException(userId);
         }
         postRepository.delete(post);

@@ -1,27 +1,41 @@
 package com.posting.post.mapper;
 
+import com.posting.post.config.AuthenticatedUserService;
+import com.posting.post.config.UserDetailsImpl;
 import com.posting.post.dto.request.PostRequestDTO;
+import com.posting.post.dto.response.AuthorResponseDTO;
+import com.posting.post.dto.response.PermissionsResponseDTO;
 import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.entities.Post;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class PostMapper {
 
+    private final AuthenticatedUserService authenticatedUserService;
+
+    public PostMapper(AuthenticatedUserService authenticatedUserService) {
+        this.authenticatedUserService = authenticatedUserService;
+    }
+
     // Recebe entidade e transforma em DTO
     public PostResponseDTO toPost(Post post) {
+        UserDetailsImpl currentUser = authenticatedUserService.getCurrentUserDetails();
         return new PostResponseDTO(
                 post.getId(),
-                post.getUser().getId(),
-                post.getUser().getName(),
+                new AuthorResponseDTO(
+                        post.getUser().getId(),
+                        post.getUser().getName()
+                ),
                 post.getName(),
                 post.getDescription(),
-                post.getDate()
+                post.getDate(),
+
+                new PermissionsResponseDTO(
+                        checkEditPermission(post, currentUser),
+                        checkDeletePermission(post, currentUser),
+                        checkOwnership(post, currentUser)
+                )
         );
     }
 
@@ -32,4 +46,22 @@ public class PostMapper {
         post.setDescription(dto.description());
         return post;
     }
+
+    public boolean checkEditPermission(Post post, UserDetailsImpl currentUser) {
+        if (currentUser == null) return false;
+        return post.getUser().getId().equals(currentUser.getUser().getId());
+    }
+
+    public boolean checkDeletePermission(Post post, UserDetailsImpl currentUser) {
+        if (currentUser == null) return false;
+        boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
+        boolean isOwner = post.getUser().getId().equals(currentUser.getUser().getId());
+        return isOwner || isAdmin;
+    }
+
+    public boolean checkOwnership(Post post, UserDetailsImpl currentUser) {
+        if (currentUser == null) return false;
+        return post.getUser().getId().equals(currentUser.getUser().getId());
+    }
+
 }

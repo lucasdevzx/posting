@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CategoryRequestDTO(
 
-        @NotBlank(message = "{CategoryRequestDTO.name.NotBlank}")
+        @NotBlank(message = "{CategoryRequestDTO.title.NotBlank}")
         String name) {
 }

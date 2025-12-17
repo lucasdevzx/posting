@@ -8,6 +8,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticatedUserService {
 
+    // Retorna os detalhes do usuário autenticado
+    public UserDetailsImpl getCurrentUserDetails() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null && (auth.getPrincipal() instanceof UserDetailsImpl)) {
+            throw new RuntimeException("Usuário não autenticado!");
+        }
+
+        Object principal = auth.getPrincipal();
+
+        if (principal instanceof UserDetailsImpl userDetails) {
+            return userDetails;
+        }
+        throw new RuntimeException("Principal não é UserDetails");
+    }
+
+    // Retorna a entidade User do usuário autenticado
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -20,7 +37,6 @@ public class AuthenticatedUserService {
         if (principal instanceof UserDetailsImpl userDetails) {
             return userDetails.getUser();
         }
-
         throw new RuntimeException("Principal não é UserDetails");
     }
 
@@ -28,4 +44,8 @@ public class AuthenticatedUserService {
         return getCurrentUser().getId();
     }
 
+    public boolean hasRole(String role) {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
+    }
 }

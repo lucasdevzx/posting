@@ -32,17 +32,17 @@ public class PostResource {
         this.postMapper = postMapper;
     }
 
+    @GetMapping
+    public ResponseEntity<Page<PostResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {
+        Page<Post> posts = postService.findAll(page, size);
+        return ResponseEntity.ok().body(posts.map(postMapper::toPost));
+    }
+
     @GetMapping(value = "/me")
     public ResponseEntity<Page<PostResponseDTO>> findAllByUserId(@RequestParam int page,
                                                                  @RequestParam int size) {
 
         Page<Post> posts = postService.findAllByUserId(page, size);
-        return ResponseEntity.ok().body(posts.map(postMapper::toPost));
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<PostResponseDTO>> findAll(@RequestParam int page, @RequestParam int size) {
-        Page<Post> posts = postService.findAll(page, size);
         return ResponseEntity.ok().body(posts.map(postMapper::toPost));
     }
 

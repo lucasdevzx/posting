@@ -1,5 +1,7 @@
 package com.posting.post.services;
 
+import com.posting.post.config.AuthenticatedUserService;
+import com.posting.post.config.UserDetailsImpl;
 import com.posting.post.dto.request.ComentRequestDTO;
 import com.posting.post.entities.Post;
 import com.posting.post.entities.User;
@@ -19,30 +21,28 @@ import com.posting.post.repositories.ComentRepository;
 public class ComentService {
 
     private final ComentRepository comentRepository;
-
     private final ComentMapper comentMapper;
 
-    private final UserService userService;
-
     private final PostService postService;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public ComentService(ComentRepository comentRepository,
                          ComentMapper comentMapper,
-                         UserService userService,
-                         PostService postService) {
+                         PostService postService,
+                         AuthenticatedUserService authenticatedUserService) {
 
         this.comentRepository = comentRepository;
         this.comentMapper = comentMapper;
-        this.userService = userService;
         this.postService = postService;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public Page<Coment> findAllByPostId(Long id, int page, int size) {
         return comentRepository.findByPostId(id, PageRequest.of(page, size));
     }
 
-    public Coment createComent(Long userId, Long postId, ComentRequestDTO dto) {
-        User user = userService.findById(userId);
+    public Coment createComent(Long postId, ComentRequestDTO dto) {
+        User user = authenticatedUserService.getCurrentUser();
         Post post = postService.findById(postId);
         Coment coment = comentMapper.toEntity(dto);
         coment.setUser(user);
@@ -50,9 +50,11 @@ public class ComentService {
         return comentRepository.save(coment);
     }
 
-    public Coment updateComent(Long id, Long userId, Long postId, ComentRequestDTO dto) {
+    public Coment updateComent(Long id, ComentRequestDTO dto) {
+        Long userId = authenticatedUserService.getCurrentUserId();
+
         // Regra de negócio
-        boolean exists = comentRepository.existsByUserIdAndPostId(userId, postId);
+        boolean exists = comentRepository.existsByIdAndUser_Id(id, userId);
         if (!exists) {
             throw new UnauthorizedActionException(userId);
         }
@@ -68,13 +70,18 @@ public class ComentService {
         entity.setComent(obj.getComent());
     }
 
-    public void deleteComent(Long comentId, Long userId) {
-        Coment coment = comentRepository.findById(comentId).orElseThrow(() -> new ResourceNotFoundException(comentId));
+    public void deleteComent(Long comentId) {
+        Long userId = authenticatedUserService.getCurrentUserId();
+        Coment coment = comentRepository.findById(comentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Coment not found with id " + comentId));
 
         // Regra de negócio
-        if (!coment.getUser().getId().equals(userId)) {
+        boolean isOwner = coment.getUser().getId().equals(userId);
+        boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
+
+        if (!isOwner && !isAdmin) {
             throw new UnauthorizedActionException(userId);
         }
-        comentRepository.deleteById(comentId);
+        comentRepository.delete(coment);
     }
 }

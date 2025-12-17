@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public record ComentResponseDTO(Long comentId,
-                                Long userId,
+public record ComentResponseDTO(Long id,
+                                String comment,
+                                AuthorResponseDTO author,
                                 Long postId,
-                                String name,
-                                String coment,
 
                                 @JsonFormat(shape = JsonFormat.Shape.STRING,
                                         pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",
                                         timezone = "GMT")
-                                LocalDateTime date) {
+                                LocalDateTime date,
+
+                                PermissionsResponseDTO permissions) {
 }

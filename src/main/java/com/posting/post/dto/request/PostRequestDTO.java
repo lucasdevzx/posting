@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public record PostRequestDTO(
 
-        @NotBlank(message = "{PostRequestDTO.name.NotBlank}")
+        @NotBlank(message = "{PostRequestDTO.title.NotBlank}")
         String name,
 
         @Size(min = 0, max = 2200, message = "{PostRequestDTO.description.Size}")

@@ -35,11 +35,17 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin()))
 
-                // Controle de Acesso dos Endpoints
                 .authorizeHttpRequests(authRequest -> authRequest
                         .requestMatchers("/h2-console/**").permitAll()
+
+                        // Auth
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+
+                        // Post
+                        .requestMatchers(HttpMethod.GET, "/posts").permitAll()
+
+                        // User
                         .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
