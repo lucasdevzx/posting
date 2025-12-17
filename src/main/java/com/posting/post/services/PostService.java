@@ -1,5 +1,6 @@
 package com.posting.post.services;
 
+import com.posting.post.config.AuthenticatedUserService;
 import com.posting.post.dto.request.PostRequestDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
@@ -7,6 +8,7 @@ import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.Post;
 import com.posting.post.repositories.PostRepository;
@@ -15,15 +17,20 @@ import com.posting.post.repositories.PostRepository;
 public class PostService {
 
     private final PostRepository postRepository;
-
     private final PostMapper postMapper;
 
     private final UserService userService;
+    private final AuthenticatedUserService authenticatedUserService;
 
-    public PostService(PostRepository postRepository, PostMapper postMapper, UserService userService) {
+    public PostService(PostRepository postRepository,
+                       PostMapper postMapper,
+                       UserService userService,
+                       AuthenticatedUserService authenticatedUserService) {
+
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.userService = userService;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public Page<Post> findAll(int page, int size) {
@@ -38,8 +45,9 @@ public class PostService {
         }
     }
 
-    public Page<Post> findAllByUserId(Long userId, int page, int size) {
-        User user = userService.findById(userId);
+    @PreAuthorize("isAuthenticated()")
+    public Page<Post> findAllByUserId(int page, int size) {
+        User user = authenticatedUserService.getCurrentUser();
         Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
 
         // Regra de negócio
@@ -55,14 +63,17 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Post createPost(Long userId, PostRequestDTO dto) {
-        User user = userService.findById(userId);
+    @PreAuthorize("isAuthenticated()")
+    public Post createPost(PostRequestDTO dto) {
+        User user = authenticatedUserService.getCurrentUser();
         Post post = postMapper.toEntity(dto);
         post.setUser(user);
         return postRepository.save(post);
     }
 
-    public Post updatePost(Long postId, Long userId, PostRequestDTO dto) {
+    @PreAuthorize("isAuthenticated()")
+    public Post updatePost(Long postId, PostRequestDTO dto) {
+        Long userId = authenticatedUserService.getCurrentUserId();
         // Regra de negócio
         boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
         if (!exists) {
@@ -81,7 +92,9 @@ public class PostService {
         entity.setDescription(obj.getDescription());
     }
 
-    public void deletePost(Long postId, Long userId) {
+    @PreAuthorize("isAuthenticated()")
+    public void deletePost(Long postId) {
+        Long userId = authenticatedUserService.getCurrentUserId();
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(postId));
 
         // Regra de negócio
