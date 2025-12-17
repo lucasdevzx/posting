@@ -3,7 +3,6 @@ package com.posting.post.mapper;
 import com.posting.post.dto.request.UserRequestDTO;
 import org.springframework.stereotype.Component;
 import com.posting.post.dto.response.UserResponseDTO;
-import com.posting.post.entities.AdressUser;
 import com.posting.post.entities.User;
 
 @Component
@@ -15,7 +14,7 @@ public class UserMapper {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getRoles());
+                user.getRole().toString());
     }
 
     public User toEntity(UserRequestDTO dto) {

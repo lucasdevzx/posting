@@ -1,9 +1,7 @@
 package com.posting.post.dto.request;
 
-public record LoginRequest(
-
+public record LoginUserRequestDTO(
         String email,
         String password
-
 ) {
 }

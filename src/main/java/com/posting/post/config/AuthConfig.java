@@ -1,22 +1,23 @@
-package com.posting.post.security.service;
+package com.posting.post.config;
 
-import com.posting.post.security.UserDetails.MyUserDetails;
 import com.posting.post.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class MyUserDetailsService implements UserDetailsService {
+@Service
+public class AuthConfig implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public MyUserDetailsService(UserRepository userRepository) {
+    private AuthConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var user = userRepository.findByEmail(email);
-        return new MyUserDetails(user);
+        return new UserDetailsImpl(user);
     }
 }

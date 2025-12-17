@@ -22,12 +22,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public Page<User> findAll(int page, int size) {
@@ -48,7 +46,6 @@ public class UserService {
             throw new ConflictException(user.getEmail(), "Email já cadastrado!");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

@@ -12,9 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.*;
 import jakarta.validation.executable.ValidateOnExecution;
-import org.springframework.validation.annotation.Validated;
 
 @Entity
 @ValidateOnExecution
@@ -29,7 +27,7 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
-    private String roles;
+    private UserRole role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private AdressUser adressUser;
@@ -42,12 +40,12 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(Long id, String name, String email, String password, String roles) {
+    public User(Long id, String name, String email, String password, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public Long getId() {
@@ -82,12 +80,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getRoles() {
-        return roles;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public AdressUser getAdressUser() {

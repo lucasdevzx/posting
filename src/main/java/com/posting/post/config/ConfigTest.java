@@ -3,15 +3,12 @@ package com.posting.post.config;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+
+import com.posting.post.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import com.posting.post.entities.AdressUser;
-import com.posting.post.entities.Category;
-import com.posting.post.entities.Coment;
-import com.posting.post.entities.Post;
-import com.posting.post.entities.User;
 import com.posting.post.repositories.CategoryRepository;
 import com.posting.post.repositories.ComentRepository;
 import com.posting.post.repositories.PostRepository;
@@ -36,9 +33,9 @@ public class ConfigTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User u1 = new User(null, "Lucas", "lucas@gmail.com", "Lucas_fullpvp123@", "ADMIN");
-        User u2 = new User(null, "Maria", "maria@gmail.com", "Lucas_fullpvp123@", "PUBLIC");
-        User u3 = new User(null, "Ana", "ana@gmail.com", "Lucas_fullpvp123@", "PUBLIC");
+        User u1 = new User(null, "Lucas", "lucas@gmail.com", "$2a$12$dMUlIsA6hb3X4tnbt3kx5.s9x/99ZyOHkuRyCa6DfMmr0JsVe1qVC", UserRole.ADMIN);
+        User u2 = new User(null, "Maria", "maria@gmail.com", "Lucas_fullpvp123@", UserRole.USER);
+        User u3 = new User(null, "Ana", "ana@gmail.com", "Lucas_fullpvp123@", UserRole.USER);
         userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
         AdressUser ad1 = new AdressUser(null, "Brazil", "Rio", "Campos", "Estrada", "Coronel", 307, u1);

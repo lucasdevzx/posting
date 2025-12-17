@@ -1,4 +1,4 @@
-package com.posting.post.security.UserDetails;
+package com.posting.post.config;
 
 import com.posting.post.entities.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,17 +8,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class MyUserDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private final User user;
 
-    public MyUserDetails(User user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRoles()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
@@ -49,5 +49,9 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }
