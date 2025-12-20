@@ -16,11 +16,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/adress_user")
+@RequestMapping(value = "/adress_users")
 public class AdressUserResource {
 
     private final AdressUserService adressUserService;
-
     private final AdressUserMapper adressUserMapper;
 
     public AdressUserResource(AdressUserService adressUserService, AdressUserMapper adressUserMapper) {
@@ -36,19 +35,17 @@ public class AdressUserResource {
 
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<AdressUserResponseDTO> findByUserId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.findByUserId(id)));
+    @GetMapping(value = "/me")
+    public ResponseEntity<AdressUserResponseDTO> findByUserId() {
+        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.findByUserId()));
     }
 
-    @PostMapping(value = "/{userId}")
-    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@PathVariable Long userId,
-                                                                  @RequestBody
+    @PostMapping
+    public ResponseEntity<AdressUserResponseDTO> createAdressUser(@RequestBody
                                                                   @Valid
                                                                   AdressUserRequestDTO body) {
 
-        var adressUser = adressUserService.createAdressUser(userId, body);
-
+        var adressUser = adressUserService.createAdressUser(body);
         ServletUriComponentsBuilder.fromCurrentRequest();
         URI uri = UriComponentsBuilder.fromPath("/{id}")
                 .buildAndExpand(adressUser.getId()).toUri();
@@ -56,18 +53,17 @@ public class AdressUserResource {
         return ResponseEntity.created(uri).body(adressUserMapper.toAdressUser(adressUser));
     }
 
-    @PutMapping(value = "/{userId}")
-    public ResponseEntity<AdressUserResponseDTO> updateAdressUser(@PathVariable Long userId,
-                                                                  @RequestBody
+    @PutMapping
+    public ResponseEntity<AdressUserResponseDTO> updateAdressUser(@RequestBody
                                                                   @Valid
                                                                   AdressUserRequestDTO body) {
 
-        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.updateAdressUser(userId, body)));
+        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.updateAdressUser(body)));
     }
 
-    @DeleteMapping(value = "/{userId}")
-    public ResponseEntity<Void> deleteAdressUser(@PathVariable Long userId) {
-        adressUserService.deleteAdressUser(userId);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteAdressUser() {
+        adressUserService.deleteAdressUser();
         return ResponseEntity.noContent().build();
     }
 }

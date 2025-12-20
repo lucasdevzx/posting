@@ -51,6 +51,9 @@ public class SecurityConfig {
                         // Coment
                         .requestMatchers(HttpMethod.GET, "/coments/**").permitAll()
 
+                        // Adress_User
+                        .requestMatchers(HttpMethod.GET, "/adress_users").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 

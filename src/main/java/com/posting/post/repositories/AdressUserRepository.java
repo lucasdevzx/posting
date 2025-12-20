@@ -14,5 +14,5 @@ public interface AdressUserRepository extends JpaRepository<AdressUser, Long>{
 
     Page<AdressUser> findAll(Pageable pageable);
 
-    void deleteByUserId(Long userId);
+    //void deleteByUserId(Long userId);
 }

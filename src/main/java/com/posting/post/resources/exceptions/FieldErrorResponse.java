@@ -1,5 +1,6 @@
 package com.posting.post.resources.exceptions;
 
+// Classe para representar erros de campo em respostas de validação de dados
 public class FieldErrorResponse {
 
     private String field;

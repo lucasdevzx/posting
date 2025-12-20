@@ -7,6 +7,7 @@ import com.posting.post.services.exceptions.ConflictException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +26,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(standard);
     }
 
-    // Validação Parâmetros
+    // Validação Parâmetros -> Bean Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationExceptionStandard> ValidationException(MethodArgumentNotValidException e) {
         List<FieldErrorResponse> errors = e.getBindingResult()

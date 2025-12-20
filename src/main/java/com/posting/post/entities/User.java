@@ -29,7 +29,8 @@ public class User implements Serializable {
     private String password;
     private UserRole role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // OrphanRemoval para deletar o endereco separadamente por ser uma entidade dependente
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private AdressUser adressUser;
 
     @OneToMany(mappedBy = "user")

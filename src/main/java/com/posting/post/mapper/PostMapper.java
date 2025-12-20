@@ -64,5 +64,4 @@ public class PostMapper {
         if (currentUser == null) return false;
         return post.getUser().getId().equals(currentUser.getUser().getId());
     }
-
 }

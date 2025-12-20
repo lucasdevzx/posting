@@ -2,13 +2,20 @@ package com.posting.post.services;
 
 import java.util.Optional;
 
+import com.posting.post.config.AuthenticatedUserService;
 import com.posting.post.dto.request.AdressUserRequestDTO;
 import com.posting.post.dto.response.AdressUserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.AdressUserMapper;
+import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
+import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.AdressUser;
 import com.posting.post.repositories.AdressUserRepository;
@@ -17,41 +24,61 @@ import com.posting.post.repositories.AdressUserRepository;
 public class AdressUserService {
 
     private final AdressUserRepository adressUserRepository;
-
-    private final UserService userService;
-
+    private final UserRepository userRepository;
     private final AdressUserMapper adressUserMapper;
 
-    public AdressUserService(AdressUserRepository adressUserRepository, UserService userService,
-                             AdressUserMapper adressUserMapper) {
+    private final AuthenticatedUserService authenticatedUserService;
+
+    public AdressUserService(AdressUserRepository adressUserRepository,
+                             UserRepository userRepository,
+                             AdressUserMapper adressUserMapper,
+                             AuthenticatedUserService authenticatedUserService
+
+                             ) {
         this.adressUserRepository = adressUserRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.adressUserMapper = adressUserMapper;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
-    public AdressUser findByUserId(Long id) {
-        Optional<User> user = Optional.ofNullable(userService.findById(id));
-        var adressUser = adressUserRepository.findByUserId(user.orElseThrow().getId());
-        return adressUser;
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<AdressUser> findAll(int page, int size) {
+
+        // Regra de negocio
+       boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
+       if (!isAdmin) {
+           throw new UnauthorizedActionException("Access denied. Admins only.");
+       }
+
         var adressUser = adressUserRepository.findAll(PageRequest.of(page, size));
         return adressUser;
     }
 
-    public AdressUser createAdressUser(Long userId, AdressUserRequestDTO body) {
-        var user = userService.findById(userId);
+    @PreAuthorize("isAuthenticated()")
+    public AdressUser findByUserId() {
+        Long userId = authenticatedUserService.getCurrentUserId();
+        var adressUser = adressUserRepository.findByUserId(userId);
+        return adressUser;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public AdressUser createAdressUser(AdressUserRequestDTO body) {
+        var user = authenticatedUserService.getCurrentUser();
+
+        // Insere o usuario no conttexto gerenciado pelo JPA
+        user = userRepository.getReferenceById(user.getId());
         var adressUser = adressUserMapper.toEntity(body);
         adressUser.setUser(user);
         return adressUserRepository.save(adressUser);
     }
 
-    public AdressUser updateAdressUser(Long userId, AdressUserRequestDTO body) {
-        var entity = adressUserRepository.getReferenceById(userId);
+    @PreAuthorize("isAuthenticated()")
+    public AdressUser updateAdressUser(AdressUserRequestDTO body) {
+        var user = authenticatedUserService.getCurrentUser();
+        var entity = adressUserRepository.getReferenceById(user.getId());
+        user = userRepository.getReferenceById(user.getId());
         var obj = adressUserMapper.toEntity(body);
         updateData(entity, obj);
-        var user = userService.findById(userId);
         entity.setUser(user);
         return adressUserRepository.save(entity);
     }
@@ -65,11 +92,15 @@ public class AdressUserService {
         entity.setHouseNumber(obj.getHouseNumber());
     }
 
-    public void deleteAdressUser(Long userId) {
+    @PreAuthorize("isAuthenticated()")
+    public void deleteAdressUser() {
+        User user = authenticatedUserService.getCurrentUser();
 
-        var user = userService.findById(userId);
-        var adressUser = findByUserId(user.getId());
-        adressUser.setUser(null);
-        adressUserRepository.deleteByUserId(userId);
+        // Insere o usuario no conttexto gerenciado pelo JPA
+        user = userRepository.getReferenceById(user.getId());
+        user.setAdressUser(null);
+
+        // Permite que o JPA remova o endereço do usuário devido ao CascadeType.ALL e orphanRemoval = true
+        userRepository.save(user);
     }
 }
