@@ -4,11 +4,9 @@ import com.posting.post.dto.request.AdressUserRequestDTO;
 import com.posting.post.dto.response.AdressUserResponseDTO;
 import com.posting.post.mapper.AdressUserMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.posting.post.entities.AdressUser;
 import com.posting.post.services.AdressUserService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,7 +35,7 @@ public class AdressUserResource {
 
     @GetMapping(value = "/me")
     public ResponseEntity<AdressUserResponseDTO> findByUserId() {
-        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.findByUserId()));
+        return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.findAdressUserByUserId()));
     }
 
     @PostMapping

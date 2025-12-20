@@ -59,7 +59,7 @@ public class CategoryService  {
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
         if (!isAdmin) {
-            throw new UnauthorizedActionException("Only admins can update categories.");
+            throw new UnauthorizedActionException("Only admins can updateUser categories.");
         }
 
         boolean exists = categoryRepository.existsById(categoryId);
@@ -73,7 +73,7 @@ public class CategoryService  {
         return categoryRepository.save(entity);
     }
 
-    // Auxílio update
+    // Auxílio updateUser
     public void updateData(Category entity, Category obj) {
         entity.setName(obj.getName());
     }
@@ -84,7 +84,7 @@ public class CategoryService  {
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
         if (!isAdmin) {
-            throw new UnauthorizedActionException("Only admins can delete categories.");
+            throw new UnauthorizedActionException("Only admins can deleteUser categories.");
         }
 
         categoryRepository.deleteById(categoryId);

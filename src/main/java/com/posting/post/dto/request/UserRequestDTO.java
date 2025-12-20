@@ -16,6 +16,9 @@ public record UserRequestDTO(
         String email,
 
         @Pattern(regexp = "^(?=[^\\d_].*?\\d)\\w(\\w|[!@#$%]){7,20}", message = "{User.password.Pattern}")
-        String password
+        String password,
+
+        @NotBlank
+        String role
 ) {
 }

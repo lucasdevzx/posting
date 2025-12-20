@@ -12,6 +12,9 @@ import com.posting.post.mapper.LoginUserMapper;
 import com.posting.post.mapper.RegisterUserMapper;
 import com.posting.post.repositories.UserRepository;
 import com.posting.post.services.UserService;
+import com.posting.post.services.exceptions.ConflictException;
+import com.posting.post.services.exceptions.UnauthorizedActionException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,11 +45,16 @@ public class AuthResource {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<LoginUserResponseDTO> login(@RequestBody LoginUserRequestDTO body) {
-
+    public ResponseEntity<LoginUserResponseDTO> login(@RequestBody @Valid LoginUserRequestDTO body) {
         UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                 body.email(),
                 body.password());
+
+        // Regra de negócio
+        boolean exists  = userRepository.existsByEmail(body.email());
+        if (!exists) {
+            throw new UnauthorizedActionException("Credenciais inválidas!");
+        }
 
         Authentication authentication = authenticationManager.authenticate(credentials);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -56,10 +64,15 @@ public class AuthResource {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<RegisterUserResponseDTO> register(@RequestBody RegisterUserRequestDTO body) {
+    public ResponseEntity<RegisterUserResponseDTO> register(@RequestBody @Valid RegisterUserRequestDTO body) {
         User user =  registerUserMapper.toEntity(body);
+
+        // Regra de negócio
+        boolean exists  = userRepository.existsByEmail(user.getEmail());
+
+        if (exists) {
+            throw new ConflictException(user.getEmail(), "Email já cadastrado!");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUserMapper.toRegisterUserResponseDTO(userRepository.save(user)));
     }
-
-
 }

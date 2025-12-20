@@ -30,7 +30,7 @@ public class ComentResource {
                                                         @RequestParam int page,
                                                         @RequestParam int size) {
 
-        Page<Coment> coments = comentService.findAllByPostId(postId, page, size);
+        Page<Coment> coments = comentService.findComentsByPostId(postId, page, size);
         return ResponseEntity.ok().body(coments.map(comentMapper::toComent));
     }
 

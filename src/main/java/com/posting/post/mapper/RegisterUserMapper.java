@@ -21,7 +21,7 @@ public class RegisterUserMapper {
         user.setName(body.name());
         user.setEmail(body.email());
         user.setPassword(securityConfig.passwordEncoder().encode(body.password()));
-        user.setRole(UserRole.valueOf(body.role()));
+        user.setRole(UserRole.PUBLIC);
         return user;
     }
 

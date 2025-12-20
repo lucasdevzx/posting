@@ -45,8 +45,12 @@ public class PostService {
         }
     }
 
+    public Post findById(Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
     @PreAuthorize("isAuthenticated()")
-    public Page<Post> findAllByUserId(int page, int size) {
+    public Page<Post> findPostsByUserId(int page, int size) {
         User user = authenticatedUserService.getCurrentUser();
         Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
 
@@ -57,10 +61,6 @@ public class PostService {
         else {
             throw new ResourceNotFoundException(posts);
         }
-    }
-
-    public Post findById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @PreAuthorize("isAuthenticated()")

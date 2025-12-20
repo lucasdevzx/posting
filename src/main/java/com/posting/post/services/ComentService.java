@@ -1,16 +1,12 @@
 package com.posting.post.services;
 
 import com.posting.post.config.AuthenticatedUserService;
-import com.posting.post.config.UserDetailsImpl;
 import com.posting.post.dto.request.ComentRequestDTO;
 import com.posting.post.entities.Post;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.ComentMapper;
-import com.posting.post.repositories.PostRepository;
-import com.posting.post.repositories.UserRepository;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +34,7 @@ public class ComentService {
         this.authenticatedUserService = authenticatedUserService;
     }
 
-    public Page<Coment> findAllByPostId(Long id, int page, int size) {
+    public Page<Coment> findComentsByPostId(Long id, int page, int size) {
         return comentRepository.findByPostId(id, PageRequest.of(page, size));
     }
 

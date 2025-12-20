@@ -4,4 +4,5 @@ public record UserResponseDTO(
         Long id,
         String name,
         String email,
-        String roles) {}
+        String roles,
+        PermissionsResponseDTO permissions) {}

@@ -1,15 +1,12 @@
 package com.posting.post.resources;
 
 import java.net.URI;
-import java.util.List;
 
 import com.posting.post.dto.request.UserRequestDTO;
 import com.posting.post.mapper.UserMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,9 +37,8 @@ public class UserResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> findByAll(@RequestParam int page,
-                                                           @RequestParam int size) {
-
+    public ResponseEntity<Page<UserResponseDTO>> findAll(@RequestParam int page,
+                                                         @RequestParam int size) {
         Page<User> users = userService.findAll(page, size);
         return ResponseEntity.ok().body(users.map(userMapper::toDto));
     }
@@ -52,9 +48,14 @@ public class UserResource {
         return ResponseEntity.ok().body(userMapper.toDto(userService.findById(id)));
     }
 
+    @GetMapping(value = "/me")
+    public ResponseEntity<UserResponseDTO> findByUser() {
+        return ResponseEntity.ok().body(userMapper.toDto(userService.findByUser()));
+    }
+
     @PostMapping
-    public ResponseEntity<UserResponseDTO> insert(@RequestBody @Valid UserRequestDTO obj) {
-        var user = userService.insert(obj);
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO obj) {
+        var user = userService.createUser(obj);
         ServletUriComponentsBuilder.fromCurrentRequest();
         URI uri = UriComponentsBuilder.fromPath("/{id}")
                 .buildAndExpand(user.getId()).toUri();
@@ -62,19 +63,21 @@ public class UserResource {
         return ResponseEntity.created(uri).body(userMapper.toDto(user));
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id,
-                                                  @RequestBody
-                                                  @Valid
-                                                  User obj) {
-
-        var user = userService.update(id, obj);
+    @PutMapping
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody @Valid User obj) {
+        var user = userService.updateUser(obj);
         return ResponseEntity.ok().body(userMapper.toDto(user));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        userService.delete(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser() {
+        userService.deleteUser();
         return ResponseEntity.noContent().build();
     }
 }

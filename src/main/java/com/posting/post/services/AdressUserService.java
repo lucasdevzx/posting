@@ -1,21 +1,14 @@
 package com.posting.post.services;
 
-import java.util.Optional;
-
 import com.posting.post.config.AuthenticatedUserService;
 import com.posting.post.dto.request.AdressUserRequestDTO;
-import com.posting.post.dto.response.AdressUserResponseDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.AdressUserMapper;
 import com.posting.post.repositories.UserRepository;
-import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.stereotype.Service;
 import com.posting.post.entities.AdressUser;
 import com.posting.post.repositories.AdressUserRepository;
@@ -55,7 +48,7 @@ public class AdressUserService {
     }
 
     @PreAuthorize("isAuthenticated()")
-    public AdressUser findByUserId() {
+    public AdressUser findAdressUserByUserId() {
         Long userId = authenticatedUserService.getCurrentUserId();
         var adressUser = adressUserRepository.findByUserId(userId);
         return adressUser;
