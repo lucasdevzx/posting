@@ -46,19 +46,18 @@ public class AuthResource {
 
     @PostMapping(value = "/login")
     public ResponseEntity<LoginUserResponseDTO> login(@RequestBody @Valid LoginUserRequestDTO body) {
-        UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                body.email(),
-                body.password());
+        UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(body.email(), body.password());
 
         // Regra de negócio
         boolean exists  = userRepository.existsByEmail(body.email());
-        if (!exists) {
-            throw new UnauthorizedActionException("Credenciais inválidas!");
-        }
 
+        if (!exists) throw new UnauthorizedActionException("Credenciais inválidas!");
+
+        // Autenticação do usuário
         Authentication authentication = authenticationManager.authenticate(credentials);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
+
         String token = tokenConfig.generateToken(user);
         return ResponseEntity.ok().body(new LoginUserResponseDTO(token));
     }
@@ -70,9 +69,8 @@ public class AuthResource {
         // Regra de negócio
         boolean exists  = userRepository.existsByEmail(user.getEmail());
 
-        if (exists) {
-            throw new ConflictException(user.getEmail(), "Email já cadastrado!");
-        }
+        if (exists) throw new ConflictException(user.getEmail(), "Email já cadastrado!");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUserMapper.toRegisterUserResponseDTO(userRepository.save(user)));
     }
 }

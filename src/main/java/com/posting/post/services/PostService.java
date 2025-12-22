@@ -37,16 +37,15 @@ public class PostService {
         Page<Post> posts = postRepository.findAll(PageRequest.of(page, size));
 
         // Regra de negócio
-        if (!posts.isEmpty()) {
-            return posts;
-        }
-        else {
+        if (posts.isEmpty()) {
             throw new ResourceNotFoundException(posts);
         }
+        return posts;
     }
 
     public Post findById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return postRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(id));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -55,12 +54,11 @@ public class PostService {
         Page<Post> posts = postRepository.findByUser_Id(user.getId(), PageRequest.of(page, size));
 
         // Regra de negócio
-        if (!posts.isEmpty()) {
-            return posts;
-        }
-        else {
+        if (posts.isEmpty()) {
             throw new ResourceNotFoundException(posts);
         }
+
+        return posts;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -76,9 +74,8 @@ public class PostService {
         Long userId = authenticatedUserService.getCurrentUserId();
         // Regra de negócio
         boolean exists = postRepository.existsByIdAndUser_Id(postId, userId);
-        if (!exists) {
-            throw new UnauthorizedActionException(userId);
-        }
+
+        if (!exists) throw new UnauthorizedActionException(userId);
 
         Post entity = postRepository.getReferenceById(postId);
         Post obj = postMapper.toEntity(dto);
@@ -95,15 +92,15 @@ public class PostService {
     @PreAuthorize("isAuthenticated()")
     public void deletePost(Long postId) {
         Long userId = authenticatedUserService.getCurrentUserId();
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(postId));
+        Post post = postRepository.findById(postId).orElseThrow(() ->
+                new ResourceNotFoundException(postId));
 
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
         boolean isOwner = post.getUser().getId().equals(userId);
 
-        if (!isOwner && !isAdmin) {
-            throw new UnauthorizedActionException(userId);
-        }
+        if (!isOwner && !isAdmin) throw new UnauthorizedActionException(userId);
+
         postRepository.delete(post);
     }
 }

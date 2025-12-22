@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.posting.post.entities.Coment;
 import com.posting.post.repositories.ComentRepository;
 
+import java.util.List;
+
 @Service
 public class ComentService {
 
@@ -35,7 +37,11 @@ public class ComentService {
     }
 
     public Page<Coment> findComentsByPostId(Long id, int page, int size) {
-        return comentRepository.findByPostId(id, PageRequest.of(page, size));
+        Page<Coment> coments = comentRepository.findByPostId(id, PageRequest.of(page, size));
+
+        if (coments.isEmpty()) throw new ResourceNotFoundException("Coments not found for Post id " + id);
+
+        return coments;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -54,9 +60,8 @@ public class ComentService {
 
         // Regra de negócio
         boolean exists = comentRepository.existsByIdAndUser_Id(id, userId);
-        if (!exists) {
-            throw new UnauthorizedActionException(userId);
-        }
+
+        if (!exists) throw new UnauthorizedActionException(userId);
 
         Coment entity = comentRepository.getReferenceById(id);
         Coment obj = comentMapper.toEntity(dto);
@@ -79,9 +84,8 @@ public class ComentService {
         boolean isOwner = coment.getUser().getId().equals(userId);
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
 
-        if (!isOwner && !isAdmin) {
-            throw new UnauthorizedActionException(userId);
-        }
+        if (!isOwner && !isAdmin) throw new UnauthorizedActionException(userId);
+
         comentRepository.delete(coment);
     }
 }

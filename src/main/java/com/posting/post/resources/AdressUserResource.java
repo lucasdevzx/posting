@@ -59,6 +59,12 @@ public class AdressUserResource {
         return ResponseEntity.ok().body(adressUserMapper.toAdressUser(adressUserService.updateAdressUser(body)));
     }
 
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<Void> deleteByUserId(@PathVariable Long userId) {
+        adressUserService.deleteByUserId(userId);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping
     public ResponseEntity<Void> deleteAdressUser() {
         adressUserService.deleteAdressUser();

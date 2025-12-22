@@ -33,39 +33,41 @@ public class CategoryService  {
     }
 
     public Page<Category> findAll(int page, int size) {
-        return categoryRepository.findAll(PageRequest.of(page, size));
+        Page<Category> categories = categoryRepository.findAll(PageRequest.of(page, size));
+
+        if (categories.isEmpty()) throw new ResourceNotFoundException("No categories found.");
+
+        return categories;
     }
 
     public Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return categoryRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(id));
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public Category createCategory(CategoryRequestDTO body) {
 
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
-        if (!isAdmin) {
-            throw new UnauthorizedActionException("Only admins can create categories.");
-        }
+
+        if (!isAdmin) throw new UnauthorizedActionException("Only admins can create categories.");
 
         var entity = categoryMapper.toEntity(body);
         return categoryRepository.save(entity);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public Category updateCategory(Long categoryId, CategoryRequestDTO body) {
 
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
-        if (!isAdmin) {
-            throw new UnauthorizedActionException("Only admins can updateUser categories.");
-        }
+
+        if (!isAdmin) throw new UnauthorizedActionException("Only admins can updateUser categories.");
 
         boolean exists = categoryRepository.existsById(categoryId);
-        if (!exists) {
-            throw new UnauthorizedActionException(categoryId);
-        }
+
+        if (!exists) throw new UnauthorizedActionException(categoryId);
 
         var entity = categoryRepository.getReferenceById(categoryId);
         var obj = categoryMapper.toEntity(body);
@@ -78,14 +80,13 @@ public class CategoryService  {
         entity.setName(obj.getName());
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(Long categoryId) {
 
         // Regra de negócio
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
-        if (!isAdmin) {
-            throw new UnauthorizedActionException("Only admins can deleteUser categories.");
-        }
+
+        if (!isAdmin) throw new UnauthorizedActionException("Only admins can deleteUser categories.");
 
         categoryRepository.deleteById(categoryId);
     }

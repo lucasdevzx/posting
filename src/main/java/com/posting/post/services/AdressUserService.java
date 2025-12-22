@@ -5,6 +5,7 @@ import com.posting.post.dto.request.AdressUserRequestDTO;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.AdressUserMapper;
 import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,20 +38,23 @@ public class AdressUserService {
     @PreAuthorize("hasRole('ADMIN')")
     public Page<AdressUser> findAll(int page, int size) {
 
-        // Regra de negocio
-       boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
-       if (!isAdmin) {
-           throw new UnauthorizedActionException("Access denied. Admins only.");
-       }
+        Page<AdressUser> adressUsers = adressUserRepository.findAll(PageRequest.of(page, size));
 
-        var adressUser = adressUserRepository.findAll(PageRequest.of(page, size));
-        return adressUser;
+        if (adressUsers.isEmpty()) throw new ResourceNotFoundException("No AdressUsers found.");
+
+        // Regra de negocio
+        boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
+
+        if (!isAdmin) throw new UnauthorizedActionException("Access denied. Admins only.");
+
+        return  adressUsers;
     }
 
     @PreAuthorize("isAuthenticated()")
     public AdressUser findAdressUserByUserId() {
         Long userId = authenticatedUserService.getCurrentUserId();
-        var adressUser = adressUserRepository.findByUserId(userId);
+        var adressUser = adressUserRepository.findByUserId(userId).orElseThrow(() ->
+                new ResourceNotFoundException("AdressUser not found with user id: " + userId));
         return adressUser;
     }
 
@@ -83,6 +87,17 @@ public class AdressUserService {
         entity.setNeighborhood(obj.getNeighborhood());
         entity.setRoad(obj.getRoad());
         entity.setHouseNumber(obj.getHouseNumber());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteByUserId(Long userId) {
+
+        // Insere o usuario no conttexto gerenciado pelo JPA
+        User user = userRepository.getReferenceById(userId);
+        user.setAdressUser(null);
+
+        // Permite que o JPA remova o endereço do usuário devido ao CascadeType.ALL e orphanRemoval = true
+        userRepository.save(user);
     }
 
     @PreAuthorize("isAuthenticated()")
