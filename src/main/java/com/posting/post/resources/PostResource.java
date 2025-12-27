@@ -7,6 +7,8 @@ import com.posting.post.dto.response.PostResponseDTO;
 import com.posting.post.mapper.PostMapper;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.posting.post.entities.Post;
@@ -42,6 +44,15 @@ public class PostResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<PostResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(postMapper.toPost(postService.findById(id)));
+    }
+
+    @PostMapping(value = "/{postId}/{categoryId}")
+    public ResponseEntity<PostResponseDTO> addCategoryInPost(@PathVariable Long postId, @PathVariable Long categoryId) {
+        Post post = postService.addCategoryInPost(postId, categoryId);
+        URI uri = ServletUriComponentsBuilder.fromPath("/{postId}")
+                .buildAndExpand(post.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(postMapper.toPost(post));
     }
 
     @PostMapping

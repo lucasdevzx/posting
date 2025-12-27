@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.posting.post.config.AuthenticatedUserService;
 import com.posting.post.dto.request.CategoryRequestDTO;
+import com.posting.post.entities.Post;
+import com.posting.post.entities.User;
 import com.posting.post.mapper.CategoryMapper;
+import com.posting.post.repositories.PostRepository;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.posting.post.services;
 
 import com.posting.post.config.AuthenticatedUserService;
 import com.posting.post.dto.request.PostRequestDTO;
+import com.posting.post.entities.Category;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.PostMapper;
 import com.posting.post.services.exceptions.ResourceNotFoundException;
@@ -20,17 +21,20 @@ public class PostService {
     private final PostMapper postMapper;
 
     private final UserService userService;
+    private final CategoryService categoryService;
     private final AuthenticatedUserService authenticatedUserService;
 
     public PostService(PostRepository postRepository,
                        PostMapper postMapper,
                        UserService userService,
-                       AuthenticatedUserService authenticatedUserService) {
+                       AuthenticatedUserService authenticatedUserService,
+                       CategoryService categoryService) {
 
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.userService = userService;
         this.authenticatedUserService = authenticatedUserService;
+        this.categoryService = categoryService;
     }
 
     public Page<Post> findAll(int page, int size) {
@@ -45,7 +49,7 @@ public class PostService {
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException(id));
+                new ResourceNotFoundException("No posts found."));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -59,6 +63,22 @@ public class PostService {
         }
 
         return posts;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    public Post addCategoryInPost(Long postId, Long categoryId) {
+        Long userId = authenticatedUserService.getCurrentUserId();
+        Post post =  postRepository.findById(postId).orElseThrow(() ->
+                new ResourceNotFoundException("No posts found."));
+        Category category = categoryService.findById(categoryId);
+
+        // Regra de negócio
+        boolean isOwner = post.getUser().getId().equals(userId);
+        if (!isOwner) throw new UnauthorizedActionException("Acess Not Permited for this id" + userId);
+
+        post.getCategorys().add(category);
+        postRepository.save(post);
+        return post;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -99,7 +119,7 @@ public class PostService {
         boolean isAdmin = authenticatedUserService.hasRole("ADMIN");
         boolean isOwner = post.getUser().getId().equals(userId);
 
-        if (!isOwner && !isAdmin) throw new UnauthorizedActionException(userId);
+        if (!isOwner && !isAdmin) throw new UnauthorizedActionException("Acess Not Permited for this id" + userId);
 
         postRepository.delete(post);
     }
