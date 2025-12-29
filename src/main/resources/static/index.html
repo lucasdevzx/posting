@@ -14,11 +14,12 @@
 
 <body>
 
-    <div class="container background">
+    <header class="bounce">
+        <a id="bounce-login" class="bounce-overlay-active animation-scale-hover" href="auth.html">Acesse sua Conta</a>
+        <a id="bounce-profile" class="bounce-overlay animation-scale-houver" href="post.html"></a>
+    </header>
 
-        <header class="bounce" style="opacity: 0;">
-            <a href="auth.html">Registre-se</a>
-        </header>
+    <div class="fullscreen background">
 
         <div>
             <header class="header-content">
@@ -28,11 +29,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
                 </svg>
-                <h1 id="main-title">Posting</h1>
+                <h1 class="main-title">Posting</h1>
                 <hr style="width: 620px; margin: 0; margin-left: 0; height: 3px; background-color: black;">
             </header>
 
-            <main>
+            <main style="padding-left: 20px;">
                 <h2 class="topics" style="margin-top: 100px;">Sobre </h2>
                 <a href="https://github.com/lucasdevzx/posting.git" target="_blank" class="btn-shine">Get early
                     access</a>
@@ -58,7 +59,7 @@
             </main>
 
             <section>
-                <hr class="line" style="margin-left: 120px; margin-top: 300px; width: 900px;">
+                <hr class="line" style="margin-left: 100px; margin-top: 300px; width: 900px;">
                 <h1 id="demo-title">Visualize</h1>
                 <div class="low">
                     <div class="low-blocks animation-scale-hover">
@@ -75,6 +76,9 @@
 
     <footer class="bounce" style="margin-top: 20px;">
     </footer>
+
+    <script src="js/core/auth.js"></script>
+    <script src="js/pages/index.js"></script>
 
 </body>
 

@@ -2,83 +2,91 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="utf-8">
-  <title>Posting - Auth</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8">
+    <title>Posting - Auth</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <header>
-  </header>
 
-  <main>
+    <div class="fullscreen background">
 
-    <div id="modal-login" class="modal-overlay-active modal-position">
-      <form id="form-login">
-        <fieldset name="Login">
-          <h1 class="form-title">Entre na sua <br> Conta</h1>
-          <legend>Login</legend>
-          <div class="form-fields">
-            <label class="form-label" for="login-email">Email de usuário</label>
-            <input class="form-input" type="email" id="login-email" name="email" placeholder="Digite seu email"
-              required>
-          </div>
-          <div class="form-fields">
-            <label class="form-label" for="login-password">Senha de usuário</label>
-            <input class="form-input" type="password" id="login-password" name="password" placeholder="Digite sua senha"
-              autocomplete="off" required>
-          </div>
-          <div class="form-redirect">
-            <p>Não tem uma conta? <a class="toggle-buttons text-decoration text-decoration-show" id="button-register"
-                style="cursor: pointer; color: grey;">Registre-se </a> </p>
-          </div>
-          <div class="form-submit form-submit-hover animation-scale-hover">
-            <input class="submit" type="submit" id="login-submit" value="Acessar">
-          </div>
-          <div id="login-message" class="message"></div>
-        </fieldset>
-      </form>
+        <main>
+
+
+            <div id="modal-login" class="modal-overlay-active modal-position">
+                <form id="form-login">
+                    <fieldset name="Login">
+                        <h1 class="form-title">Entre na sua <br> Conta</h1>
+                        <legend>Login</legend>
+                        <div class="form-fields">
+                            <label class="form-label" for="login-email">Email de usuário</label>
+                            <input class="form-input" type="email" id="login-email" name="email"
+                                placeholder="Digite seu email" required>
+                        </div>
+                        <div class="form-fields">
+                            <label class="form-label" for="login-password">Senha de usuário</label>
+                            <input class="form-input" type="password" id="login-password" name="password"
+                                placeholder="Digite sua senha" autocomplete="off" required>
+                        </div>
+                        <div class="form-redirect">
+                            <p>Não tem uma conta? <a class="toggle-buttons text-decoration text-decoration-show"
+                                    id="button-register" style="cursor: pointer; color: grey;">Registre-se </a> </p>
+                        </div>
+                        <div class="form-submit form-submit-hover animation-scale-hover">
+                            <input class="submit" type="submit" id="login-submit" value="Acessar">
+                        </div>
+                        <div id="login-message" class="message"></div>
+
+                    </fieldset>
+                </form>
+            </div>
+
+            <div id="modal-register" class="modal-overlay modal-position">
+                <form id="form-register">
+                    <fieldset>
+                        <h1 class="form-title">Crie uma <br> Conta</h1>
+                        <legend>Cadastro</legend>
+                        <div class="form-fields">
+                            <label class="form-label" for="register-name"> Nome de usuário</label>
+                            <input class="form-input" type="text" id="register-name" name="name"
+                                placeholder="Digite seu nome" required minlength="3">
+                        </div>
+                        <div class="form-fields">
+                            <label class="form-label" for="register-email">Email de usuário</label>
+                            <input class="form-input" type="email" id="register-email" name="email"
+                                placeholder="Digite seu email" required title="Insira um email válido!">
+                        </div>
+                        <div class="form-fields">
+                            <label class="form-label" for="register-password">Senha de usuário</label>
+                            <input class="form-input" type="password" id="register-password" name="password"
+                                placeholder="Digite uma senha" required pattern="^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,20}"
+                                step="1"
+                                title="No mínimo 8 caracteres, um caractere maiúsculo, um caractere mínusculo, um caractere especial e um número.">
+                        </div>
+                        <div class="form-redirect">
+                            <p id="button-login-parent">Já possui uma conta? <a
+                                    class="toggle-buttons text-decoration text-decoration-show" id="button-login"
+                                    style="display: none; cursor: pointer; color: grey;">Entre</a></p>
+                        </div>
+                        <div class="form-submit form-submit-hover animation-scale-hover">
+                            <input class="submit" type="submit" id="register-submit" value="Registrar-se">
+                        </div>
+                        <div id="register-message" class="message"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </main>
+
+        <footer></footer>
+
+        <script src="js/core/modal.js"></script>
+        <script src="js/core/auth.js"></script>
+        <script src="js/core/exception-handler.js"></script>
+        <script src="js/pages/login.js"></script>
+        <script src="js/pages/register.js"></script>
+
     </div>
-
-    <div id="modal-register" class="modal-overlay modal-position">
-      <form id="form-register">
-        <fieldset>
-            <h1 class="form-title">Crie uma <br> Conta</h1>
-          <legend>Cadastro</legend>
-          <div class="form-fields">
-            <label class="form-label" for="register-name"> Nome de usuário</label>
-            <input class="form-input" type="text" id="register-name" name="name" placeholder="Digite seu nome" required minlength="3">
-          </div>
-          <div class="form-fields">
-            <label class="form-label" for="register-email">Email de usuário</label>
-            <input class="form-input" type="email" id="register-email" name="email" placeholder="Digite seu email" required
-              title="Insira um email válido!">
-          </div>
-          <div class="form-fields">
-            <label class="form-label" for="register-password">Senha de usuário</label>
-            <input class="form-input" type="password" id="register-password" name="password" placeholder="Digite uma senha" required
-              pattern="^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,20}" step="1"
-              title="No mínimo 8 caracteres, um caractere maiúsculo, um caractere mínusculo, um caractere especial e um número.">
-          </div>
-          <div class="form-redirect">
-            <p id="button-login-parent">Já possui uma conta?  <a class="toggle-buttons text-decoration text-decoration-show" id="button-login" style="display: none; cursor: pointer; color: grey;">Entre</a></p>
-          </div>
-          <div class="form-submit form-submit-hover animation-scale-hover">
-            <input class="submit" type="submit" id="register-submit" value="Registrar-se">
-          </div>
-          <div id="register-message" class="message"></div>
-        </fieldset>
-      </form>
-    </div>
-  </main>
-
-  <footer></footer>
-
-  <script src="js/core/modal.js"></script>
-  <script src="js/core/auth.js"></script>
-  <script src="js/core/exception-handler.js"></script>
-  <script src="js/pages/login.js"></script>
-  <script src="js/pages/register.js"></script>
 
 </body>
 

@@ -55,7 +55,6 @@ async function fetchAuthentication(url, options = {}) {
 }
 
 function logout() {
-    removeToken();
+    localStorage.removeItem('token');
     alert('Logout realizado com sucesso!');
-    window.location.href = 'index.html';
 }

@@ -26,10 +26,10 @@ hrml, body {
 }
 
 .header-content {
-    padding-left: 170px;
+    padding-left: 150px;
 }
 
-#main-title {
+.main-title {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     margin-top: auto;
     margin: 0%;
@@ -39,7 +39,7 @@ hrml, body {
 #demo-title {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 80px;
-    padding-left: 33%;
+    padding-left: 34%;
 }
 
 .modal-overlay {
@@ -59,7 +59,7 @@ hrml, body {
 }
 
 .modal-position {
-    position: fixed;
+    position: absolute;
     inset: 0;
     justify-content: center;
     align-items: center;
@@ -75,6 +75,8 @@ hrml, body {
 }
 
 fieldset {
+
+    border: 1px black solid;
     height: 600px;
     width: 450px;
     justify-content: center;
@@ -169,11 +171,53 @@ legend {
 
 
 .bounce {
-    background-color: #000000;
-    padding: 50px;
+    background-color: black;
+    padding: 30px;
     margin: 0;
     box-sizing: border-box;
 }
+
+#bounce-login {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  border: none;
+  background-color: white;
+  padding: 10px;
+  border-radius: 30px;
+  margin-left: 87%;
+  text-decoration: none;
+  color: #000000;
+  text-align: center;
+  justify-content: center;
+}
+
+#bounce-profile {
+    background: url('../img/circle-user-round.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    margin-left: 95%;
+    border: none;
+}
+
+.bounce-overlay {
+    display: none;
+}
+
+.bounce-overlay-active {
+    display: flex;
+}
+
+.bouce-profile:hover {
+    cursor: pointer;
+}
+
+.bouce-login:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
 
 .mid {
     display: flex;
@@ -217,7 +261,7 @@ legend {
 
 .low {
     display: flex;
-    padding-left: 30px;
+    padding-right: 20px;
     align-items: center;
 }
 

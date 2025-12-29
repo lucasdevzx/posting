@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   async function loadAPI(user) {
+
     const url = '/auth/login';
 
     try {
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!token) throw new Error('Token não recebido.');
 
       setToken(token);
+
       console.log('Token Received: ' + token);
 
       if (apiData.user) {
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
       form.reset();
 
       setTimeout(() => {
-        window.location.href = '/post.html';
+        window.location.href = '/index.html';
       }, 3000);
 
     } catch (error) {
