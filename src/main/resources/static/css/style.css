@@ -1,0 +1,312 @@
+hrml, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100dvh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    justify-content:center;
+}
+
+.fullscreen {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.background {
+    background-image: url('../img/liquid-cheese.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.header-content {
+    padding-left: 170px;
+}
+
+#main-title {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-top: auto;
+    margin: 0%;
+    font-size: 200px;
+}
+
+#demo-title {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 80px;
+    padding-left: 33%;
+}
+
+.modal-overlay {
+    display: none;
+}
+
+.modal-overlay-active {
+    display: flex;
+}
+
+.button-overlay {
+    display: none;
+}
+
+.button-overlay-active {
+    display: flex;
+}
+
+.modal-position {
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.form-title {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+    text-align: center;
+    margin: 0;
+    align-content: center;
+}
+
+fieldset {
+    height: 600px;
+    width: 450px;
+    justify-content: center;
+    border-radius: 50px;
+}
+
+legend {
+    display: none;
+}
+
+.form-fields {
+    margin-top: 30px;
+}
+
+.form-label {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: flex;
+    margin-left: 40px;
+}
+
+.form-input {
+    outline: none;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 15px;
+    width: 80%;
+    margin-left: 4%;
+    padding-left: 30px;
+}
+
+.form-redirect {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: small;
+    padding-left: 40px;
+}
+
+.message {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: small;
+    position: absolute;
+    padding-left: 85px;
+    padding-right: 85px;
+
+}
+
+.message.sucesso {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: small;
+    position: absolute;
+    padding-left: 85px;
+    padding-right: 85px;
+}
+
+.message.erro {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: small;
+    position: absolute;
+    padding-left: 85px;
+    padding-right: 85px;
+}
+
+.form-submit {
+    padding: 20px;
+    padding-left: 5%;
+    margin: 0;
+}
+
+.form-submit-hover:hover {
+    opacity: 70%;
+}
+
+
+.submit {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    background-color: #000000;
+    border-radius: 30px;
+    margin: 0px;
+    padding: 20px;
+    width: 400px;
+    cursor: pointer;
+    border: 0;
+}
+
+#login-submit:disabled {
+    opacity: 70%;
+    cursor: not-allowed;
+    animation: none;
+    background-color: grey;
+}
+
+
+.bounce {
+    background-color: #000000;
+    padding: 50px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.mid {
+    display: flex;
+    padding: 69px;
+}
+
+.text-decoration {
+    text-decoration: none;
+}
+
+.text-decoration-show:hover {
+    text-decoration: underline;
+}
+
+.topics {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: black;
+    color: aliceblue;
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.links li a {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: black;
+}
+
+.line {
+    width: 480px;
+    margin: 0;
+    margin-left: 0;
+    height: 2px;
+    background-color: black;
+}
+
+.center {}
+
+.low {
+    display: flex;
+    padding-left: 30px;
+    align-items: center;
+}
+
+.low-blocks {
+    border: solid 5px #000000;
+    border-radius: 10px;
+    background-color: #000000;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.animation-scale-hover:hover {
+    transform: scale(1.05);
+}
+
+.btn-shine {
+    position: relative;
+    top: 0px;
+    margin: 0;
+    left: 0px;
+    transform: translate(-50%, -50%);
+    padding: 10px 5px;
+    color: #fff;
+    background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #000000 20%);
+    background-position: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    animation-fill-mode: forwards;
+    -webkit-text-size-adjust: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: "Poppins", sans-serif;
+}
+
+@-moz-keyframes shine {
+    0% {
+        background-position: 0;
+    }
+
+    60% {
+        background-position: 180px;
+    }
+
+    100% {
+        background-position: 180px;
+    }
+}
+
+@-webkit-keyframes shine {
+    0% {
+        background-position: 0;
+    }
+
+    60% {
+        background-position: 180px;
+    }
+
+    100% {
+        background-position: 180px;
+    }
+}
+
+@-o-keyframes shine {
+    0% {
+        background-position: 0;
+    }
+
+    60% {
+        background-position: 180px;
+    }
+
+    100% {
+        background-position: 180px;
+    }
+}
+
+@keyframes shine {
+    0% {
+        background-position: 0;
+    }
+
+    60% {
+        background-position: 180px;
+    }
+
+    100% {
+        background-position: 180px;
+    }
+}

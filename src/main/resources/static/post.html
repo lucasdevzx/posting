@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <title>Posting - Recursos</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/posts.css">
+</head>
+
+<body>
+
+  <header>
+    <h1 id="main-title"> <a class="text-decoration text-decoration-show" style="color: black;  "
+        href="index.html">Posts</a> -
+      Recursos</h1>
+  </header>
+
+  <hr class="line">
+
+  <div class="center">
+    <div class="blocks-info animation-scale-hover">
+      <h1>GET</h1>
+      <b>/posts?page=0&size=0</b>
+      <p>Responsável por obter todos os posts através de paginação.</p>
+      <b>/posts/me?page=0&size=0</b>
+      <p>Responsável por obter todos os posts do usuário atual atráves de paginação.</p>
+    </div>
+    <div class="blocks-info animation-scale-hover">
+      <h1>POST</h1>
+      <b>/posts</b>
+      <p>Responsável por criar um post para o usuário atual.</p>
+    </div>
+    <div class="blocks-info animation-scale-hover">
+      <h1>DELETE</h1>
+      <b>/posts/{id}</b>
+      <p>Responsável por deleter um post através do ID.</p>
+    </div>
+    <div class="blocks-info animation-scale-hover">
+      <h1>PUT</h1>
+      <b>/posts/{id}</b>
+      <p>Responsável por atualizar um post atráves do ID.</p>
+    </div>
+  </div>
+
+  <hr class="line" style="margin-left: 350px; width: 900px;">
+
+  <div class="mid">
+    <div class="blocks-json animation-scale-hover">
+      <h2>Requisição JSON</h2>
+      <p>
+        Posting exige um padrão para o envio de informações para processamento. <br>
+        O meio utilizado é o formato JSON. Para enviar dados para Posting é necessário seguir o modelo abaixo:
+      </p>
+
+      <p><strong>JSON</strong></p>
+      <pre>
+    {
+    "name": "",
+    "description": ""
+    }
+  </pre>
+    </div>
+    <div class="blocks-json animation-scale-hover">
+      <h2>Resposta JSON</h2>
+      <p>
+        Posting envia como resposta um padrão com as informações processadas. <br>
+        O meio utilizado é o formato JSON. O modelo de resposta é o informado abaixo:
+      </p>
+      <p><strong>JSON</strong></p>
+      <pre>
+    {
+    "id": 0,
+    "author": {
+        "id": 0,
+        "name": ""
+    },
+    "title": "",
+    "description": "",
+    "category": "",
+    "date": "",
+    "permissions": {
+        "canEdit": true,
+        "canDelete": true,
+        "isOwner": true
+      }
+    }
+
+  </pre>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <title>Posting - Login</title>
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <form id="form-login">
+      <fieldset name="Login">
+        <legend>Login</legend>
+        <div>
+          <label for="user-email">Email de usuário</label>
+          <input type="email" id="user-email" name="email" placeholder="Insira seu email" required>
+        </div>
+        <div>
+          <label for="user-password">Senha de usuário</label>
+          <input type="password" id="user-password" name="password" placeholder="Insira sua senha" autocomplete="off"
+            required>
+        </div>
+        <div>
+          <input type="submit" id="btn-submit" value="Enviar">
+        </div>
+      </fieldset>
+    </form>
+  </main>
+
+  <div id="message" class="message"></div>
+
+  <script src="js/core/auth.js"></script>
+  <script src="js/core/exception-handler.js"></script>
+  <script src="js/pages/login.js"></script>
+
+  <footer></footer>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 package com.posting.post.config;
 
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,56 +19,68 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final SecurityFilter securityFilter;
+  private final SecurityFilter securityFilter;
 
-    public SecurityConfig(SecurityFilter securityFilter) {
-        this.securityFilter = securityFilter;
-    }
+  public SecurityConfig(SecurityFilter securityFilter) {
+    this.securityFilter = securityFilter;
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        return http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+    return http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.disable())
 
-                // Permite a exibição da tabela do Banco de Dados H2
-                .headers(headers -> headers
-                        .frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin()))
+        // Permite a exibição da tabela do Banco de Dados H2s
+        .headers(headers -> headers
+            .frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin()))
 
-                .authorizeHttpRequests(authRequest -> authRequest
-                        .requestMatchers("/h2-console/**").permitAll()
+        .authorizeHttpRequests(authRequest -> authRequest
+            // H2
+            .requestMatchers("/h2-console/**").permitAll()
 
-                        // Auth
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+            // Static
+            .requestMatchers(
+                "/register.html",
+                "/login.html",
+                "/post.html",
+                "/index.html",
+                "/auth.html",
+                "/js/**",
+                "/css/**",
+                "/img/**")
+            .permitAll()
 
-                        // Post
-                        .requestMatchers(HttpMethod.GET, "/posts").permitAll()
+            // Auth
+            .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
-                        // User
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+            // Post
+            .requestMatchers(HttpMethod.GET, "/posts").permitAll()
 
-                        // Coment
-                        .requestMatchers(HttpMethod.GET, "/coments/**").permitAll()
+            // User
+            .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
 
-                        // AdressUser
-                        .requestMatchers(HttpMethod.GET, "/adress_users").hasRole("ADMIN")
+            // Coment
+            .requestMatchers(HttpMethod.GET, "/coments/**").permitAll()
 
-                        .anyRequest().authenticated()
-                )
+            // AdressUser
+            .requestMatchers(HttpMethod.GET, "/adress_users").hasRole("ADMIN")
 
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+            .anyRequest().authenticated())
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }
