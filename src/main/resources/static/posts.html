@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <title>Posting - Posts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/posts.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <header class="bounce">
+        <a id="bounce-login" class="bounce-overlay-active animation-scale-hover" href="auth.html">Acesse sua Conta</a>
+        <a id="bounce-profile" class="bounce-overlay animation-scale-houver" href="post.html"></a>
+    </header>
+
+    <div id="modal-create-post" class="modal-overlay-active modal-position">
+        <form id="form-login">
+            <fieldset name="Login" , class="fieldset-post">
+                <a class="exit-create-post toggle-buttons" href="index.html">X</a>
+                <h1 class="form-title-post">Criar Post</h1>
+                <legend>Login</legend>
+                <div class="form-fields-post">
+                    <label class="form-label-post" for="post-title">Título</label>
+                    <input class="form-input-post" type="text" id="post-title" name="name"
+                        placeholder="Digite um título" required>
+                </div>
+                <div class="form-fields-post">
+                    <label class="form-label-post" for="post-description">Descrição</label>
+                    <input class="form-input-post" type="text" id="post-description" name="description"
+                        placeholder="Digite uma descrição" autocomplete="off" required style="height: 100px;">
+                </div>
+                <div class="form-submit-post form-submit-hover animation-scale-hover">
+                    <input class="submit-post" type="submit" id="post-submit" value="Enviar">
+                </div>
+                <div id="login-message" class="message"></div>
+
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="fullscreen">
+
+        <div class="overlay" , style="position: relative;filter: blur(5px);">
+
+            <div class="container-right">
+                <p>SSSSSSSSSSSSSSSSSSSS</p>
+            </div>
+
+            <main>
+
+                <header id="main-title">
+                    <a id="button-create" class="selection bounce-overlay-active animation-scale-hover"
+                        href="auth.html">Criar</a>
+                    <hr>
+                </header>
+                <div id="container-posts">
+                    <!--Cards-->
+
+                </div>
+
+                <div id="message"></div>
+            </main>
+
+            <div class="container-left">
+                <p>SSSSSSSSSSSSSSSSSSSS</p>
+            </div>
+
+        </div>
+
+        <footer></footer>
+
+    </div>
+
+    <script src="js/core/auth.js"></script>;
+    <script src="js/pages/posts.js"></script>;
+
+</body>
+
+</html>

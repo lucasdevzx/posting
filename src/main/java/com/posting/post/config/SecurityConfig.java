@@ -40,13 +40,14 @@ public class SecurityConfig {
             // H2
             .requestMatchers("/h2-console/**").permitAll()
 
-            // Static
+            // Static Permit
             .requestMatchers(
                 "/register.html",
                 "/login.html",
                 "/post.html",
                 "/index.html",
                 "/auth.html",
+                "/posts.html",
                 "/js/**",
                 "/css/**",
                 "/img/**")

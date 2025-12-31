@@ -1,37 +1,188 @@
-  #main-title {
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      margin-top: auto;
-      margin: 0%;
-      font-size: 60px;
-  }
+.container-right {
+    background-color: aqua;
+}
 
-  .center {
-      display: flex;
-      padding: 50px;
-  }
+#main-title {
+    position: relative;
+}
 
-  .blocks-info {
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      text-decoration: wavy;
-      text-align: center;
-      color: aliceblue;
-      background-color: black;
-      border-radius: 20px;
-      width: 350px;
-      height: 300px;
-      margin-left: 10px;
-      margin-right: 10px;
-  }
+#button-create {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin-top: 20px;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 15px;
+  border-radius: 30px;
+  margin-left: 35%;
+  text-decoration: none;
+  text-align: center;
+  justify-content: center;
+  width: 150px;
 
-  .blocks-json {
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      text-decoration: wavy;
-      text-align: center;
-      color: aliceblue;
-      background-color: black;
-      border-radius: 20px;
-      width: 700px;
-      height: 440px;
-      margin-left: 10px;
-      margin-right: 10px;
-  }
+}
+
+
+#container-posts {
+    position: relative;
+    overflow-y: scroll;
+    max-height: 100dvh;
+    width: 620px;
+}
+
+.container-left {
+    background-color: red;
+}
+
+.card {
+    font-family: 'Poppins', sans-serif;
+    background-color: black;
+    color: white;
+    border: 1px gray solid;
+    position: relative;
+    border-radius: 30px;
+    width: 600px;
+    margin-top: 50px;
+    box-shadow: 6px 6px 0 #000;
+}
+
+.profile {
+    position: absolute;
+    top: 12px;
+    width: 50px;
+    left: 10px;
+}
+
+.author {
+    margin-left: 70px;
+    font-size: 25px;
+}
+
+.title {
+    margin-left: 15px;
+
+}
+
+.description {
+    margin-left: 15px;
+    font-size: 20px;
+    overflow-wrap: break-word;
+}
+
+.category {
+    font-weight: bold;
+    background-color: white;
+    position: relative;
+    left: 20px;
+    bottom: 10px;
+    color: #000;
+    display: inline-block;
+    padding: 5px 5px;
+    border-radius: 30px;
+    text-align: end;
+}
+
+.hr {
+    margin-top: 40px;
+    height: 2px;
+    width: 300px;
+    border-radius: 30px;
+    background-color: gray;
+    opacity: 70%;
+}
+
+.hr-name {
+    margin-top: 10px;
+    height: 2px;
+    width: 600px;
+    border-radius: 30px;
+    background-color: gray;
+    opacity: 70%;
+}
+
+.fieldset-post {
+    font-family: 'Poppins', sans-serif;
+    border: 1px gray solid rgba(000, 000, 000, 0.3);
+    color: white;
+    height: 650px;
+    width: 450px;
+    justify-content: center;
+    border-radius: 50px;
+    filter: saturate(100%);
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 6px 6px 0 #000;
+
+}
+
+.form-fields-post {
+    padding-top: 0;
+    margin-top: 50px;
+}
+
+.form-title-post {
+    margin-left: 75px;
+    font-size: 60px;
+}
+
+.form-label-post {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    margin-left: 40px;
+}
+
+.form-input-post {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    outline: none;
+    border-radius: 30px;
+    padding: 15px;
+    width: 80%;
+    margin-left: 4%;
+    padding-left: 30px;
+}
+
+.form-submit-post {
+    padding: 20px;
+    padding-left: 5%;
+    margin: 0;
+}
+
+.submit-post {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    border-radius: 30px;
+    margin: 0px;
+    padding: 20px;
+    width: 400px;
+    cursor: pointer;
+    border: 0;
+    margin-top: 50px;
+}
+
+
+
+#post-submit:disabled {
+    opacity: 70%;
+    cursor: not-allowed;
+    animation: none;
+    background-color: grey;
+}
+
+.exit-create-post {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-left: 400px;
+    color: black;
+    background-color: white;
+    padding: 10px 10px;
+    display: inline-block;
+    border-radius: 50px;
+    width: 20px;
+    text-align: center;
+    position: absolute;
+    margin-top: 20px;
+    text-decoration: none;
+}

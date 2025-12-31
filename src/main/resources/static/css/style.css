@@ -92,7 +92,7 @@ hrml, body {
     align-content: center;
 }
 
-fieldset {
+.fieldset-login {
     border: 1px solid rgba(000, 000, 000, 0.3);
     height: 650px;
     width: 450px;
@@ -240,6 +240,7 @@ legend {
 }
 
 .auth-a {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     padding-left: 160px;
     color: #000;
 }
@@ -318,6 +319,11 @@ legend {
 
 .animation-scale-hover:hover {
     transform: scale(1.05);
+}
+
+.selection:hover {
+    cursor: pointer;
+    opacity: 70%;
 }
 
 .btn-shine {
