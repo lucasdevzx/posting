@@ -6,7 +6,7 @@
     position: relative;
 }
 
-#button-create {
+#button-show-modal-create {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   margin-top: 20px;
   border: none;
@@ -26,7 +26,7 @@
 #container-posts {
     position: relative;
     overflow-y: scroll;
-    max-height: 100dvh;
+    max-height: 60dvh;
     width: 620px;
 }
 
@@ -100,6 +100,14 @@
     opacity: 70%;
 }
 
+.overlay-post {
+  position: relative;
+  inset: 0;
+  pointer-events: none;
+  opacity: 80%;
+  filter: blur(5px);
+}
+
 .fieldset-post {
     font-family: 'Poppins', sans-serif;
     border: 1px gray solid rgba(000, 000, 000, 0.3);
@@ -164,7 +172,6 @@
 }
 
 
-
 #post-submit:disabled {
     opacity: 70%;
     cursor: not-allowed;
@@ -185,4 +192,5 @@
     position: absolute;
     margin-top: 20px;
     text-decoration: none;
+    cursor: pointer;
 }

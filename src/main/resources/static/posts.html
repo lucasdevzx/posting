@@ -16,65 +16,68 @@
 
 </head>
 
-<body>
+<body style="overflow: hidden;">
 
     <header class="bounce">
         <a id="bounce-login" class="bounce-overlay-active animation-scale-hover" href="auth.html">Acesse sua Conta</a>
         <a id="bounce-profile" class="bounce-overlay animation-scale-houver" href="post.html"></a>
     </header>
 
-    <div id="modal-create-post" class="modal-overlay-active modal-position">
-        <form id="form-login">
-            <fieldset name="Login" , class="fieldset-post">
-                <a class="exit-create-post toggle-buttons" href="index.html">X</a>
-                <h1 class="form-title-post">Criar Post</h1>
-                <legend>Login</legend>
-                <div class="form-fields-post">
-                    <label class="form-label-post" for="post-title">Título</label>
-                    <input class="form-input-post" type="text" id="post-title" name="name"
-                        placeholder="Digite um título" required>
-                </div>
-                <div class="form-fields-post">
-                    <label class="form-label-post" for="post-description">Descrição</label>
-                    <input class="form-input-post" type="text" id="post-description" name="description"
-                        placeholder="Digite uma descrição" autocomplete="off" required style="height: 100px;">
-                </div>
-                <div class="form-submit-post form-submit-hover animation-scale-hover">
-                    <input class="submit-post" type="submit" id="post-submit" value="Enviar">
-                </div>
-                <div id="login-message" class="message"></div>
-
-            </fieldset>
-        </form>
-    </div>
-
     <div class="fullscreen">
 
-        <div class="overlay" , style="position: relative;filter: blur(5px);">
+        <div id="loader" class="loader loader-overlay">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <div class="bar4"></div>
+            <div class="bar5"></div>
+            <div class="bar6"></div>
+            <div class="bar7"></div>
+            <div class="bar8"></div>
+            <div class="bar9"></div>
+            <div class="bar10"></div>
+            <div class="bar11"></div>
+            <div class="bar12"></div>
+        </div>
 
-            <div class="container-right">
-                <p>SSSSSSSSSSSSSSSSSSSS</p>
+        <div id="overlay">
+            <div id="modal-create-post" class="modal-overlay modal-position">
+                <form id="form-post">
+                    <fieldset name="Post" , class="fieldset-post">
+                        <a id="button-exit-modal-create" class="exit-create-post toggle-buttons">X</a>
+                        <h1 class="form-title-post">Criar Post</h1>
+                        <legend>Login</legend>
+                        <div class="form-fields-post">
+                            <label class="form-label-post" for="post-title">Título</label>
+                            <input class="form-input-post" type="text" id="post-title" name="name"
+                                placeholder="Digite um título" required>
+                        </div>
+                        <div class="form-fields-post">
+                            <label class="form-label-post" for="post-description">Descrição</label>
+                            <input class="form-input-post" type="text" id="post-description" name="description"
+                                placeholder="Digite uma descrição" autocomplete="off" required style="height: 100px;">
+                        </div>
+                        <div class="form-submit-post form-submit-hover animation-scale-hover">
+                            <input class="submit-post" type="submit" id="post-submit" value="Enviar">
+                        </div>
+                        <div id="login-message" class="message"></div>
+                    </fieldset>
+                </form>
             </div>
+        </div>
 
+        <div id="overlay-post" class="">
             <main>
-
                 <header id="main-title">
-                    <a id="button-create" class="selection bounce-overlay-active animation-scale-hover"
-                        href="auth.html">Criar</a>
+                    <a id="button-show-modal-create"
+                        class="selection bounce-overlay-active animation-scale-hover">Criar</a>
                     <hr>
                 </header>
                 <div id="container-posts">
                     <!--Cards-->
-
                 </div>
-
                 <div id="message"></div>
             </main>
-
-            <div class="container-left">
-                <p>SSSSSSSSSSSSSSSSSSSS</p>
-            </div>
-
         </div>
 
         <footer></footer>

@@ -4,23 +4,50 @@ document.addEventListener('DOMContentLoaded', function () {
     const bounceLogin = document.getElementById('bounce-login');
     const bounceProfile = document.getElementById('bounce-profile');
     const logoutProfile = document.getElementById('profile-logout');
-    //const message = document.getElementById('message');
 
-    // <!---------COMPONENTS---------->
-
-    const postTitle = document.getElementById('post-title');
+    const buttonShowModalCreate = document.getElementById('button-show-modal-create');
+    const formPost = document.getElementById('form-post');
+    const inputTitle = document.getElementById('post-title');
     const inputDescription = document.getElementById('post-description');
     const submit = document.getElementById('post-submit');
     const message = document.getElementById('login-message');
 
+    const modalPost = document.getElementById('modal-create-post');
+    const buttonExitModalCreate = document.getElementById('button-exit-modal-create');
+    const overlayPost = document.getElementById('overlay-post');
     const overlay = document.getElementById('overlay');
     const loader = document.getElementById('loader');
 
     // <!---------COMPONENTS---------->
 
+    function loaderShow(boolean) {
+        if (boolean === true) {
+            loader.classList.remove('load-overlay');
+            loader.classList.add('loader-overlay-active');
+            overlay.classList.add('overlay');
+
+        } else {
+            loader.classList.remove('loader-overlay-active');
+            loader.classList.add('load-overlay');
+            overlay.classList.remove('overlay');
+        }
+    }
+
+    buttonShowModalCreate.addEventListener('click', () => {
+        overlayPost.classList.add('overlay-post');
+        modalPost.classList.remove('modal-overlay');
+        modalPost.classList.add('modal-overlay-active');
+    })
+
+    buttonExitModalCreate.addEventListener('click', () => {
+        overlayPost.classList.remove('overlay-post');
+        modalPost.classList.remove('modal-overlay-active');
+        modalPost.classList.add('modal-overlay');
+    })
+
     function submitButton() {
         const formSubmitDiv = submit.parentElement; // Pega o elemento pai do elemento (div)
-        if (!postTitle.value || !inputDescription.value) {
+        if (!inputTitle.value || !inputDescription.value) {
             submit.disabled = true;
             formSubmitDiv.classList.remove('animation-scale-hover');
             formSubmitDiv.classList.remove('form-submit-hover');
@@ -30,14 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
             formSubmitDiv.classList.add('form-submit-hover');
         }
     }
-
-    postTitle.addEventListener('input', submitButton);
+    inputTitle.addEventListener('input', submitButton);
     inputDescription.addEventListener('input', submitButton);
     // Recarrega a função criando loop para alterações
     submitButton();
 
     showBounceAuth();
-
     function showBounceAuth() {
         const token = getToken();
         if (token) {
@@ -57,10 +82,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // <!---------API---------->
 
     const token = getToken();
-    loadAPI();
 
+    loadAPI();
     async function loadAPI() {
-        console.log('Token: ' + token);
         const url = '/posts?page=0&size=10';
 
         try {
@@ -73,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // <!---------DOM Manipulation---------->
 
+            // <!---------GET ALL---------->
             const apiData = await response.json();
             apiData.content.forEach(post => {
                 const card = document.createElement('div');
@@ -111,6 +136,61 @@ document.addEventListener('DOMContentLoaded', function () {
                 containerPosts.append(card, hr);
 
             });
+
+            // <!---------CREATE ME---------->
+            createPost();
+            function createPost() {
+
+                formPost.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    loaderShow(true);
+                    processRecord();
+
+                })
+
+                function collectData() {
+                    const post = {
+                        name: inputTitle.value.trim(),
+                        description: inputDescription.value.trim()
+                    }
+                    return post;
+                }
+
+                function processRecord() {
+                    const post = collectData();
+                    submit.disabled = true;
+                    submit.value = 'Carregando...';
+                    fetchCreate(post);
+
+                }
+
+                async function fetchCreate(post) {
+
+                    const url = '/posts';
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(post)
+                    });
+
+                    console.log('Sent Data');
+
+                    const apiData = await response.json();
+                    console.log('API DATA: ' + apiData);
+                    formPost.reset();
+
+                    setTimeout(() => {
+                        submit.value = 'Enviar';
+                    }, 3000);
+
+                    setTimeout(() => {
+                        loaderShow(false);
+                    }, 3000);
+                }
+            }
 
         } catch (e) {
             throw new Error("Error");

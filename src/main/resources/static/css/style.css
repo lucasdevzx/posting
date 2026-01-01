@@ -73,7 +73,6 @@ hrml, body {
   pointer-events: none;
   opacity: 80%;
   filter: blur(1.50px);
-
 }
 
 .modal-position {
@@ -406,7 +405,7 @@ legend {
 
 /* From Uiverse.io by david-mohseni */
 .loader {
-  position: relative;
+  position: absolute;
   width: 54px;
   height: 54px;
   border-radius: 10px;
