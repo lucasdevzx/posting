@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Token Received: ' + token);
 
             if (apiData.user) {
-                localStorage.setItem('userEmail', apiData.user.email);
+                localStorage.setItem('userEmail', apiData.user.email); R
             }
 
             //displayMessage('Login realizado com sucesso!', response.status);

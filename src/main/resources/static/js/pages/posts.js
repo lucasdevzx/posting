@@ -135,6 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.append(profile, authorName, hrName, title, description, category);
                 containerPosts.append(card, hr);
 
+                card.addEventListener('click', () => {
+                    window.location.href = '/index.html';
+                })
+
             });
 
             // <!---------CREATE ME---------->

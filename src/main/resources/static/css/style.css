@@ -91,18 +91,19 @@ hrml, body {
     align-content: center;
 }
 
-.fieldset-login {
-    border: 1px solid rgba(000, 000, 000, 0.3);
+fieldset {
+    border: 1px gray solid rgba(000, 000, 000, 0.3);
     height: 650px;
     width: 450px;
     justify-content: center;
     border-radius: 50px;
     filter: saturate(100%);
     box-shadow: 6px 6px 0 #000;
-        background-image: url('../img/liquid-cheese.svg');
+    background-color: black;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    color: white;
 
 }
 
@@ -177,8 +178,8 @@ legend {
 .submit {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 20px;
-    color: #fff;
-    background-color: #000000;
+    color: black;
+    background-color:white;
     border-radius: 30px;
     margin: 0px;
     padding: 20px;
