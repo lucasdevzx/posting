@@ -32,6 +32,11 @@ build/
 ### VS Code ###
 .vscode/
 
+
+### Local Ambient Variables ###
+.env
+=======
 ### Node Packages ###
 node_modules/
 package-lock.json/
+

@@ -60,6 +60,35 @@ A aplicação implementa autenticação e autorização via JWT (JSON Web Tokens
 
 ---
 
+## Configuracao (.env)
+
+Crie um arquivo `.env` na raiz do projeto com as variaveis abaixo (ajuste conforme seu banco). A aplicacao carrega esse arquivo via `dotenv-java` no startup:
+
+```dotenv
+SPRING_PROFILES_ACTIVE=test
+API_SECURITY_TOKEN_SECRET=change-me
+SERVER_PORT=8080
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=posting
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+
+TEST_DB_DRIVER=org.h2.Driver
+TEST_DB_URL=jdbc:h2:mem:test
+TEST_DB_USER=sa
+TEST_DB_PASSWORD=123
+TEST_DB_DIALECT=org.hibernate.dialect.H2Dialect
+```
+
+---
+
+## Versoes
+
+- SDK (JDK): 21
+- Java: 21
+
 ## Status do Projeto
 
 Este projeto está em desenvolvimento ativo! Novas funcionalidades estão sendo implementadas regularmente.
@@ -155,5 +184,7 @@ Authorization: Bearer seu_token_jwt_aqui
 <div align="center">
   
 ### ⭐ Se este projeto foi útil, considere dar uma estrela!
-
+a
 </div>
+
+Estrutura do codigo: camadas em `config`, `dto`, `entities`, `mapper`, `repositories`, `resources` e `services` organizam configuracoes, contratos, persistencia e regras de negocio, com `PostApplication` iniciando a aplicacao.
