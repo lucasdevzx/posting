@@ -39,8 +39,17 @@
 
 /* ========== SELECTION EFFECTS ========== */
 .selection:hover {
-  cursor: pointer;
-  opacity: var(--opacity-70);
+    cursor: pointer;
+    background-color: rgba(139, 148, 158, 0.10);
+}
+
+.selection-border:hover {
+    border: 2px solid rgba(139, 148, 158, 0.50);
+
+    /*
+    Utilizar nos Elementos
+    transition: border-color 0.3s ease;
+     */
 }
 
 .selection-focus:focus {
@@ -92,6 +101,42 @@
   opacity: 1;
 }
 
+.dropdown {
+    animation: popIn 0.15s ease;
+}
+
+.closing {
+    animation: popOut 0.15s ease forwards;
+}
+
+/* Layout Right */
+.slide-in {
+    animation: slideInFromRight 0.5s ease-out forwards;
+}
+
+.slide-out {
+    animation: slideOutToRight 0.5s ease-in forwards;
+}
+
+.logo {
+    width: 300px; /* Ajuste o tamanho conforme necessário */
+    animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0% {
+        opacity: 0.50;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05); /* Expande suavemente */
+    }
+    100% {
+        opacity: 0.50;
+        transform: scale(1);
+    }
+}
 
 /* ========== KEYFRAMES ========== */
 /* Loader */
@@ -116,3 +161,49 @@
       box-shadow: 0 0 10px 0px rgba(255, 255, 255, 0.5);
     }
   }
+
+/* Layout - Right */
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Dropdown - Modal */
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes popOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(-6px);
+    }
+}

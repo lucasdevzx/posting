@@ -1,192 +1,146 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>Posting - Posts</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/utilities.css">
     <link rel="stylesheet" href="css/pages.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>Title</title>
 </head>
 
-<body style="overflow: hidden; background-color: black;">
+<body id="body" class="body-layout-1">
 
-    <div id="overlay"></div>
+<div id="overlay" class=""></div>
 
-    <div id="loader" class="loader invisible">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-        <div class="bar4"></div>
-        <div class="bar5"></div>
-        <div class="bar6"></div>
-        <div class="bar7"></div>
-        <div class="bar8"></div>
-        <div class="bar9"></div>
-        <div class="bar10"></div>
-        <div class="bar11"></div>
-        <div class="bar12"></div>
-    </div>
+<div id="loader" class="loader invisible">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+    <div class="bar4"></div>
+    <div class="bar5"></div>
+    <div class="bar6"></div>
+    <div class="bar7"></div>
+    <div class="bar8"></div>
+    <div class="bar9"></div>
+    <div class="bar10"></div>
+    <div class="bar11"></div>
+    <div class="bar12"></div>
+</div>
 
-    <header class="bounce">
-        <a href="index.html">
-            <img class="selection" src="img/newspaper.svg"
-                style="margin: 0; position: absolute; width: 70px; top: 20px;">
+<header class="header-layout-1" style="background-color: var(--third-color);  border-radius: 0; justify-content: center; align-items: center;">
+    <div class="main-title-container">
+        <a class="main-title" href="index.html">
+        Posting
         </a>
-        <a id="bounce-login" class="selection display-visible" href="auth.html">Acesse sua Conta</a>
-        <a id="bounce-profile" class="selection display-invisible" href="post.html"></a>
-    </header>
+        <img class="main-title-icon selection" src="img/newspaper.svg">
+    </div>
+    <a id="bounce-login" class="display-invisible selection selection-border" href="auth.html">Conectar</a>
+    <a id="bounce-profile" class="selection display-visible" href="post.html"></a>
+</header>
 
-    <div class="fullscreen">
-
-        <!--Modal-->
-        <div id="modal-position-center" class="modal-position-center invisible">
-            <div id="modal-backdrop" class="modal-backdrop"></div>
-
-            <!--Informations Post-->
-            <div id="modal-post-informations" class="modal-sm-vertical display-grid invisible modal-animation-close"
-                style="right: 25%; padding: 4%; padding-top: 7%; padding-bottom: 7%; ">
-                <div id="container-info">
-                    <button id="button-profile-post" class="button-sm selection-color selection-shine display-visible"
-                        style="padding: 15%;">
-                        <img id="img-button-profile-post" src="img/user-round.svg">
-                        Perfil
-                    </button>
-
-                    <button id="button-edit-post" class="button-sm selection-color selection-shine display-invisible"
-                        style="padding: 15%;">
-                        <img id="img-button-edit-post" src="img/pencil.svg">
-                        Editar
-                    </button>
-
-                    <button id="button-delete-post" class="button-sm selection-color selection-shine display-invisible"
-                        style="padding: 15%;">
-                        <img id="img-button-delete-post" src="img/trash-2.svg">
-                        Excluir
-                    </button>
-                </div>
-            </div>
-
-            <!--Alert-->
-            <div id="modal-alert" class="modal-sm-horizontal invisible">
-                <p id="text-alert" class="text-default text-size-lg" style="top: 20%; text-align: center;">
-                </p>
-                <a class="button-md selection-color" href="posts.html" style="top: 80%;">Continuar</a>
-            </div>
-
-            <!--Confirm Alert-->
-            <div id="modal-alert-confirm" class="modal-sm-horizontal invisible">
-
-                <p class="text-default text-size-lg" style="top: 20%; text-align: center;">
-                    Deseja
-                    Excluir ?
-                </p>
-                <button id="button-delete-post-confirm" class="button-md selection-color selection-shine"
-                    style="top: 56%;">Sim</button>
-                <button id="button-delete-post-not" class="button-md selection-color selection-shine"
-                    style="top: 80%;">Não</button>
-
-            </div>
-
-
+<aside class="aside-layout-1" style=" border-radius: 0; border-top: 0; justify-content: center; align-items: start;">
+    <div style="display: flex; flex-direction: column;">
+        <div class="aside-links">
+            <a id="" class="aside-text-decoration" href="posts-hub.html">
+                <img class="aside-links-img" src="img/book-plus.svg" fetchpriority="high">
+                Postar
+            </a>
         </div>
-
-        <aside class="aside-left">
-            <div class="aside-left-container">
-                <div class="aside-links">
-                    <a id="aside-button-search" class="aside-text-decoration">
-                        <img class="aside-links-img" src="img/search.svg" fetchpriority="high">
-                        Buscar
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a id="aside-button-home" class="aside-text-decoration" href="posts.html">
-                        <img id="aside-button-home-img" class="aside-links-img" src="img/house.svg"
-                            fetchpriority="high">
-                        Início
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a class="aside-text-decoration">
-                        <img class="aside-links-img" src="img/user-round.svg" fetchpriority="high">
-                        Perfil
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a class="aside-text-decoration">
-                        <img class="aside-links-img" src="img/globe-lock.svg" fetchpriority="high">
-                        Admin
-                    </a>
-                </div>
-            </div>
-
-        </aside>
-
-        <hr class="hr-left">
-
-        <header id="text-post-notfound" class="text-exception invisible">
-        </header>
-        <div class="center">
-            <main>
-                <header id="main-title">
-                    <a id="button-link-create-post" class="selection display-visible">Criar</a>
-                    <hr>
-                </header>
-                <div id="container-posts">
-                    <!--Cards-->
-                </div>
-                <div id="message"></div>
-            </main>
+    <div class="aside-left-container">
+        <div class="aside-links">
+            <a id="aside-button-search" class="aside-text-decoration">
+                <img class="aside-links-img" src="img/search.svg" fetchpriority="high">
+                Buscar
+            </a>
         </div>
+        <div id="aside-button-home-container" class="aside-links">
+            <a id="aside-button-home" class="aside-text-decoration" href="posts.html">
+                <img id="aside-button-home-img" class="aside-links-img" src="img/house.svg"
+                     fetchpriority="high">
+                Início
+            </a>
+        </div>
+        <div class="aside-links">
+            <a class="aside-text-decoration">
+                <img class="aside-links-img" src="img/user-round.svg" fetchpriority="high">
+                Perfil
+            </a>
+        </div>
+        <div class="aside-links">
+            <a class="aside-text-decoration">
+                <img class="aside-links-img" src="img/globe-lock.svg" fetchpriority="high">
+                Admin
+            </a>
+        </div>
+    </div>
+    </div>
+</aside>
 
-        <hr class="hr-right">
+<main id="container-posts" class="main-layout-1" style="margin: 50px; border-radius: 15px;  align-items: center; overflow-y: scroll; max-height: calc(100vh - 224px);">
 
-        <aside class="aside-right">
-            <div class="aside-right-container" style="visibility: hidden;">
-                <div class="aside-links-right">
-                    <a id="">
-                        <img class="aside-links-img" src="img/search.svg">
-                        ......
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a id="">
-                        <img id="aside-button-home-img" class="aside-links-img" src="img/house.svg">
-                        ......
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a id="">
-                        <img class="aside-links-img" src="img/user-round.svg">
-                        ......
-                    </a>
-                </div>
-                <div class="aside-links">
-                    <a id="">
-                        <img class="aside-links-img" src="img/globe-lock.svg">
-                        ......
-                    </a>
-                </div>
-            </div>
-        </aside>
-
-        <footer></footer>
+    <div>
 
     </div>
 
-    <script src="js/components/screen-standart.js"></script>;
-    <script src="js/core/auth.js"></script>;
-    <script src="js/core/exception-handler.js"></script>;
-    <script src="js/pages/posts.js"></script>;
+    <!-- Modal Info -->
+    <div id="modal-info" class="modal-sm-horizontal display-invisible closing" style=" flex-direction: column;">
+        <button id="button-profile-post" class="buttons-info selection ">
+            <img id="img-button-profile-post" class="images-info" src="img/user-round.svg">
+            Perfil
+        </button>
+
+        <button id="button-edit-post" class="buttons-info selection" >
+            <img id="img-button-edit-post" class="images-info" src="img/pencil.svg">
+            Editar Postagem
+        </button>
+
+        <button id="button-delete-post" class="buttons-info selection">
+            <img id="img-button-delete-post" class="images-info" src="img/trash-2.svg">
+            Excluir Postagem
+        </button>
+
+
+        <div id="confirm-message-delete" class="buttons-info display-invisible" style="border-top: 1px solid rgba(139, 148, 158, 0.15); pointer-events: none ">
+            <img id="" class="images-info" src="img/circle-alert.svg">
+            <p>Deseja Excluir ?</p>
+        </div>
+
+        <div id="confirm-buttons-delete" class="display-invisible" style=" ">
+                <button id="delete-post-button-confirm" class="buttons-info selection">
+                    Confirmar
+                </button>
+                <button id="delete-post-button-cancel" class="buttons-info selection ">
+                    Cancelar
+                </button>
+        </div>
+    </div>
+
+    <img id="logo-loading" src="/img/newspaper.svg" class="logo display-invisible" style="position: absolute; width: 10%;">
+
+        <!--Cards-->
+
+</main>
+
+<aside class="aside-layout-1 slide-in" style="display:none; border-radius: 0; flex-basis: 500px; border-top: 0; justify-content: start; align-items: center">
+
+</aside>
+
+<!--
+<footer class="footer-layout-1">
+    <p>Rodapé</p>
+</footer>
+-->
+
+<script src="js/components/screen-standart.js"></script>;
+<script src="js/core/auth.js"></script>;
+<script src="js/pages/user.js"></script>;
+<script src="js/core/exception-handler.js"></script>;
+<script src="js/pages/posts.js"></script>;
 
 </body>
 

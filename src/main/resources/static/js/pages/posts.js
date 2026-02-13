@@ -1,20 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Screen Default
+    const body = document.getElementById('body');
     const asideButtonSearch = document.getElementById('aside-button-search');
     const asideButtonHome = document.getElementById('aside-button-home');
+    const asideButtonHomeContainer = document.getElementById('aside-button-home-container');
     const asideButtonHomeImg = document.getElementById('aside-button-home-img');
 
     const bounceLogin = document.getElementById('bounce-login');
     const bounceProfile = document.getElementById('bounce-profile');
 
+    // Screen Effects
     const overlay = document.getElementById('overlay');
     const loader = document.getElementById('loader');
-    const modalPositionCenter = document.getElementById('modal-position-center');
-    const modalPostInformations = document.getElementById('modal-post-informations');
-    const modalAlert = document.getElementById('modal-alert');
-    const textAlert = document.getElementById('text-alert');
-    const modalAlertConfirm = document.getElementById('modal-alert-confirm');
+    const logoLoading = document.getElementById('logo-loading');
+
+    // Modal
+    const modalInfo = document.getElementById('modal-info');
 
     // Document
     const containerPosts = document.getElementById('container-posts');
@@ -22,44 +24,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const textPostNotFound = document.getElementById('text-post-notfound');
 
     const buttonProfilePost = document.getElementById('button-profile-post');
-    const imgButtonProfilePost = document.getElementById('img-button-profile-post');
+
     const buttonEditPost = document.getElementById('button-edit-post');
-    const imgButtonEditPost = document.getElementById('img-button-edit-post');
     const buttonDeletePost = document.getElementById('button-delete-post');
-    const imgButtonDeletePost = document.getElementById('img-button-delete-post');
 
-    const buttonDeletePostConfirm = document.getElementById('button-delete-post-confirm');
-    const buttonDeletePostNot = document.getElementById('button-delete-post-not');
+    const buttonDeletePostConfirm = document.getElementById('delete-post-button-confirm');
+    const buttonDeletePostCancel = document.getElementById('delete-post-button-cancel');
+    const buttonsMessage = document.getElementById('confirm-message-delete');
+    const confirmButtons = document.getElementById('confirm-buttons-delete');
 
-    // Components
+    // Call
     sessionStorage.clear();
     showBounceAuth(bounceLogin, bounceProfile);
-    loaderShow(true, loader, overlay);
     asideButtonsSelected();
-    activeExitModal(true, modalPositionCenter);
 
     function asideButtonsSelected() {
-        asideButtonHome.classList.add('aside-links-selected');
-        asideButtonHomeImg.src = "img/house-bold.svg";
+        asideButtonHomeContainer.classList.add('aside-links-selected');
     }
 
-    buttonLinkCreatePost.addEventListener('click', () => {
-        if (!authenticated()) {
-            alertAuthentication(true, modalPositionCenter, modalAlert, textAlert);
-        } else {
-            setUiMode('post-create-view');
-            window.location.href = "posts-hub.html";
-        }
-
-    })
-
-    function infoButtonActions(info) {
-        info.addEventListener('click', () => {
-            showModal(true, modalPostInformations);
-            showModal(true, modalPositionCenter);
-        });
-    }
-
+    // Listeners
     function infoPostPermission(canEdit, canDelete) {
         if (canEdit === 'true') {
             buttonEditPost.classList.remove('display-invisible');
@@ -77,64 +60,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    buttonDeletePost.addEventListener('click', () => {
-        activeExitModal(false, modalPositionCenter);
-        showModal(false, modalPostInformations);
-        showModal(true, modalAlertConfirm);
-    })
+    /* Refatoração Futura
+    buttonLinkCreatePost.addEventListener('click', () => {
+        if (!authenticated()) {
+            alertAuthentication(true, modalPositionCenter, modalAlert, textAlert);
+        } else {
+            setUiMode('post-create-view');
+            window.location.href = "posts-hub.html";
+        }
 
-    buttonDeletePostNot.addEventListener('click', () => {
-        activeExitModal(true, modalPositionCenter);
-        showModal(false, modalAlertConfirm);
     })
-
-    buttonProfilePost.addEventListener('mouseenter', () => {
-        replaceImage(imgButtonProfilePost, "img/user-round-black.svg");
-    })
-    buttonProfilePost.addEventListener('mouseleave', () => {
-        replaceImage(imgButtonProfilePost, "img/user-round.svg");
-    })
-    buttonEditPost.addEventListener('mouseenter', () => {
-        replaceImage(imgButtonEditPost, "img/pencil-black.svg");
-    })
-    buttonEditPost.addEventListener('mouseleave', () => {
-        replaceImage(imgButtonEditPost, "img/pencil.svg");
-    })
-    buttonDeletePost.addEventListener('mouseenter', () => {
-        replaceImage(imgButtonDeletePost, "img/trash-2-black.svg");
-    })
-    buttonDeletePost.addEventListener('mouseleave', () => {
-        replaceImage(imgButtonDeletePost, "img/trash-2.svg");
-    })
+     */
 
     // API
-    // Delete by Id
-    async function deletePost(postId) {
-        try {
-            const url = `/posts/${postId}`
-            const response = await fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
 
-            setTimeout(() => {
-                loaderShow(false, loader, overlay);
-            }, 3000);
-            setTimeout(() => {
-                const responseMessage = postExceptionStatus(response);
-                showModal(false, modalAlertConfirm);
-                showModal(true, modalAlert);
-                showTextException(responseMessage, textAlert);
-            }, 3000);
-        } catch (o) {
-            throw new Error("Erro ao Deletar");
-
-        }
-    }
-
-    // GET ALL
+    // Get All
     const token = getToken();
     loadAPI();
     async function loadAPI() {
@@ -153,93 +93,203 @@ document.addEventListener('DOMContentLoaded', function () {
                 loaderShow(false, loader, overlay);
             }
 
-            apiData.content.forEach(post => {
-                const card = document.createElement('div');
-                const title = document.createElement('h2');
-                const authorName = document.createElement("h1");
-                const description = document.createElement('p');
-                const createdAt = document.createElement('p');
-                const category = document.createElement('p');
-                const info = document.createElement('a');
-                const infoImage = document.createElement('img');
-                const hr = document.createElement('hr');
-                const hrName = document.createElement('hr');
-                const profile = document.createElement('img')
-
-                const date = new Date(post.date);
-                const dateFormatted = new Intl.DateTimeFormat("pt-BR", {
-                    dateStyle: "short",
-                    timeStyle: "short"
-                }).format(date);
-                console.log('Horario Original: ', date);
-
-                authorName.textContent = post.author.name;
-                title.textContent = post.title;
-                description.textContent = post.description;
-                createdAt.textContent = dateFormatted;
-                category.textContent = post.category;
-
-                const id = post.id;
-                const authorId = post.authorId;
-                const canEdit = post.permissions.canEdit;
-                const canDelete = post.permissions.canDelete;
-                const isOwner = post.permissions.isOwner;
-
-                card.dataset.id = id;
-                card.dataset.authorId = authorId;
-                card.dataset.canEdit = canEdit;
-                card.dataset.canDelete = canDelete;
-                card.dataset.isOwner = isOwner;
-
-                card.classList.add('card');
-                card.classList.add('selection');
-                profile.src = "img/circle-user-round.svg";
-                profile.classList.add('profile');
-                authorName.classList.add('author');
-                title.classList.add('title');
-                description.classList.add('description');
-                createdAt.classList.add('date');
-                category.classList.add('category');
-
-                info.classList.add('info', 'selection');
-                info.title = "Informações"
-                infoButtonActions(info);
-                infoImage.src = "img/ellipsis-vertical.svg";
-
-                hr.classList.add('hr');
-                hrName.classList.add('hr-name');
-
-                info.append(infoImage);
-                card.append(profile, authorName, hrName, title, description, createdAt, category, info);
-                containerPosts.append(card, hr);
-                setTimeout(() => {
-                    loaderShow(false, loader, overlay);
-                }, 1000);
-
-                info.addEventListener('click', () => {
-
-                    buttonEditPost.addEventListener('click', () => {
-                        setUiMode('post-update-view');
-                        sessionStorage.setItem("post", JSON.stringify(post));
-                        window.location.href = 'posts-hub.html';
-                    })
-
-                    const postId = card.dataset.id;
-                    const canEdit = card.dataset.canEdit;
-                    const canDelete = card.dataset.canDelete;
-                    infoPostPermission(canEdit, canDelete);
-                    buttonDeletePostConfirm.addEventListener('click', () => {
-                        loaderShow(true, loader, overlay);
-                        deletePost(postId);
-                    })
-                })
-            });
+            showDisplay(true, logoLoading)
+            setTimeout(() => {
+                showDisplay(false, logoLoading);
+                apiData.content.forEach(post => {
+                    createCard(post);
+                });
+            }, 2000)
 
         } catch (e) {
             throw new Error("Error");
-
         }
-
     }
 
+    // Delete by Id
+    async function deletePost(postId) {
+        try {
+            const url = `/posts/${postId}`
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setTimeout(() => {
+                loaderShow(false, loader, overlay);
+            }, 3000);
+            setTimeout(() => {
+                window.location.href = 'posts.html';
+            }, 3000);
+
+
+            /* Refatoração Futura
+            setTimeout(() => {
+                const responseMessage = postExceptionStatus(response);
+                showModal(false, modalAlertConfirm);
+                showModal(true, modalAlert);
+                showTextException(responseMessage, textAlert);
+            }, 3000);
+             */
+
+        } catch (o) {
+            throw new Error("Erro ao Deletar");
+        }
+    }
+
+    // HTML GENERATION
+
+    //CARD
+    function createCard(post) {
+
+        // Card
+        const card = document.createElement('div');
+        const topCard = document.createElement('div');
+        const midCard = document.createElement('div');
+
+        // Card Infos
+        const title = document.createElement('h2');
+        const authorName = document.createElement("h1");
+        const description = document.createElement('p');
+        const createdAt = document.createElement('p');
+        const category = document.createElement('p');
+        const info = document.createElement('a');
+        const infoImage = document.createElement('img');
+        const profile = document.createElement('div')
+        const date = timeAgo(post.date);
+
+        // Wrapper
+        authorName.textContent = post.author.name;
+        title.textContent = post.title;
+        description.textContent = post.description;
+        createdAt.textContent = "•    " + date;
+        category.textContent = "•    " + post.category;
+
+        // DataSet
+        const id = post.id;
+        const authorId = post.authorId;
+        const canEdit = post.permissions.canEdit;
+        const canDelete = post.permissions.canDelete;
+        const isOwner = post.permissions.isOwner;
+
+        card.dataset.id = id;
+        card.dataset.authorId = authorId;
+        card.dataset.canEdit = canEdit;
+        card.dataset.canDelete = canDelete;
+        card.dataset.isOwner = isOwner;
+
+        // Class
+        card.classList.add('card');
+        card.classList.add('selection');
+        card.classList.add('selection-border');
+        topCard.classList.add('top-card');
+        midCard.classList.add('mid-card');
+
+        profile.classList.add('avatar');
+        profile.textContent = getInitials(post.author.name);
+        profile.style.backgroundColor = stringToColor(post.author.name);
+
+        authorName.classList.add('author');
+        title.classList.add('title');
+        description.classList.add('description');
+        createdAt.classList.add('date');
+        category.classList.add('category');
+
+        info.classList.add('info', 'selection');
+        info.title = "Informações"
+        infoImage.src = "img/ellipsis-vertical.svg";
+
+        // Append
+        info.append(infoImage);
+        topCard.append(authorName, createdAt, category);
+        midCard.append(title, description);
+        card.append(profile ,topCard, midCard, info);
+        containerPosts.append(card);
+
+        setTimeout(() => {
+            loaderShow(false, loader, overlay);
+        }, 1000);
+
+
+        // Listeners
+        info.addEventListener('click', () => {
+            card.classList.remove('selection');
+        })
+
+        modalInfo.addEventListener('mouseenter', () => {
+            card.classList.remove('selection');
+        })
+
+        modalInfo.addEventListener('mouseleave', () => {
+            card.classList.add('selection');
+        })
+
+
+        info.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Zera o z-index de todos os cards
+            document.querySelectorAll('.card').forEach(c => c.style.zIndex = 'auto');
+
+            // Traz o card atual para frente de tudo (evitar erro de stacking no modal)
+            card.style.zIndex = "1000";
+
+            showDisplay(false, buttonsMessage);
+            showDisplay(false, confirmButtons);
+
+            card.append(modalInfo);
+            modalInfo.classList.remove('closing');
+            modalInfo.classList.add('dropdown');
+            showDisplay(true, modalInfo);
+
+            buttonEditPost.addEventListener('click', () => {
+                setUiMode('post-update-view');
+                sessionStorage.setItem("post", JSON.stringify(post));
+                window.location.href = 'posts-hub.html';
+            })
+
+            const canEdit = card.dataset.canEdit;
+            const canDelete = card.dataset.canDelete;
+            infoPostPermission(canEdit, canDelete);
+
+            buttonDeletePost.onclick = () => {
+                showDisplay(true, buttonsMessage);
+                showDisplay(true, confirmButtons);
+
+            }
+
+            buttonDeletePostConfirm.onclick = () => {
+                const postId = card.dataset.id;
+                loaderShow(true, loader, overlay);
+                deletePost(postId);
+            }
+
+            buttonDeletePostCancel.onclick = () => {
+                showDisplay(false, buttonsMessage);
+                showDisplay(false, confirmButtons);
+            }
+        })
+
+        modalInfo.addEventListener('click', (e) => {
+            e.stopPropagation();
+        } )
+
+        document.addEventListener('click', () => {
+            modalInfo.classList.add('closing');
+            modalInfo.addEventListener('animationend', () =>{
+                modalInfo.classList.remove('dropdown', 'closing');
+                showDisplay(false, modalInfo);
+                showDisplay(false, buttonsMessage);
+                showDisplay(false, confirmButtons);
+
+                // Devolve o z-index do card ao normal
+                const activeCard = modalInfo.closest('.card');
+                if (activeCard) {
+                    activeCard.style.zIndex = "auto";
+                }
+            }, {once:true});
+        })
+    }
 })

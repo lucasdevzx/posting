@@ -6,7 +6,8 @@ hrml, body {
 }
 
 body {
-    background-color: black;
+    height: 100%;
+    background-color: var(--secondary-color);
 }
 
 .fullscreen {
@@ -39,7 +40,7 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(1.50px);
   pointer-events: none;
   z-index: 9999;

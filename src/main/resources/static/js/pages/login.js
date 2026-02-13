@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
             loaderShow(false, loader, overlay);
         }
         finally {
+            setUserName();
             submit.disabled = false;
             submit.value = 'Login';
         }

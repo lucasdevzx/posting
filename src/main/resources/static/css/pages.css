@@ -19,12 +19,10 @@
 }
 
 #container-posts {
-    position: relative;
-    overflow-y: scroll;
-    max-height: 70dvh;
-    width: 620px;
-    align-items: center;
-
+    padding: 3rem;
+    background-color: transparent;
+    flex-direction: column;
+    border: none;
 }
 
 #container-info {
