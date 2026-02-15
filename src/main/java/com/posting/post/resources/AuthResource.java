@@ -5,12 +5,17 @@ import com.posting.post.config.TokenConfig;
 import com.posting.post.config.UserDetailsImpl;
 import com.posting.post.dto.request.LoginUserRequestDTO;
 import com.posting.post.dto.request.RegisterUserRequestDTO;
+import com.posting.post.dto.request.TokenRefreshRequestDTO;
 import com.posting.post.dto.response.LoginUserResponseDTO;
 import com.posting.post.dto.response.RegisterUserResponseDTO;
+import com.posting.post.dto.response.TokenRefreshResponseDTO;
+import com.posting.post.entities.TokenRefresh;
 import com.posting.post.entities.User;
 import com.posting.post.mapper.LoginUserMapper;
 import com.posting.post.mapper.RegisterUserMapper;
 import com.posting.post.repositories.UserRepository;
+import com.posting.post.services.AuthService;
+import com.posting.post.services.TokenRefreshService;
 import com.posting.post.services.UserService;
 import com.posting.post.services.exceptions.ConflictException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
@@ -23,54 +28,47 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthResource {
 
-    private final UserRepository userRepository;
+    private final AuthService authService;
     private final RegisterUserMapper registerUserMapper;
-    private final AuthenticationManager authenticationManager;
-    private final TokenConfig tokenConfig;
+    private final TokenRefreshService  tokenRefreshService;
 
-    public AuthResource(UserRepository userRepository,
+    public AuthResource(AuthService authService,
                         RegisterUserMapper registerUserMapper,
-                        AuthenticationManager authenticationManager,
-                        TokenConfig tokenConfig) {
+                        TokenRefreshService tokenRefreshService) {
 
-        this.userRepository = userRepository;
+        this.authService = authService;
         this.registerUserMapper = registerUserMapper;
-        this.authenticationManager = authenticationManager;
-        this.tokenConfig = tokenConfig;
+        this.tokenRefreshService = tokenRefreshService;
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<LoginUserResponseDTO> login(@RequestBody @Valid LoginUserRequestDTO body) {
-        UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(body.email(), body.password());
+    public ResponseEntity<?> login(@RequestBody @Valid LoginUserRequestDTO body) throws NoSuchAlgorithmException {
+        List<String> tokens = authService.loginService(body);
 
-        // Regra de negócio
-        boolean exists  = userRepository.existsByEmail(body.email());
+        if (tokens.size() == 2) {
+            return ResponseEntity.ok().body(new TokenRefreshResponseDTO(tokens.get(0), tokens.get(1)));
+        }
 
-        if (!exists) throw new UnauthorizedActionException("Credenciais inválidas!");
-
-        // Autenticação do usuário
-        Authentication authentication = authenticationManager.authenticate(credentials);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userDetails.getUser();
-
-        String token = tokenConfig.generateToken(user);
-        return ResponseEntity.ok().body(new LoginUserResponseDTO(token));
+        return ResponseEntity.ok().body(new LoginUserResponseDTO(tokens.get(0)));
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<RegisterUserResponseDTO> register(@RequestBody @Valid RegisterUserRequestDTO body) {
-        User user =  registerUserMapper.toEntity(body);
+    public ResponseEntity<RegisterUserResponseDTO> register(@RequestBody @Valid RegisterUserRequestDTO body) throws NoSuchAlgorithmException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                registerUserMapper.toRegisterUserResponseDTO(authService.registerService(body)));
+    }
 
-        // Regra de negócio
-        boolean exists  = userRepository.existsByEmail(user.getEmail());
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<TokenRefreshResponseDTO> refresh(@RequestBody TokenRefreshRequestDTO dto) throws NoSuchAlgorithmException {
+        return ResponseEntity.ok().body(tokenRefreshService.updateTokensPair(dto.tokenRefresh()));
 
-        if (exists) throw new ConflictException(user.getEmail(), "Email já cadastrado!");
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerUserMapper.toRegisterUserResponseDTO(userRepository.save(user)));
     }
 }

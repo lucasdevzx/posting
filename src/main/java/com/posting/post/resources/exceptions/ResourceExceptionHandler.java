@@ -47,7 +47,7 @@ public class ResourceExceptionHandler {
     // Permissão
     @ExceptionHandler(UnauthorizedActionException.class)
     public ResponseEntity<ExceptionsStandard> UnauthorizedAction(UnauthorizedActionException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        HttpStatus status = HttpStatus.FORBIDDEN;
         String error = "Acess Not Permitted!";
         ExceptionsStandard standard = new ExceptionsStandard(
                 Instant.now(),

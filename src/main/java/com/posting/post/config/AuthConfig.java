@@ -19,7 +19,7 @@ public class AuthConfig implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var user = userRepository.findByEmail(email).orElseThrow(() ->
-                new ResourceNotFoundException( "User not found with email: " + email));
+                new UsernameNotFoundException( "User not found with email: " + email));
         return new UserDetailsImpl(user);
     }
 }

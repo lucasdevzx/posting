@@ -1,5 +1,6 @@
 package com.posting.post.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,15 @@ public class SecurityConfig {
     return http
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.disable())
+
+            .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint((request, response, authException) -> {
+                      response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    })
+                    .accessDeniedHandler((request, response, accessDeniedException) -> {
+                      response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    })
+            )
 
         // Permite a exibição da tabela do Banco de Dados H2s
         .headers(headers -> headers
