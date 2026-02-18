@@ -19,6 +19,8 @@ import com.posting.post.services.TokenRefreshService;
 import com.posting.post.services.UserService;
 import com.posting.post.services.exceptions.ConflictException;
 import com.posting.post.services.exceptions.UnauthorizedActionException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/auth")
+@Tag(name = "Autenticação")
 public class AuthResource {
 
     private final AuthService authService;
@@ -50,6 +53,7 @@ public class AuthResource {
     }
 
     @PostMapping(value = "/login")
+    @Operation(summary = "Login de usuário com credenciais", description = "Retorna TokenAcess e TokenRefresh se ativado")
     public ResponseEntity<?> login(@RequestBody @Valid LoginUserRequestDTO body) throws NoSuchAlgorithmException {
         List<String> tokens = authService.loginService(body);
 
@@ -61,12 +65,14 @@ public class AuthResource {
     }
 
     @PostMapping(value = "/register")
+    @Operation(summary = "Registro de usuário com dados", description = "Retorna nome e email do usuário")
     public ResponseEntity<RegisterUserResponseDTO> register(@RequestBody @Valid RegisterUserRequestDTO body) throws NoSuchAlgorithmException {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 registerUserMapper.toRegisterUserResponseDTO(authService.registerService(body)));
     }
 
     @PostMapping(value = "/refresh")
+    @Operation(summary = "Recarrega o TokenAcess com TokenRefresh", description = "Retorna um novo TokenAcess e TokenRefresh")
     public ResponseEntity<TokenRefreshResponseDTO> refresh(@RequestBody TokenRefreshRequestDTO dto) throws NoSuchAlgorithmException {
         return ResponseEntity.ok().body(tokenRefreshService.updateTokensPair(dto.tokenRefresh()));
 
