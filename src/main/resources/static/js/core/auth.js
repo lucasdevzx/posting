@@ -15,6 +15,10 @@ function setToken(token) {
     localStorage.setItem('token_expired', expiresIn);
 }
 
+function setTokenRefresh(tokenRefresh) {
+    localStorage.setItem('tokenRefresh', tokenRefresh);
+}
+
 function removeToken() {
     localStorage.removeItem('token');
     localStorage.remove('userName');

@@ -5,27 +5,50 @@ document.addEventListener('DOMContentLoaded', function () {
     const loader = document.getElementById('loader');
 
     // Document
-    const modalLogin = document.getElementById('modal-login');
-    const modalRegister = document.getElementById('modal-register');
-    const form = document.getElementById('form-register');
-    const inputName = document.getElementById('register-name');
-    const inputEmail = document.getElementById('register-email');
-    const inputPassword = document.getElementById('register-password');
-    const btnSubmit = document.getElementById('register-submit');
-    const message = document.getElementById('register-message');
+    const formLogin = document.getElementById('form-login');
+    const formRegister = document.getElementById('form-register');
+    const inputName = document.getElementById('input-register-name');
+    const inputEmail = document.getElementById('input-register-email');
+    const inputPassword = document.getElementById('input-register-password');
+    const buttonEye = document.getElementById('register-button-eye');
+    const buttonEyeConfirm = document.getElementById('register-button-confirm-eye');
+    const inputPasswordConfirm = document.getElementById('input-register-password-confirm');
+    const btnSubmit = document.getElementById('input-register-submit');
     const buttonLoginRedirect = document.getElementById('button-login-redirect');
 
     // Components
     buttonLoginRedirect.addEventListener('click', () => {
-        showModal(false, modalRegister);
-        showModal(true, modalLogin);
+        console.log('Botao Login Clicado!')
+        showDisplay(false, formRegister);
+        showDisplay(true, formLogin);
+    })
+
+    buttonEye.addEventListener('click', () => {
+        inputPassword.type = inputPassword.type === "password" ? "text" : "password";
+        buttonEye.style.backgroundImage = inputPassword.type === "password"
+        ? 'url("../img/eye.svg")'
+        : 'url("../img/eye-off.svg")';
+    })
+    buttonEyeConfirm.addEventListener('click', () => {
+        inputPasswordConfirm.type = inputPasswordConfirm.type === "password" ? "text" : "password";
+        buttonEyeConfirm.style.backgroundImage = inputPasswordConfirm.type === "password"
+        ? 'url("../img/eye.svg")'
+        : 'url("../img/eye-off.svg")';
+    })
+
+    inputPasswordConfirm.addEventListener('focusout', () => {
+        if (inputPassword.value !== inputPasswordConfirm.value) {
+            inputPassword.classList.add('border-incorret')
+            inputPasswordConfirm.classList.add('border-incorret');
+        } else {
+            inputPassword.classList.remove('border-incorret')
+            inputPasswordConfirm.classList.remove('border-incorret');
+        }
     })
 
     // API
-    form.addEventListener('submit', function (evento) {
+    formRegister.addEventListener('submit', function (evento) {
         evento.preventDefault();
-        console.log('Formulário enviado!');
-        loaderShow(true, loader, overlay);
         processarRegistro();
     });
 
@@ -41,10 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function processarRegistro() {
-        console.log('Iniciando processo de registro...');
         const user = coletarDados();
         btnSubmit.disabled = true;
-        btnSubmit.value = 'Cadastrando...';
+        btnSubmit.value = 'Carregando...';
         enviarParaAPI(user);
     }
 
@@ -64,20 +86,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('Erro HTTP:' + response.status);
             }
 
-            form.reset();
+            formRegister.reset();
             setTimeout(() => {
                 window.location.href = '/auth.html';
             }, 2000);
-            setTimeout(() => {
-                loaderShow(false, loader, overlay);
-            }, 3000);
         } catch (error) {
             console.error('Erro', error);
-            mostrarMensagem('Erro ao realizar o cadastro. Tente novamente.', 'erro');
             loaderShow(false, loader, overlay);
         } finally {
-            btnSubmit.disabled = false;
-            btnSubmit.value = 'Cadastrar';
+            setTimeout(() => {                
+                btnSubmit.disabled = false;
+                btnSubmit.value = 'Criar Conta';
+            }, 3000)
         }
     }
 

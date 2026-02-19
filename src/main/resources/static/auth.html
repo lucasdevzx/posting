@@ -1,133 +1,174 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>Posting - Auth</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/utilities.css">
     <link rel="stylesheet" href="css/pages.css">
-
-    <!-- Google Fonts – Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
+    <title>Posting - Autenticação</title>
 </head>
 
-<body style="overflow: hidden;">
+<body id="body" class="body-layout-1">
 
-    <div id="overlay"></div>
-    <div id="loader" class="loader invisible">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-        <div class="bar4"></div>
-        <div class="bar5"></div>
-        <div class="bar6"></div>
-        <div class="bar7"></div>
-        <div class="bar8"></div>
-        <div class="bar9"></div>
-        <div class="bar10"></div>
-        <div class="bar11"></div>
-        <div class="bar12"></div>
+<div id="overlay" class=""></div>
+
+<div id="loader" class="loader invisible">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+    <div class="bar4"></div>
+    <div class="bar5"></div>
+    <div class="bar6"></div>
+    <div class="bar7"></div>
+    <div class="bar8"></div>
+    <div class="bar9"></div>
+    <div class="bar10"></div>
+    <div class="bar11"></div>
+    <div class="bar12"></div>
+</div>
+
+<aside class="aside-layout-1" style=" border-radius: 0; border-top: 0; justify-content: center; align-items: center; flex: 1 1 550px;">
+    <div style="display: flex; flex-direction: column;">
+
+        <div style="margin-bottom: 30px;">
+            <h1 class="auth-text">Bem vindo</h1>
+            <p class="auth-text" style="opacity: 50%;">Por favor preencha os campos com suas credenciais</p>
+        </div>
+
+            <!-- Login -->
+            <form id="form-login" class="form-auth">
+                <fieldset class="fieldset-small-form">
+                    <div class="form-auth-fields">
+                        <label for="input-login-email" class="labels-small-form">Email</label>
+                        <img class="icon-auth" src="img/mail.svg">
+                        <input id="input-login-email"
+                               class="inputs-small-form selection-focus"
+                               name="email"
+                               required placeholder="usuario@email.com"
+                               autocomplete="new-password">
+
+                    </div>
+
+                    <div class="form-auth-fields">
+                        <label for="input-login-password" class="labels-small-form">Senha</label>
+                        <img class="icon-auth" src="img/lock-keyhole.svg">
+                        <input id="input-login-password"
+                                type="password"
+                                  class="inputs-small-form selection-focus"
+                                  name="password" required placeholder="•••••••••••••••••"
+                                  autocomplete="new-password"></input>
+                        <button id="login-button-eye" type="button" class="button-eye selection" ></button>
+                    </div>
+
+                    <div class="form-checkbox-field" style="display: flex; align-content: center;">
+                        <input id="input-login-checkbox" type="checkbox" name="rememberMe" style="width: 20px">
+                        <p style="color: var(--color-white); font-family: var(--font-poppins);">Lembrar de mim</p>
+                    </div>
+
+                    <div class="form-auth-fields" style="margin-top: 30px;">
+                        <input id="input-login-submit"
+                               class="submit-small-form inputs-small-form opacity"
+                               type="submit" value="Entrar" style="padding: 0">
+
+                               <div style="display: flex; justify-content: center; gap: 5px; margin-top: 10px;">
+                                   <p style="font-family: var(--font-poppins); text-align: center; color: var(--color-white); opacity: 50%;">Novo por aqui?</p>
+                                    <a id="button-register-redirect" class="buttons-redirect-auth">Crie sua conta</a>
+                               </div>
+                    </div>
+                </fieldset>
+            </form>
+
+            <!-- Register -->
+             <form id="form-register" class="form-auth display-invisible">
+                <fieldset class="fieldset-small-form">
+
+                    <div class="form-auth-fields">
+                        <label for="input-register-name" class="labels-small-form">Nome</label>
+                        <img class="icon-auth" src="img/mail.svg">
+                        <input id="input-register-name"
+                               class="inputs-small-form selection-focus"
+                               name="name"
+                               required placeholder="Nome para exibição"
+                               autocomplete="new-password">
+
+                    </div>
+
+                    <div class="form-auth-fields">
+                        <label for="input-register-email" class="labels-small-form">Email</label>
+                        <img class="icon-auth" src="img/mail.svg">
+                        <input id="input-register-email"
+                               class="inputs-small-form selection-focus"
+                               name="email"
+                               required placeholder="usuario@email.com"
+                               autocomplete="new-password">
+
+                    </div>
+
+                    <div class="form-auth-fields">
+                        <label for="input-register-password" class="labels-small-form">Senha</label>
+                        <img class="icon-auth" src="img/lock-keyhole.svg">
+                        <input id="input-register-password"
+                                type="password"
+                                  class="inputs-small-form selection-focus"
+                                  name="password" required placeholder="•••••••••••••••••"
+                                  autocomplete="new-password"></input>
+                        <button id="register-button-eye" type="button" class="button-eye selection" ></button>
+                    </div>
+
+                    <div class="form-auth-fields">
+                        <label for="input-register-password-confirm" class="labels-small-form">Confirme sua Senha</label>
+                        <img class="icon-auth" src="img/lock-keyhole.svg">
+                        <input id="input-register-password-confirm"
+                                type="password"
+                                  class="inputs-small-form selection-focus"
+                                  name="description" required placeholder="•••••••••••••••••"
+                                  autocomplete="new-password"></input>
+                        <button id="register-button-confirm-eye" type="button" class="button-eye selection" ></button>
+                    </div>
+
+                    <div class="form-auth-fields" style="margin-top: 30px;">
+                        <input id="input-register-submit"
+                               class="submit-small-form inputs-small-form opacity"
+                               type="submit" value="Criar conta" style="padding: 0">
+
+                               <div style="display: flex; justify-content: center; gap: 5px; margin-top: 10px;">
+                                   <p style="font-family: var(--font-poppins); text-align: center; color: var(--color-white); opacity: 50%;">Já tem uma conta?</p>
+                                    <a id="button-login-redirect" class="buttons-redirect-auth">Entrar</a>
+                               </div>
+                    </div>
+                </fieldset>
+            </form>
     </div>
+</aside>
 
-    <div class="fullscreen">
+<main class="main-layout-1" style="background-color: transparent; border: none; margin: 50px; border-radius: 15px;  align-items: center; justify-content: center; overflow-y: scroll; max-height: calc(100vh - 114px);">
 
-        <header id="header-title">
-            <img class="main-title-icon" src="img/newspaper.svg">
-            <h1 class="main-title" style="font-size: 80px; margin-right: 280px; margin-bottom: 50px;">Posting</h1>
-            <hr class="main-title-hr" style="left: 5px;">
-        </header>
-
-        <main>
-            <div id="modal-login" class="visible modal-position-center">
-                <form id="form-login">
-                    <fieldset name="Login" , class="fieldset-auth">
-                        <img id="auth-profile" src="img/circle-user-round.svg">
-                        <h1 class="form-title">Entre na sua Conta</h1>
-                        <legend class="legend-auth">Login</legend>
-                        <div class="form-fields">
-                            <label class="form-label" for="login-email">Email de usuário</label>
-                            <input class="form-input selection-focus" type="email" id="login-email" name="email"
-                                placeholder="Digite seu email" required>
-                        </div>
-                        <div class="form-fields">
-                            <label class="form-label" for="login-password">Senha de usuário</label>
-                            <input class="form-input selection-focus" type="password" id="login-password"
-                                name="password" placeholder="Digite sua senha" autocomplete="off" required>
-                        </div>
-                        <div class="form-redirect">
-                            <p>Não tem uma conta? <a class="text-decoration text-decoration-show"
-                                    id="button-register-redirect" style="cursor: pointer; color: grey;">Registre-se
-                                </a> </p>
-                        </div>
-                        <div class="form-submit">
-                            <input class="submit selection-color" type="submit" id="login-submit" value="Acessar">
-                        </div>
-                        <a class="auth-a toggle-buttons text-decoration text-decoration-show" href="index.html">Voltar
-                            ao início</a>
-                        <div id="login-message" class="message"></div>
-
-                    </fieldset>
-                </form>
-            </div>
-
-            <div id="modal-register" class="invisible modal-position-center">
-                <form id="form-register">
-                    <fieldset class="fieldset-auth">
-                        <img id="auth-profile" src="img/circle-user-round.svg">
-                        <h1 class="form-title">Crie uma Conta</h1>
-                        <legend class="legend-auth">Cadastro</legend>
-                        <div class="form-fields">
-                            <label class="form-label" for="register-name"> Nome de usuário</label>
-                            <input class="form-input selection-focus" type="text" id="register-name" name="name"
-                                placeholder="Digite seu nome" required minlength="3">
-                        </div>
-                        <div class="form-fields">
-                            <label class="form-label" for="register-email">Email de usuário</label>
-                            <input class="form-input selection-focus" type="email" id="register-email" name="email"
-                                placeholder="Digite seu email" required title="Insira um email válido!">
-                        </div>
-                        <div class="form-fields">
-                            <label class="form-label" for="register-password">Senha de usuário</label>
-                            <input class="form-input selection-focus" type="password" id="register-password"
-                                name="password" placeholder="Digite uma senha" required
-                                pattern="^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,20}" step="1"
-                                title="No mínimo 8 caracteres, um caractere maiúsculo, um caractere mínusculo, um caractere especial e um número.">
-                        </div>
-                        <div class="form-redirect">
-                            <p id="button-login-redirect">Já possui uma conta? <a
-                                    class="toggle-buttons text-decoration text-decoration-show" id="button-login"
-                                    style="cursor: pointer; color: grey;">Entre</a></p>
-                        </div>
-                        <div class="form-submit">
-                            <input class="submit selection-color" type="submit" id="register-submit"
-                                value="Registrar-se">
-                        </div>
-                        <a class=" auth-a toggle-buttons text-decoration text-decoration-show" href="index.html">Voltar
-                            ao
-                            início</a>
-                        <div id="register-message" class="message"></div>
-                    </fieldset>
-                </form>
-            </div>
-        </main>
-
-        <footer></footer>
-
-        <script src="js/components/screen-standart.js"></script>
-        <script src="js/core/auth.js"></script>
-        <script src="js/core/exception-handler.js"></script>
-        <script src="js/pages/login.js"></script>
-        <script src="js/pages/register.js"></script>
+    <div style="margin-left: 10%; width: 100%;">
+        <img src="img/posting_logo.png" style="width: 100%; margin: 0;">
+        <h1 class="auth-title" style="font-size: 35px; margin-left: 6%;">Dê vida às suas ideias.</h1>
+        <p class="auth-title" style="margin-left: 6%;">Compartilhe ideias.
+            Transforme pensamentos em posts.</p>
 
     </div>
+    
+</main>
+
+
+<script src="js/components/screen-standart.js"></script>;
+<script src="js/core/auth.js"></script>;
+<script src="js/pages/user.js"></script>;
+<script src="js/core/exception-handler.js"></script>;
+<script src="js/pages/posts.js"></script>;
+<script src="js/pages/login.js"></script>;
+<script src="js/pages/register.js"></script>;
+
+
+
 </body>
 
 </html>

@@ -98,7 +98,8 @@ public class UserService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(Long id) {
         User currentUser = authenticatedUserService.getCurrentUser();
-        User userToDelete = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado! ID: " + id));
+        User userToDelete = userRepository.findById(id).orElseThrow(() ->
+         new ResourceNotFoundException("Usuário não encontrado! ID: " + id));
 
         // Regra de negocio
         if(currentUser.getRole().equals(userToDelete.getRole())) {

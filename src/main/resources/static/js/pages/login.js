@@ -5,33 +5,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const loader = document.getElementById('loader');
 
     // Document
-    const modalLogin = document.getElementById('modal-login');
-    const modalRegister = document.getElementById('modal-register');
-    const form = document.getElementById('form-login');
-    const inputEmail = document.getElementById('login-email');
-    const inputPassword = document.getElementById('login-password');
-    const submit = document.getElementById('login-submit');
-    const message = document.getElementById('login-message');
+    const formLogin = document.getElementById('form-login');
+    const formRegister = document.getElementById('form-register');
+    const inputEmail = document.getElementById('input-login-email');
+    const inputPassword = document.getElementById('input-login-password');
+    const buttonEye = document.getElementById('login-button-eye');
+    const inputCheckbox = document.getElementById('input-login-checkbox');
+    const submit = document.getElementById('input-login-submit');
     const buttonRegisterRedirect = document.getElementById('button-register-redirect');
 
     // Components
     buttonRegisterRedirect.addEventListener('click', () => {
-        showModal(false, modalLogin);
-        showModal(true, modalRegister);
+        console.log('Redirect Clicado!');
+        showDisplay(false, formLogin);
+        showDisplay(true, formRegister);
+    })
+
+    buttonEye.addEventListener('click', () => {
+        inputPassword.type = inputPassword.type === "password" ? "text" : "password";
+        buttonEye.style.backgroundImage = inputPassword.type === "password"
+        ? 'url("../img/eye.svg")'
+        : 'url("../img/eye-off.svg")';
     })
 
     // API
-    form.addEventListener('submit', function (evento) {
+    formLogin.addEventListener('submit', function (evento) {
         evento.preventDefault();
-        console.log('Send Form.');
-        loaderShow(true, loader, overlay);
         processRecord();
     })
 
     function collectData() {
         const user = {
             email: inputEmail.value.trim(),
-            password: inputPassword.value.trim()
+            password: inputPassword.value.trim(),
+            rememberMe: inputCheckbox.checked
         }
         return user;
     }
@@ -55,19 +62,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify(user)
             });
             const apiData = await response.json();
-            const token = apiData.token;
 
-            if (!token) {
-                throw new Error('Token não recebido.');
+            if (Object.keys(apiData).length == 2) {
+                const token = apiData.tokenAcess;
+                const tokenRefresh = apiData.tokenRefresh;
+                setToken(token);
+                setTokenRefresh(tokenRefresh);
+            } else {
+                const token = apiData.tokenAcess;
+                setToken(token);
             }
-
-            setToken(token);
-            form.reset();
+            
+            setUserName();
+            formLogin.reset();
+            
             setTimeout(() => {
-                window.location.href = '/index.html';
-            }, 3000);
-            setTimeout(() => {
-                loaderShow(false, loader, overlay);
+                window.location.href = '/posts.html';
             }, 3000);
 
         } catch (error) {
@@ -76,8 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         finally {
             setUserName();
-            submit.disabled = false;
-            submit.value = 'Login';
+            setTimeout(() => {                
+                submit.disabled = false;
+                submit.value = 'Entrar';
+            }, 3000)
         }
     }
 })

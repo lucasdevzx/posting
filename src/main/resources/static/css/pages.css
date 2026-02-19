@@ -67,103 +67,53 @@
 }
 
 /* ========== AUTH.html ========== */
-#header-title {
-    left: 2%;
-    margin-left: 0;
-    margin-right: 1400px;
-    margin-top: 0;
-    margin-bottom: 700px;
-    position: absolute;
-}
-
-.form-title {
-    font-family: 'Poppins', sans-serif;
+.auth-title {
+    color: white;
+    font-family: var(--font-poppins);
     font-size: 30px;
-    text-align: center;
-    margin: 0;
-    align-content: center;
 }
 
-.fieldset-auth {
-    border: 5px white solid rgba(000, 000, 000, 0.1);
-    height: 750px;
-    width: 450px;
-    justify-content: center;
-    border-radius: 50px;
-    filter: saturate(100%);
-    background-color: black;
+.auth-text {
+    color: var(--color-white);
+    font-family: var(--font-poppins);
+}
+
+.form-checkbox-field {
+   gap: 10px;
+   margin-top: 30px;
+   margin-left: 10px;
+}
+
+.buttons-redirect-auth {
     color: white;
-
-}
-
-.legend-auth {
-    visibility: hidden;
-}
-
-.form-fields {
-    padding-top: 0;
-    margin-top: 15px;
-}
-
-.form-label {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    margin-left: 40px;
-}
-
-.form-input {
-    width: 80%;
-    padding-left: 30px;
-    justify-content: center;
-    padding: 15px;
-    margin-left: 4%;
-    border-radius: 30px;
-    outline: none;
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    background-color: black;
-    color: white;
-    border: 2px gray solid;
-
-    transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        transform 0.2s ease;
-}
-
-.form-redirect {
-    font-family: 'Poppins', sans-serif;
-    font-size: small;
-    padding-left: 40px;
-}
-
-.form-submit {
-    padding: 20px;
-    padding-left: 5%;
-    margin: 0;
-}
-
-.submit {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    color: white;
-    background-color: black;
-    border-radius: 30px;
-    margin: 0px;
-    padding: 20px;
-    width: 400px;
     cursor: pointer;
-    border: 2px gray solid;
-    transition: background-color 0.5s ease;
+    font-family: var(--font-poppins);
 }
 
-#auth-profile {
-    width: 150px;
-    padding-left: 145px;
+.buttons-redirect-auth:hover {
+    text-decoration: underline;
 }
 
-.auth-a {
-    font-family: 'Poppins', sans-serif;
-    padding-left: 160px;
-    color: white;
+.icon-auth {
+    position: absolute;
+    width: 20px;
+    top: 55px;
+    left: 15px;
+
 }
+
+.button-eye {
+    position: absolute;
+    min-width: 40px;
+    min-height: 40px;
+    top: 45px;
+    right: 15px;
+    background-image: url(../img/eye.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: none;
+}
+

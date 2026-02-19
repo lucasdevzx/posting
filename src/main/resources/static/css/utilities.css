@@ -53,9 +53,10 @@
 }
 
 .selection-focus:focus {
-  border-color: var(--color-white);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
-  transform: translateY(-1px);
+    background-color: rgba(139, 148, 158, 0.10);
+    border: 2px solid rgba(139, 148, 158, 0.50);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
 }
 
 .selection-color:hover {
@@ -66,26 +67,9 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
-.selection-shine:hover {
-    border-color: #fff;
-    /* Sombra branca, sem deslocamento, bem difusa */
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6);
-
+.border-incorret {
+    border-color: red;
 }
-
-.selection-shine-focus:focus {
-    border-color: #fff;
-    /* Sombra branca, sem deslocamento, bem difusa */
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6);
-
-}
-
-.selection-shine-pulse:hover {
-    border-color: white;
-    background-color: #3e5871;
-    /* Chama a animação 'pulsar' */
-    animation: pulsar 2s infinite;
-  }
 
 /* ========== ANIMATIONS ========== */
 .animation-scale-hover:hover {
