@@ -1,7 +1,9 @@
-# Posting - API RESTful de Gerenciamento de Postagens
+# Posting - Comunidade
 
 <div align="center">
-  <img src="images/posting-logo.png" alt="Posting Login" width="400"/>
+  
+![Demo](images/animation.gif)
+
 </div>
 
 ## Sobre o Projeto
@@ -43,26 +45,9 @@ A aplicação implementa autenticação e autorização via JWT (JSON Web Tokens
 
 ---
 
-## Interface do Usuário
+## Configuracão (.env)
 
-<div align="center">
-  
-### Tela de Login
-<img src="images/posting-login.png" alt="Login" width="600"/>
-
-### Hub de Postagens
-<img src="images/posting-hub.png" alt="Hub de Postagens" width="600"/>
-
-### Criar Nova Postagem
-<img src="images/posting-create.png" alt="Criar Postagem" width="600"/>
-
-</div>
-
----
-
-## Configuracao (.env)
-
-Crie um arquivo `.env` na raiz do projeto com as variaveis abaixo (ajuste conforme seu banco). A aplicacao carrega esse arquivo via `dotenv-java` no startup:
+Crie um arquivo `.env` na raiz do projeto com as variaveis abaixo (ajuste conforme seu banco). A aplicacão carrega esse arquivo via `dotenv-java` no startup:
 
 ```dotenv
 SPRING_PROFILES_ACTIVE=test
@@ -84,7 +69,7 @@ TEST_DB_DIALECT=org.hibernate.dialect.H2Dialect
 
 ---
 
-## Versoes
+## Versões
 
 - SDK (JDK): 21
 - Java: 21
