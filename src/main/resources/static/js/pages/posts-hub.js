@@ -1,54 +1,68 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Screen Default
-    const bounceLogin = document.getElementById('bounce-login');
-    const bounceProfile = document.getElementById('bounce-profile');
-    const overlay = document.getElementById('overlay');
-    const loader = document.getElementById('loader');
-    const modalPosition = document.getElementById('modal-position-center');
+    const asideButtonCreatePost = document.getElementById('aside-button-create');
+    const asideButtonSearch = document.getElementById('aside-button-search');
+    const asideButtonHome = document.getElementById('aside-button-home');
+    const asideButtonHomeContainer = document.getElementById('aside-button-home-container');
+    const asideButtonHomeImg = document.getElementById('aside-button-home-img');
+
+    // Modal
+    const buttonCloseModal = document.getElementById('button-close-post')
+    const modalPost = document.getElementById('modal-post');
+    const modalPositionCenter = document.getElementById('modal-position-center');
+    //const modalAlertPost = document.getElementById('modal-alert-post');
+    //const textAlertPost = document.getElementById('text-alert-post');
 
     // Document
-    const modalAlertPost = document.getElementById('modal-alert-post');
-    const textAlertPost = document.getElementById('text-alert-post');
     const postTitle = document.getElementById('post-title');
-
     const formPostCreate = document.getElementById('post-create');
     const formPostTitleCreate = document.getElementById('post-title-create');
     const formPostDescriptionCreate = document.getElementById('post-description-create');
     const formPostCategoryCreate = document.getElementById('post-category-create');
     const formPostSubmitCreate = document.getElementById('post-submit-create');
-
+    
     const formPostUpdate = document.getElementById('post-update');
     const formPostTitleUpdate = document.getElementById('post-title-update');
     const formPostDescriptionUpdate = document.getElementById('post-description-update');
     const formPostCategoryUpdate = document.getElementById('post-category-update');
     const formPostSubmitUpdate = document.getElementById('post-submit-update');
 
-    // Components
-    alertAuthentication(false, modalPosition, modalAlertPost, textAlertPost);
-    showBounceAuth(bounceLogin, bounceProfile);
-    loaderShow(true, loader, overlay);
+    // Call
+    //alertAuthentication(false, modalPosition, modalAlertPost, textAlertPost);
 
-    setTimeout(() => {
-        loaderShow(false, loader, overlay);
-    }, 1000);
+    // Listeners
+    buttonCloseModal.addEventListener('click', () => {
+        modalPost.classList.add('closing');
+        modalPost.addEventListener('animationend', () =>{
+            modalPost.classList.remove('dropdown', 'closing');
+            showDisplay(false, modalPositionCenter);
+            showDisplay(false, modalPost);
+            showDisplay(false, formPostCreate);
+            showDisplay(false, formPostUpdate);
+        }, {once: true});
+    })
+    
+    asideButtonCreatePost.addEventListener('click', () => {
+        if (!authenticated()) {
+            alertAuthentication(true, modalPositionCenter, modalAlert, textAlert);
+        } else {
+            setUiMode('post-create-view');
+            showDisplay(true, modalPositionCenter);
+            showDisplay(true, modalPost);
+            postTitle.innerText = 'Publicar Postagem';
+            formPostCreate.classList.remove('display-invisible');
+            modalPost.classList.remove('closing');
+            modalPost.classList.add('dropdown');
+        }
+    })
 
-    const uiMode = getUiMode();
-    if (uiMode === 'post-create-view') {
-        postTitle.innerText = 'Criar uma Postagem';
-        showDisplay(true, formPostCreate);
-
-    } else if (uiMode === 'post-update-view') {
-        postTitle.innerText = 'Editar sua Postagem';
-        showDisplay(true, formPostUpdate);
-
-        const cached = sessionStorage.getItem("post");
-        const post = JSON.parse(cached);
-        console.log(post);
-        formPostTitleUpdate.value = post.title;
-        formPostDescriptionUpdate.value = post.description;
-        formPostCategoryUpdate.options[0].text = post.category;
-    }
+    formPostSubmitCreate.addEventListener('click', () => {
+        fetchPosts();
+    })
+    formPostSubmitUpdate.addEventListener('click', () => {
+        fetchPosts();
+    })
 
     //Generate HTML
     loadCategorys();
@@ -62,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formPostCategoryCreate.append(formPostCategoryOption);
             })
         }, { once: true })
-
+        
         formPostCategoryUpdate.addEventListener('click', () => {
             categoryData.content.forEach(categorys => {
                 const formPostCategoryOption = document.createElement('option');
@@ -74,14 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //API
     const token = getToken();
-    fetchPosts();
     function fetchPosts() {
+        const uiMode = getUiMode();
+        console.log(uiMode);
 
         formPostCreate.addEventListener('submit', function (event) {
             event.preventDefault();
             loaderShow(true, loader, overlay);
             processRecord();
-
         })
 
         formPostUpdate.addEventListener('submit', function (event) {

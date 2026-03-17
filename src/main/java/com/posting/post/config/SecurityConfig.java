@@ -59,7 +59,7 @@ public class SecurityConfig {
                 "/auth.html",
                 "/posts.html",
                 "/posts-hub.html",
-                "/auth-refactoring.html",
+                "/posts-creation.html",
                 "/js/**",
                 "/css/**",
                 "/img/**")

@@ -86,11 +86,11 @@
 }
 
 .dropdown {
-    animation: popIn 0.15s ease;
+    animation: popIn 0.30s ease;
 }
 
 .closing {
-    animation: popOut 0.15s ease forwards;
+    animation: popOut 0.25s ease forwards;
 }
 
 /* Layout Right */

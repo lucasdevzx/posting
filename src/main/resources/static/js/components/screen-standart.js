@@ -55,7 +55,6 @@ function showBounceAuth(bounceLogin, bounceProfile) {
     const userName = localStorage.getItem('user-name');
 
     if (token) {
-        console.log(token);
         bounceLogin.classList.remove('display-visible');
         bounceLogin.classList.add('display-invisible');
 

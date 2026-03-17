@@ -16,7 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoLoading = document.getElementById('logo-loading');
 
     // Modal
+    const modalPost = document.getElementById('modal-post');
+    const modalPositionCenter = document.getElementById('modal-position-center');
     const modalInfo = document.getElementById('modal-info');
+
+    const postTitle = document.getElementById('post-title');
+    const formPostUpdate = document.getElementById('post-update');
+    const formPostTitleUpdate = document.getElementById('post-title-update');
+    const formPostDescriptionUpdate = document.getElementById('post-description-update');
+    const formPostCategoryUpdate = document.getElementById('post-category-update');
+    const formPostSubmitUpdate = document.getElementById('post-submit-update');
 
     // Document
     const containerPosts = document.getElementById('container-posts');
@@ -32,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonDeletePostCancel = document.getElementById('delete-post-button-cancel');
     const buttonsMessage = document.getElementById('confirm-message-delete');
     const confirmButtons = document.getElementById('confirm-buttons-delete');
+
+    const formPostCategoryCreate = document.getElementById('post-category-create');
+
 
     // Call
     sessionStorage.clear();
@@ -59,18 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
             buttonDeletePost.classList.add('display-invisible');
         }
     }
-
-    /* Refatoração Futura
-    buttonLinkCreatePost.addEventListener('click', () => {
-        if (!authenticated()) {
-            alertAuthentication(true, modalPositionCenter, modalAlert, textAlert);
-        } else {
-            setUiMode('post-create-view');
-            window.location.href = "posts-hub.html";
-        }
-
-    })
-     */
 
     // API
 
@@ -246,8 +246,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             buttonEditPost.addEventListener('click', () => {
                 setUiMode('post-update-view');
+                formPostUpdate.classList.remove('display-invisible');
+
+                postTitle.innerText = 'Editar Postagem';
+                formPostTitleUpdate.value = post.title;
+                formPostDescriptionUpdate.value = post.description;
+                formPostCategoryUpdate.options[0].text = post.category;
                 sessionStorage.setItem("post", JSON.stringify(post));
-                window.location.href = 'posts-hub.html';
+
+                showDisplay(false, modalInfo);
+                showDisplay(false, buttonsMessage);
+                showDisplay(false, confirmButtons);
+                card.style.zIndex = "998";
+                showDisplay(true, modalPositionCenter);
+                showDisplay(true, modalPost);
+                modalPost.classList.remove('closing');
+                modalPost.classList.add('dropdown');
             })
 
             const canEdit = card.dataset.canEdit;

@@ -33,30 +33,9 @@
 }
 
 /* ========== POSTS-HUB.html ========== */
-.container-center-post {
-    position: relative;
-    background-color: black;
-    padding: 1dvh;
-}
-
-.container-center-post-create {
-    padding: 40dvh;
-    background-color: black;
-}
 
 .container-text {
-    top: 0px;
-    left: 20dvh;
-    position: absolute;
-    color: white;
-    font-size: 40px;
-    font-family: 'Poppins', sans-serif;
-}
 
-.forms-post-position {
-    position: absolute;
-    left: 20px;
-    top: 150px;
 }
 
 .form-post-descripton {
