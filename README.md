@@ -168,8 +168,7 @@ Authorization: Bearer seu_token_jwt_aqui
 
 <div align="center">
   
-### ⭐ Se este projeto foi útil, considere dar uma estrela!
-a
+
 </div>
 
-Estrutura do codigo: camadas em `config`, `dto`, `entities`, `mapper`, `repositories`, `resources` e `services` organizam configuracoes, contratos, persistencia e regras de negocio, com `PostApplication` iniciando a aplicacao.
+Estrutura do codigo: camadas em `config`, `dto`, `entities`, `mapper`, `repositories`, `resources` e `services` organizam configuracoes, contratos, persistencia e regras de negocio, com `PostApplication` iniciando a apl
